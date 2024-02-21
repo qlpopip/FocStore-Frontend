@@ -1,0 +1,42 @@
+#navbar {
+  width: 100%;
+  background: var(--color-bg-primary);
+  padding: 1em;
+  padding-right: 3em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+.left_side{
+  display: flex;
+  align-items: center;
+}
+  a {
+    text-decoration: none;
+    transition: 0.3s;
+    width: 2.5em;
+    height: 2.5em;
+    img{
+      width: 2em;
+    }
+    &:hover {
+      transition: 0.3s;
+      transform: scale(1.1);
+    }
+  }
+  .select_language {
+    background: red;
+    padding: 0.5em;
+    border-radius: 0.3em;
+    font-size: 1em;
+    background: transparent;
+    color: wheat;
+    border: 1px solid wheat;
+    width: 3.5em;
+    margin: 0;
+    text-transform: lowercase;
+    &:focus {
+      outline: none;
+    }
+  }
+}

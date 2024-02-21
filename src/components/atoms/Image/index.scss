@@ -1,0 +1,18 @@
+.image-box {
+  picture {
+    display: flex;
+    width: inherit;
+    height: inherit;
+    justify-content: center;
+    align-items: center;
+
+    & > img {
+      width: inherit;
+      height: inherit;
+    }
+  }
+
+  &.blank {
+    background: #c4c4c4;
+  }
+}

@@ -1,0 +1,122 @@
+@import "mixin";
+
+@mixin fontWeight($arg: null) {
+
+  // bold
+  &-b {
+    @extend #{$arg};
+    font-weight: 700;
+  }
+
+  // medium
+  &-m {
+    @extend #{$arg};
+    font-weight: 500;
+  }
+
+  // regular
+  &-r {
+    @extend #{$arg};
+    font-weight: 400;
+  }
+}
+
+//* title
+.h1 {
+  font-size: 40px;
+  word-break: keep-all;
+  letter-spacing: -1.2px;
+  @include fontWeight(".h1");
+}
+
+.h2 {
+  font-size: 32px;
+  word-break: keep-all;
+  letter-spacing: -1.2px;
+  @include fontWeight(".h2");
+}
+
+.h3 {
+  font-size: 32px;
+
+  @include responsive-md {
+    font-size: 24px;
+  }
+
+  word-break: keep-all;
+  letter-spacing: -0.4px;
+  @include fontWeight(".h3");
+}
+
+.h4 {
+  font-size: 24px;
+
+  @include responsive-md {
+    font-size: 20px;
+  }
+
+  word-break: keep-all;
+  letter-spacing: -0.4px;
+  @include fontWeight(".h4");
+}
+
+.h5 {
+  font-size: 18px;
+
+  @include responsive-md {
+    font-size: 16px;
+  }
+
+  word-break: keep-all;
+  letter-spacing: -0.4px;
+  @include fontWeight(".h5");
+}
+
+.h6 {
+  font-size: 16px;
+
+  @include responsive-md {
+    font-size: 14px;
+  }
+
+  word-break: keep-all;
+  letter-spacing: -0.4px;
+  @include fontWeight(".h6");
+}
+
+//* text
+.p1 {
+  font-size: 18px;
+
+  @include responsive-md {
+    font-size: 16px;
+  }
+
+  word-break: keep-all;
+  letter-spacing: -0.4px;
+  @include fontWeight(".p1");
+}
+
+.p2 {
+  font-size: 16px;
+
+  @include responsive-md {
+    font-size: 14px;
+  }
+
+  word-break: keep-all;
+  letter-spacing: -0.2px;
+  @include fontWeight(".p2");
+}
+
+.p3 {
+  font-size: 14px;
+
+  @include responsive-md {
+    font-size: 12px;
+  }
+
+  word-break: keep-all;
+  letter-spacing: -0.2px;
+  @include fontWeight(".p3");
+}

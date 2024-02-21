@@ -1,0 +1,152 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid red;
+
+  .table {
+    width: 63em;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    padding: 2em 0;
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid var(--color-border-sub);
+      width: 15em;
+      height: 20em;
+      gap: 2em;
+      padding: 1em 1em 2.5em 1em !important;
+      transition: .3s;
+      //     &:hover{
+      //   transition: .3s;
+      //   box-shadow: 0px 8px 24px 0px #191C1F1F;
+
+      // }
+      .img_box {
+        overflow: hidden;
+        height: 172px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+
+        // .bg{
+        //   position: absolute;
+        //   top: 0;
+        //   bottom: 0;
+        //   left: 0;
+        //   right: 0;
+        //   background: var(--color-bg-overlay-default);
+        // }
+        .ant-image-mask {
+          align-items: center;
+          background: rgba(0, 0, 0, .5);
+          bottom: 0;
+          color: #fff;
+          cursor: pointer;
+          display: flex;
+          justify-content: center;
+          left: 0;
+          opacity: 0;
+          position: absolute;
+          right: 0;
+          top: 0;
+          transition: opacity .3s;
+
+          .ant-image-mask-info {
+            overflow: hidden;
+            padding: 0 4px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            align-items: center;
+            align-self: center;
+            font-size: 1.1em;
+
+            .anticon {
+              -webkit-font-smoothing: antialiased;
+              -moz-osx-font-smoothing: grayscale;
+              color: inherit;
+              display: inline-block;
+              font-style: normal;
+              line-height: 0;
+              text-align: center;
+              text-rendering: optimizelegibility;
+              text-transform: none;
+              vertical-align: -0.125em;
+              margin-inline-end: 4px;
+
+              img {
+                width: 1.2em;
+              }
+            }
+          }
+        }
+
+        .ant-image-mask:hover {
+          opacity: 1;
+        }
+
+        img {
+          width: 100%;
+
+          &:hover {
+            opacity: .8;
+          }
+        }
+      }
+
+      .card_main {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1em;
+
+        .description {
+          width: 100%;
+          height: auto;
+          font-size: 1em;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          max-height: 3em;
+          color: var(--color-text-default);
+        }
+
+        .price {
+          color: var(--color-text-primary);
+          transition: .3s;
+
+          &:hover {
+            transform: scale(1.02);
+            transition: .3s;
+          }
+        }
+      }
+    }
+  }
+
+  .overView {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 4;
+    background: var(--color-bg-overlay-default);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 50em;
+      // height: 30em;
+    }
+  }
+}

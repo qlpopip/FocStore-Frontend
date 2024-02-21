@@ -1,0 +1,172 @@
+.checkout_box {
+
+    margin-top: 3em;
+    border-radius: .3em;
+
+
+    #contact_form {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 2em;
+
+        .left_side {
+            width: 40em;
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+
+            .label {
+                display: flex;
+                flex-direction: column;
+                gap: .3em;
+                justify-content: flex-end;
+
+                label {
+                    padding-left: .3em;
+
+                }
+            }
+
+
+            input,
+            select {
+                width: 100%;
+                padding: .5em 1em;
+                border-radius: .3em;
+                border: 1px solid var(--color-border-sub);
+                background: transparent;
+
+                &:focus {
+                    outline: 1px solid var(--color-border-primary);
+                }
+            }
+
+            .first,
+            .third,
+            .fourth {
+                display: flex;
+                align-items: flex-end;
+                gap: 1em;
+            }
+
+            .first {
+                .first_name {
+                    width: 25%;
+                }
+
+                .last_name {
+                    width: 25%;
+
+                }
+
+                .custom_code {
+                    width: 50%;
+                }
+            }
+
+            .third {
+
+                .country,
+                .state,
+                .city,
+                .zip {
+                    width: 25%;
+                }
+            }
+
+            .fourth {
+
+                .email,
+                .phone {
+                    width: 50%;
+                }
+            }
+        }
+
+        .orders_box {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+            padding: 1em;
+            border-radius: .3em;
+            border: 1px solid var(--color-border-sub);
+            width: 22em;
+
+            .order {
+                display: flex;
+                align-items: center;
+                gap: 1em;
+
+                .order_img {
+                    width: 4em;
+                }
+
+                .order_main {
+                    display: flex;
+                    flex-direction: column;
+                    gap: .3em;
+
+                    .description {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        width: 15em;
+                    }
+
+                    .product_count {
+                        display: flex;
+
+                        .price {
+                            color: var(--color-text-primary);
+                        }
+                    }
+                }
+
+            }
+
+            .line {
+                border: 1px solid var(--color-border-sub);
+            }
+
+            .total_order {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .primary {
+                cursor: pointer;
+                transition: background 0.2s;
+                border: 1px solid transparent;
+                border-radius: .3em;
+                box-sizing: border-box;
+                margin-bottom: 1em;
+                padding: .5em;
+                background: var(--color-bg-orange);
+                color: var(--color-text-inverse);
+
+                &:enabled:hover {
+                    background: #f6b081;
+                }
+
+                &:enabled:active {
+                    background: #ee6e19;
+                }
+
+                .order_btn {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 1em;
+                    color: var(--color-text-inverse);
+
+                    .arrow {
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+        }
+    }
+
+
+}

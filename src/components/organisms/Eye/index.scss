@@ -1,0 +1,83 @@
+.body {
+  background-color: rgb(51, 51, 51);
+  width: 100vw;
+  height: 100vh;
+  color: #bcbcbc;
+  // font-family: "Inter", sans-serif;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  // background-image: url("../../pages/contactUs/images/bg.jpg");
+  // background-image: url("../../../pages/ContactUs/");
+  .container {
+    width: 30em;
+    height: 25em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .num_box {
+      .error_num {
+        font-size: 8em;
+        // font-family: "Arial Black";
+        color: white;
+      }
+
+      .eye {
+        background: #fff;
+        border-radius: 50%;
+        display: inline-block;
+        height: 6em;
+        position: relative;
+        width: 6em;
+
+        &::after {
+          background: #000;
+          border-radius: 50%;
+          bottom: 3.366em;
+          content: "";
+          height: 1.98em;
+          position: absolute;
+          right: 1.98em;
+          width: 1.98em;
+        }
+      }
+    }
+
+    .sub_text {
+      font-size: 2em;
+      margin-bottom: 1em;
+    }
+
+    .refresh_link {
+      width: 12em;
+      background-color: #bcbcbc;
+      color: #000;
+      border-radius: 0.4em;
+      // font-family: "Inter", sans-serif;
+      border: 0;
+      padding: 1em 1.5em;
+      font-weight: 600;
+      cursor: pointer;
+
+      .refresh_link_text {
+        padding: 0;
+        margin: 0;
+        font-size: 1.5em;
+      }
+
+      transition: 0.3s;
+
+      &:hover {
+        transform: scale(1.1);
+        transition: 0.3s;
+        background-color: #e8e8e8;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {}
+}

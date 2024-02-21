@@ -1,0 +1,65 @@
+.button {
+  border: 0;
+  background: none;
+  cursor: pointer;
+  padding: .8em 1.5em;
+  transition: background 0.2s;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+
+  span {
+    cursor: pointer;
+  }
+
+  //* theme
+  &.primary {
+    background: var(--color-bg-orange);
+    color: var(--color-text-inverse);
+
+    &:enabled:hover {
+      background: #f6b081;
+    }
+
+    &:enabled:active {
+      background: #ee6e19;
+    }
+  }
+
+  &.secondary {
+    background: none;
+    color: var(--color-text-orange);
+    border: 1px solid var(--color-border-orange);
+
+    &:hover {
+      background: #f5ebe4;
+      color: var(--color-text-orange);
+    }
+
+    &:enabled:active {
+      background: rgb(240, 223, 194);
+      color: var(--color-text-orange);
+    }
+  }
+
+  &.more {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--color-text-inverse);
+    border: 1px solid var(--color-border-sub);
+
+    &>.icon {
+      width: 10px;
+      margin-left: 10px;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &.inactive {
+    cursor: not-allowed;
+    color: var(--color-text-disabled);
+    background: var(--color-bg-disabled);
+    border: 1px solid var(--color-bg-disabled);
+  }
+}

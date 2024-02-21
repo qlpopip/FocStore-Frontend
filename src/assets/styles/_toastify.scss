@@ -1,0 +1,40 @@
+@import "variable";
+@import "mixin";
+
+.dilly-toast {
+  width: auto !important;
+  max-width: 500px;
+  min-width: 350px;
+
+  // responsive
+  bottom: 1em !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  @include responsive-sm {
+    width: $inner-w-resp !important;
+    min-width: auto;
+  }
+
+  & .Toastify {
+    &__toast {
+      padding: 0 16px;
+      background: var(--color-bg-inverse);
+      color: var(--color-text-inverse);
+      font-size: 14px;
+      font-weight: 400;
+      //min-height: calc(var(--toastify-toast-min-height) - 15px);
+      min-height: 52px;
+      border-radius: 15px;
+    }
+    &__toast-body {
+      width: 100%;
+      word-break: break-all;
+      & > div:last-child {
+        letter-spacing: 1.1px;
+      }
+    }
+    &__close-button {
+      display: none;
+    }
+  }
+}

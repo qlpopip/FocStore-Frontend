@@ -1,0 +1,62 @@
+@import "styles/mixin";
+
+#modal {
+  .modal_box {
+    .modal_bg {
+      transition: 1s;
+      width: 100%;
+      height: 0vh;
+      background-color: var(--color-bg-inverse);
+      position: fixed;
+      top: 0;
+      opacity: 0.5;
+      left: 0;
+      z-index: 2000;
+    }
+
+    .modal {
+      transition: 1s;
+      position: fixed;
+      max-width: 55vw;
+      width: 100%;
+      height: auto;
+      z-index: 5000;
+      transform: translate(-50%, -50%);
+      left: 50%;
+      top: -50%;
+      background: var(--color-bg-white);
+      padding: 24px;
+      box-sizing: border-box;
+
+      .modal-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+      }
+    }
+  }
+
+  .open {
+    .modal_bg {
+      height: 100vh;
+      transition: 1s;
+    }
+
+    .modal {
+      top: 45%;
+      transition: 1s;
+    }
+  }
+
+  @include responsive-md {
+    .modal_box {
+      .modal {
+        max-width: 75vw !important;
+        max-height: 70vh !important;
+        overflow-x: hidden;
+      }
+    }
+  }
+}

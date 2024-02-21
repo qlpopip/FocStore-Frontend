@@ -1,0 +1,119 @@
+@import "assets/styles/mixin";
+
+#pagination {
+
+  .pagination {
+    padding: 2vw;
+    display: inline-block;
+    user-select: none;
+    display: flex;
+    justify-content: center;
+
+    &-list {
+      display: inline-flex;
+      align-items: center;
+      user-select: none;
+    }
+
+    &-item {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+      margin-right: 1.5vw;
+      user-select: none;
+      border: 2px solid var(--color-border-primary);
+      padding: .4vw .8vw;
+      color: var(--color-text-primary);
+      font-weight: 500;
+      border-radius: .35vw;
+      transition: .3s;
+      font-size: 1vw;
+
+      &:active {
+        background-color: var(--color-bg-primary);
+        color: var(--color-text-inverse);
+      }
+
+      &:last-of-type {
+        margin-right: 0;
+      }
+
+      &.on {
+        color: var(--color-text-inverse);
+        background-color: var(--color-bg-primary);
+      }
+    }
+
+    .dot {
+      border: none;
+      padding: 0;
+    }
+
+    .icon {
+      background-color: var(--color-bg-primary);
+    }
+
+    .disabled {
+      background-color: #b7b1b1;
+      border: 2px solid #b7b1b1;
+
+      .icon {
+        background-color: #b7b1b1;
+
+      }
+    }
+
+    &-arrow {
+      width: .6vw;
+      height: 1.2vw;
+      display: flex;
+    }
+  }
+
+  @include responsive-md {
+    .pagination {
+      &-item {
+        margin-right: 2vw;
+        padding: .4vw .8vw;
+        font-size: 1.5vw;
+      }
+
+      &-arrow {
+        width: .7vw;
+        height: 1.8vw;
+      }
+    }
+  }
+
+  @include responsive-xs {
+    .pagination {
+      &-item {
+        margin-right: 2.5vw;
+        padding: .4vw 1vw;
+        font-size: 2vw;
+      }
+
+      &-arrow {
+        width: .9vw;
+        height: 2.2vw;
+      }
+    }
+  }
+
+  @include responsive-xs {
+    .pagination {
+      &-item {
+        margin-right: 3.5vw;
+        padding: .4vw 1.5vw;
+        font-size: 3.5vw;
+        border-radius: 1vw;
+      }
+
+      &-arrow {
+        width: 1.2vw;
+        height: 4.2vw;
+      }
+    }
+  }
+}

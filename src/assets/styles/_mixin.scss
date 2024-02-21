@@ -1,0 +1,55 @@
+$screen-xl: 1920px;
+$screen-lg: 1440px;
+$screen-md: 1024px;
+$screen-xs: 768px; // 360
+$screen-ms: 600px; // 360
+$screen-sm: 440px; // 360
+
+@mixin responsive-xl {
+  @media (max-width: #{$screen-xl}) {
+    overflow-x: hidden;
+    @content;
+  }
+}
+
+@mixin responsive-lg {
+  @media (max-width: #{$screen-lg}) {
+    @content;
+    overflow-x: hidden;
+  }
+}
+
+@mixin responsive-md {
+  @media (max-width: #{$screen-md}) {
+    @content;
+    overflow-x: hidden;
+  }
+}
+
+@mixin responsive-xs {
+  @media (max-width: #{$screen-xs}) {
+    @content;
+    overflow-x: hidden;
+  }
+}
+
+@mixin responsive-ms {
+  @media (max-width: #{$screen-ms}) {
+    @content;
+    overflow-x: hidden;
+  }
+}
+
+@mixin responsive-sm {
+  @media (max-width: #{$screen-sm}) {
+    @content;
+    overflow-x: hidden;
+  }
+}
+
+@mixin responsive-custom($size) {
+  @media (max-width: $size) {
+    @content;
+    overflow-x: hidden;
+  }
+}

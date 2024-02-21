@@ -1,0 +1,262 @@
+@import "variable";
+@import "mixin";
+
+:root {
+  //* color
+  // background
+  --color-bg-default: #FFFFFF;
+  --color-bg-default-v2: #F2F4F5;
+  --color-bg-secondary: #F2EFE6;
+  --color-bg-inverse: #191C1F;
+  --color-bg-primary: #1B6392;
+  --color-bg-primary-light: #8CC5EA;
+  --color-bg-orange: #FA8232;
+  --color-bg-light-primary: #EFEFEF;
+  --color-bg-dark-primary: #E5E6EB;
+  --color-bg-overlay-dark: rgba(0, 0, 0, 0.8);
+  --color-bg-overlay-default: rgba(0, 0, 0, 0.4);
+  --color-bg-overlay-light: rgba(0, 0, 0, 0.2);
+  // text
+  --color-text-default: #191C1F;
+  --color-text-primary: #2DA5F3;
+  --color-text-orange: #FA8232;
+  --color-text-inverse: #FFFFFF;
+  --color-text-sub: #475156;
+
+  --color-text-disabled: #bbbbbb;
+  --color-text-success: #90c58d;
+  --color-text-warning: #f16a00;
+  --color-text-danger: #f12f2e;
+  // icon
+  --color-icon-default: #222222;
+  --color-icon-sub: #777777;
+  --color-icon-disabled: #bbbbbb;
+  --color-icon-inverse: #ffffff;
+  --color-icon-primary: #2DA5F3;
+  --color-icon-success: #90c58d;
+  --color-icon-warning: #f16a00;
+  --color-icon-danger: #f12f2e;
+  // border
+  --color-border-default: #E4E7E9;
+  --color-border-orange: #FA8232;
+  --color-border-inverse: #f4f8fb;
+  --color-border-primary: #2DA5F3;
+  --color-border-sub: #C9CFD2;
+  --color-border-overlay: rgba(0, 0, 0, 0.1);
+  --color-border-success: #90c58d;
+  --color-border-danger: #f12f2e;
+  //input
+  --color-input-bg: #ffffff;
+  --color-input-text: #000000;
+  --color-line-gradient: linear-gradient(135deg, #448fff 0%, #2a61ff 100%);
+}
+
+
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+// layout
+body {
+  background-color: var(--color-bg-default);
+}
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .header-wrap {
+    .content-wrap {
+      margin: 0 auto;
+      height: 100%;
+
+      @include responsive-md {
+        min-height: 80vh;
+      }
+
+      @include responsive-custom($inner-w-desktop-inner) {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.con {
+  box-sizing: border-box;
+  padding: 104px 0;
+
+  @include responsive-sm {
+    padding: 60px 0;
+  }
+
+  // 컨텐츠 in box
+  &-w {
+    width: $inner-w-desktop;
+    margin: 0 auto;
+
+    @include responsive-lg {
+      width: $inner-w-resp;
+    }
+  }
+
+  &-hf {
+    width: $inner-w-desktop;
+    margin: 0 auto;
+    overflow: hidden;
+
+    @include responsive-lg {
+      width: 100%;
+      //padding-left: 2%;
+      box-sizing: border-box;
+      //border: 1px solid #f00;
+    }
+  }
+
+  // 컨텐츠 타이틀
+  &-title {
+    margin-bottom: 32px;
+    text-align: center;
+  }
+}
+
+.item-between-line {
+  &::after {
+    display: inline-block;
+    content: "";
+    width: 1px;
+    height: 12px;
+    background: #eee;
+    margin: 0 8px;
+  }
+
+  &:last-of-type {
+    &:after {
+      display: none;
+    }
+  }
+}
+
+// round
+.round-1 {
+  border-radius: 8px;
+}
+
+.round-2 {
+  border-radius: 5px;
+}
+
+.round-3 {
+  border-radius: 3px;
+}
+
+// etc
+// swiper style
+.carousel {
+  .swiper {
+    height: 100%;
+
+    &:hover {
+
+      .swiper-button-prev,
+      .swiper-button-next {
+        display: flex;
+      }
+    }
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none;
+
+    &:after {
+      font-size: 22px;
+      color: var(--color-text-inverse);
+    }
+  }
+
+  .swiper-pagination {
+    display: inline-flex;
+    width: auto;
+    left: unset;
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    padding: 7px 12px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 23px;
+    font-size: 12px;
+    color: #abbfd2;
+
+    &-current {
+      color: var(--color-text-inverse);
+      margin-right: 2px;
+    }
+
+    &-total {
+      margin-left: 2px;
+    }
+  }
+}
+
+// 투명 스크롤바
+.transparent-scroll {
+  &::-webkit-scrollbar {
+    display: none;
+    background: none;
+    width: 0px;
+    height: 0px;
+    -webkit-appearance: none;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: none;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: none;
+  }
+
+  &::-webkit-scrollbar-button {
+    height: 0px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: none;
+    border: none;
+  }
+}
+
+// ellipsis
+.text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+p,
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+label,
+span,
+button,
+image {
+  margin: 0;
+  padding: 0;
+  // font-family: "Open Sans";
+  font-weight: 400;
+  cursor: default;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+}
