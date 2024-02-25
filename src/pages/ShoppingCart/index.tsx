@@ -93,13 +93,11 @@ const ShoppingCart: React.FC = () => {
               <p>Total</p>
               <p>$ {totalPrice.toLocaleString('en-US', { style: 'decimal' })} USD</p>
             </div>
-            <Button className="primary" >
-              <Link to="/checkout">
-                <div className="checkout_btn">
-                  <span>PROCEED TO  CHECKOUT </span>
-                  <Image src={IconsFile.ArrowWhite} className="arrow" />
-                </div>
-              </Link>
+            <Button className="primary" onClick={() => navigate("/checkout")}>
+              <div className="checkout_btn">
+                <span>PROCEED TO  CHECKOUT </span>
+                <Image src={IconsFile.ArrowWhite} className="arrow" />
+              </div>
             </Button>
           </div>
         </div> : <div className="no_product">

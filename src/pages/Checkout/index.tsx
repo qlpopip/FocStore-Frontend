@@ -1,11 +1,23 @@
-import { Image } from "components/atoms";
+import { Image, InputChoose } from "components/atoms";
 import { Navigator } from "components/molecules";
 import Layout from "components/organisms/Layout";
-import "./index.scss"
 import IconsFile from "assets/icons";
 import { useAppSelector } from "share/redux/hook";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import ImagesFile from "assets/images";
+import axios from "axios";
+import "./index.scss"
+interface CryptoData {
+    tether: {
+        usd: number;
+    };
+    force: {
+        usd: number;
+    };
+    ethereum: {
+        usd: number;
+    };
+}
 const Checkout: React.FC = () => {
     const orders = useAppSelector((state) => state.order.orders);
     const totalPrice = orders.reduce((total, item) => total + (item.product.productPrice * item.productCount), 0);
@@ -29,13 +41,65 @@ const Checkout: React.FC = () => {
     })
     const handleChange = (e:
         | React.ChangeEvent<HTMLInputElement>
-        | React.ChangeEvent<HTMLSelectElement>) => {
-        const { name, value } = e.target;
+        | React.ChangeEvent<HTMLSelectElement>
+        | { name: string; value: string }
+    ) => {
+        let name: any, value: any;
+
+        if ('target' in e) {
+            ({ name, value } = e.target);
+        } else {
+            ({ name, value } = e);
+        }
         setInfo(prevInfo => ({
             ...prevInfo,
-            [name]: value // Dynamically set the property using the input's name attribute
+            [name]: value
         }));
+        if (name === "sort") {
+            setSort(value);
+        }
     }
+
+    const onChangeToken = (name: string, value: string) => {
+        handleChange({ name, value });
+    }
+    const [sort, setSort] = useState("force");
+
+    const [coins, setCoins] = useState<CryptoData>({
+        tether: {
+            usd: 0
+        },
+        force: {
+            usd: 0
+        },
+        ethereum: {
+            usd: 0
+        },
+    });
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(
+                    "https://api.coingecko.com/api/v3/simple/price",
+                    {
+                        params: {
+                            ids: "tether,ethereum,force",
+                            vs_currencies: "usd",
+                        },
+                    }
+                );
+                setCoins({
+                    tether: { usd: response.data.tether?.usd ?? 0 },
+                    force: { usd: response.data.force?.usd ?? 0 },
+                    ethereum: { usd: response.data.ethereum?.usd ?? 0 },
+                });
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+        fetchData();
+    }, []);
+
     return (
         <div>
             <Layout id="checkout">
@@ -164,6 +228,45 @@ const Checkout: React.FC = () => {
                                     />
                                 </div>
                             </div>
+                            <div className="payment_box">
+                                <p className="title"> Payment Option</p>
+                                <div className="token_box">
+                                    <div className="token" onClick={() => onChangeToken("sort", "force")}>
+                                        <div className="img_box">
+                                            <p>FOC Token</p>
+                                        </div>
+                                        <InputChoose type="radio" name="sort" id="force"
+                                            checked={sort === "force"} value={"force"}
+                                            onChange={handleChange}
+                                            className="choose_coin" />
+                                    </div>
+                                    <div className="line"></div>
+                                    <div className="token" onClick={() => onChangeToken("sort", "tether")}>
+                                        <div className="img_box">
+                                            <Image src={ImagesFile.Tether} className="coin_image" />
+                                        </div>
+                                        <InputChoose type="radio" name="sort" id="tether"
+                                            checked={sort === "tether"} value={"tether"}
+                                            onChange={handleChange}
+                                            className="choose_coin" />
+                                    </div>
+                                    <div className="line"></div>
+                                    <div className="token" onClick={() => onChangeToken("sort", "ethereum")}>
+                                        <div className="img_box">
+                                            <Image src={ImagesFile.Ethereum} className="coin_image" />
+                                        </div>
+                                        <InputChoose type="radio" name="sort" id="ethereum"
+                                            checked={sort === "ethereum"} value={"ethereum"}
+                                            onChange={handleChange}
+                                            className="choose_coin"
+                                        />
+                                    </div>
+                                </div>
+                                <p className="title"> Price</p>
+                                <div className="price_box">
+                                    {(totalPrice / coins[sort as keyof CryptoData]?.usd).toLocaleString('en-US', { style: 'decimal' })}
+                                </div>
+                            </div>
                         </div>
                         <div className="orders_box">
                             <p className="title">Order Summery</p>
@@ -176,7 +279,6 @@ const Checkout: React.FC = () => {
                                             <div className="product_count">
                                                 <p>{item.productCount} x &nbsp;  </p>
                                                 <p className="price"> ${item.product.productPrice}</p>
-
                                             </div>
                                         </div>
                                     </div>
@@ -185,7 +287,7 @@ const Checkout: React.FC = () => {
                             <div className="line"></div>
                             <div className="total_order">
                                 <p>Total</p>
-                                <p >$ {totalPrice} USD </p>
+                                <p >$ {totalPrice.toLocaleString('en-US', { style: 'decimal' })} USD </p>
                             </div>
                             <button className="primary" >
                                 <div className="order_btn">

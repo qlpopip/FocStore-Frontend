@@ -1,0 +1,105 @@
+// @import "styles/mixin";
+
+#inputRange {
+    .box {
+        input[type=radio] {
+            display: none;
+        }
+
+        input[type=checkbox] {
+            width: 1em;
+            height: 1em;
+        }
+
+        label {
+            display: inline-block;
+            cursor: pointer;
+            margin: 0;
+            font-size: 1.1vw;
+            // padding-left: .2vw;
+        }
+
+        input[type=radio]+label::before {
+            content: "";
+            display: inline-block;
+            width: .5vw;
+            height: .5vw;
+            border-radius: 50%;
+            border: 1px solid var(--color-border-sub);
+            padding: 5px;
+            vertical-align: middle;
+        }
+
+        input[type=radio]:checked+label::before {
+            border: 5px solid var(--color-bg-orange);
+            outline: 1px solid var(--color-bg-orange);
+            padding: 1px;
+        }
+    }
+
+    // @include responsive-lg {}
+
+    // @include responsive-md {
+    //     .box {
+    //         input[type=checkbox] {
+    //             width: 1.2vw;
+    //             height: 1.2vw;
+    //         }
+
+    //         label {
+    //             margin: 0;
+    //             font-size: 1.3vw;
+
+    //         }
+
+    //         input[type=radio]+label::before {
+    //             width: .6vw;
+    //             height: .6vw;
+    //         }
+
+    //     }
+    // }
+
+    // @include responsive-xs {
+    //     .box {
+    //         input[type=checkbox] {
+    //             width: 1.5vw;
+    //             height: 1.5vw;
+    //         }
+
+    //         label {
+    //             margin: 0;
+    //             font-size: 2vw;
+
+    //         }
+
+    //         input[type=radio]+label::before {
+    //             width: .8vw;
+    //             height: .8vw;
+    //         }
+
+    //     }
+    // }
+
+    // @include responsive-sm {
+    //     .box {
+    //         input[type=checkbox] {
+    //             width: 1.5vw;
+    //             height: 1.5vw;
+    //         }
+
+    //         label {
+    //             margin: 0;
+    //             font-size: 2vw;
+    //             width: 100%;
+
+    //         }
+
+    //         input[type=radio]+label::before {
+    //             width: .8vw;
+    //             height: .8vw;
+    //         }
+
+    //     }
+    // }
+}
