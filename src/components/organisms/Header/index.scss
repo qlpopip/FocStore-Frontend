@@ -7,23 +7,30 @@
   align-items: center;
   justify-content: space-between;
   gap: 1em;
-.left_side{
-  display: flex;
-  align-items: center;
-}
-  a {
+  height: 4em;
+
+  .left_side {
+    display: flex;
+    align-items: center;
+  }
+
+  a,
+  .login {
     text-decoration: none;
     transition: 0.3s;
     width: 2.5em;
     height: 2.5em;
-    img{
+
+    img {
       width: 2em;
     }
+
     &:hover {
       transition: 0.3s;
       transform: scale(1.1);
     }
   }
+
   .select_language {
     background: red;
     padding: 0.5em;
@@ -35,6 +42,7 @@
     width: 3.5em;
     margin: 0;
     text-transform: lowercase;
+
     &:focus {
       outline: none;
     }
