@@ -7,6 +7,7 @@ import contract from "./contract";
 import metamask from "./metamask";
 import order from "./order";
 import player from "./player";
+import points from "./points";
 import { configureStore } from "@reduxjs/toolkit";
 import { encryptTransform } from "redux-persist-transform-encrypt";
 import storage from "redux-persist/lib/storage"; // LocalStorage for persisting the data
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   contract,
   metamask,
   player,
-  order
+  order,
+  points
 });
 const encryptor = encryptTransform({
   // secretKey: process.env.REDUX_SECRET_KEY

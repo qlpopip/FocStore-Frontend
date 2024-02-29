@@ -4,3 +4,7 @@ export { default as ShoppingCart } from "./ShoppingCart";
 export { default as Connect } from "./Connect";
 export { default as ProductDetail } from "./ProductDetail";
 export { default as Checkout } from "./Checkout";
+export { default as Points } from "./Points";
+// export { default as Swap } from "./Swap";
+// export { default as DailyCheckIn } from "./DailyCheckIn";
+// export { default as WifiPoint } from "./WifiPoint";
