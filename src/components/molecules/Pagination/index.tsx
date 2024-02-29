@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Icon } from "components/atoms";
-// import { RootState } from '@/shared/redux';
+import { Image } from "components/atoms";
 import { PaginationProps } from "./interface";
 import "./index.scss"
+import IconsFile from "assets/icons";
 /**
 
 A pagination component that displays a list of pages and allows the user to navigate through them.
@@ -14,27 +14,21 @@ A pagination component that displays a list of pages and allows the user to navi
 */
 
 const PaginationComp: React.FC<PaginationProps> = (props) => {
-
-  const {  //totalCount,
+  const {
     currentPage,
     totalPage,
-    //viewCount,
-    // onClickPrev,
-    // onClickNext,
     onClickPage } = props
-  // const { isMobile } = useSelector((state: RootState) => state.common);
+
+  const array1ToTotalPage = Array.from({ length: totalPage }, (_, index) => index + 1);
   const [cutCnt, setCutCnt] = useState(0);
   const maxPageCnt = 1;
   const [pageList, setPageList] = useState<number[]>([]);
-
   function handleClickPrevBtn() {
     if (currentPage > 1 && currentPage > maxPageCnt) {
       onClickPage(maxPageCnt * cutCnt);
       setCutCnt(cutCnt - 1);
     }
   }
-
-  // responsive pagination list
   useEffect(() => {
     if (totalPage) {
       const pageList = [...Array(totalPage)]
@@ -59,14 +53,9 @@ const PaginationComp: React.FC<PaginationProps> = (props) => {
       <div className='pagination'>
         <ul className='pagination-list'>
           <li className={`pagination-item ${pageList[0] === 1 ? "disabled" : "icon"}`} onClick={handleClickPrevBtn}>
-            <Icon name='arrow-left' className='pagination-arrow' />
+            <Image src={IconsFile.ArrowOrange} className='pagination-arrow' />
           </li>
-          {totalPage - 1 >= pageList[pageList.length - 1] ? "" : <>
-            <li className={"pagination-item"} onClick={() =>
-              onClickPage(pageList[pageList.length - 1] - pageList.length)}>
-              {String(pageList[pageList.length - 1] - pageList.length)}</li>
-            {totalPage - 1 ? "" : <li className={"pagination-item dot"}>  …  </li>}   </>}
-          {pageList.map((item, idx) => (
+          {array1ToTotalPage.map((item, idx) => (
             <li
               className={`pagination-item ${currentPage === item ? "on" : ""}`}
               key={idx}
@@ -74,14 +63,9 @@ const PaginationComp: React.FC<PaginationProps> = (props) => {
               {item}
             </li>
           ))}
-          {totalPage - 1 >= pageList[pageList.length - 1] ?
-            <>
-              {totalPage - 2 >= pageList[pageList.length - 1] ? <li className={"pagination-item dot"}>  …  </li> : ""}
-              <li className={"pagination-item"} onClick={() => onClickPage(totalPage)}> {totalPage}</li>
-            </> : ""}
           <li className={`pagination-item ${pageList[0] === totalPage ? "disabled" : "icon"}`}
             onClick={handleClickNextBtn}>
-            <Icon name='arrow-right' className='pagination-arrow' />
+            <Image src={IconsFile.ArrowOrange} className='pagination-arrow right' />
           </li>
         </ul>
       </div>

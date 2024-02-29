@@ -22,16 +22,23 @@
       cursor: pointer;
       margin-right: 1.5vw;
       user-select: none;
-      border: 2px solid var(--color-border-primary);
+      border: 2px solid var(--color-border-sub);
       padding: .4vw .8vw;
-      color: var(--color-text-primary);
+      color: var(--color-text-default);
       font-weight: 500;
-      border-radius: .35vw;
+      border-radius: 50%;
       transition: .3s;
-      font-size: 1vw;
+      font-size: 1em;
+
+      .right {
+        transform: rotate(180deg) !important;
+      }
+
+
 
       &:active {
-        background-color: var(--color-bg-primary);
+        background-color: var(--color-bg-orange);
+        border: 2px solid var(--color-border-orange);
         color: var(--color-text-inverse);
       }
 
@@ -41,79 +48,34 @@
 
       &.on {
         color: var(--color-text-inverse);
-        background-color: var(--color-bg-primary);
+        background-color: var(--color-bg-orange);
+        border: 2px solid var(--color-border-orange);
       }
     }
 
-    .dot {
-      border: none;
+    .disabled,
+    .icon {
       padding: 0;
+      border: 2px solid var(--color-border-orange);
+
+      .pagination-arrow {
+        width: 1.7em;
+        height: 1.7em;
+        padding: .2em;
+      }
     }
 
-    .icon {
-      background-color: var(--color-bg-primary);
-    }
 
     .disabled {
-      background-color: #b7b1b1;
-      border: 2px solid #b7b1b1;
-
-      .icon {
-        background-color: #b7b1b1;
-
-      }
+      cursor: no-drop;
     }
 
     &-arrow {
-      width: .6vw;
+      width: 1vw;
       height: 1.2vw;
       display: flex;
-    }
-  }
-
-  @include responsive-md {
-    .pagination {
-      &-item {
-        margin-right: 2vw;
-        padding: .4vw .8vw;
-        font-size: 1.5vw;
-      }
-
-      &-arrow {
-        width: .7vw;
-        height: 1.8vw;
-      }
-    }
-  }
-
-  @include responsive-xs {
-    .pagination {
-      &-item {
-        margin-right: 2.5vw;
-        padding: .4vw 1vw;
-        font-size: 2vw;
-      }
-
-      &-arrow {
-        width: .9vw;
-        height: 2.2vw;
-      }
-    }
-  }
-
-  @include responsive-xs {
-    .pagination {
-      &-item {
-        margin-right: 3.5vw;
-        padding: .4vw 1.5vw;
-        font-size: 3.5vw;
-        border-radius: 1vw;
-      }
-
-      &-arrow {
-        width: 1.2vw;
-        height: 4.2vw;
-      }
+      align-items: center;
+      justify-content: center;
     }
   }
 }
