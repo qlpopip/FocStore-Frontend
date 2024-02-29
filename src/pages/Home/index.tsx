@@ -3,12 +3,13 @@ import "./index.scss";
 import Layout from "components/organisms/Layout";
 import IconsFile from "assets/icons";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Pagination } from "components/molecules";
+import { Link, useNavigate } from "react-router-dom";
+import { Loader, Pagination } from "components/molecules";
 import { getProducts } from "./_api";
 import { ProductType } from "dto";
 
 const Home: React.FC = () => {
+  const navigate = useNavigate()
   const onclickPreview = (img: string) => {
     setImgView(img)
     console.log("da")
@@ -46,23 +47,29 @@ const Home: React.FC = () => {
   return (
     <div>
       <Layout id="home_page">
-        {pending ? <h1>Loading...</h1> :
+        {pending ? <Loader /> :
           <div className="main">
             <div className="table">
               {productList.map((item) => (
-                <div className="card round-3" key={item.id}>
+                <div className="card round-3" key={item.id} >
                   <div className="img_box">
                     <div className="bg"></div>
-                    <div className="ant-image-mask" onClick={() => onclickPreview(item.img[0])}><div className="ant-image-mask-info"><span role="img" aria-label="eye" className="anticon anticon-eye">
-                      <Image src={IconsFile.Eye} alt="" />
-                    </span>Preview</div></div>
+                    <div className="ant-image-mask" onClick={() => onclickPreview(item.img[0])}>
+                      <div className="ant-image-mask-info">
+                        <span role="img" aria-label="eye" className="anticon anticon-eye">
+                          <Image src={IconsFile.Eye} alt="" />
+                        </span>Preview
+                      </div>
+                    </div>
                     <Image
                       src={item.img[0]}
                       alt=""
                     />
                   </div>
-                  <div className="card_main">
-                    <div className="description"><p>{item.description}</p></div>
+                  <div className="card_main" onClick={() => navigate(`product/${item.id}`)}>
+                    <div className="description">
+                      <span dangerouslySetInnerHTML={{ __html: item.description }} />
+                    </div>
                     <Link to={`/product/${item.id}`} className="price">${item.productPrice}</Link>
                   </div>
                 </div>
@@ -77,7 +84,6 @@ const Home: React.FC = () => {
               currentPage={step + 1} onClickPage={pagination} />
           </div>
         }
-
       </Layout>
     </div>
   );
