@@ -78,6 +78,18 @@ const ProductDetail: React.FC = () => {
     addProduct()
     navigate("/checkout")
   }
+  const [imgIndex, setImgIndex] = useState(0)
+  const nextImg = () => {
+    if (imgIndex < product.img.length - 1) {
+      setImgIndex(prev => prev + 1)
+    }
+  }
+  const prevImg = () => {
+    if (imgIndex > 0) {
+      setImgIndex(prev => prev - 1)
+    }
+  }
+  console.log(imgIndex, imgIndex < product.img.length)
   return (
     <div>
       <Layout id="product_detail">
@@ -85,15 +97,20 @@ const ProductDetail: React.FC = () => {
         {pending ? <h1>Loading...</h1> :
           <div className="detail">
             <div className="img_box">
-              <Image src={product.img[0]} alt="" className="big_img" />
-              <div className="all_images">
-                {product.img.map((img) => <Image src={img} key={img} alt="" className="small_img" />)}
-              </div>
+              <Image src={product.img[imgIndex]} alt="" className="big_img" />
+              {product.img.length > 1 &&
+                <div className="all_images">
+                  <Image src={IconsFile.ArrowWhite} className="arrow" onClick={prevImg} />
+                  {product.img.map((img, index) => <Image src={img} onClick={() => setImgIndex(index)} key={img} alt="" className={`small_img ${index === imgIndex && "active_img"}`} />)}
+                  <Image src={IconsFile.ArrowWhite} className="arrow right" onClick={nextImg} />
+                </div>
+              }
             </div>
             <div className="content_box">
-              <h1>Detail</h1>
+              <h1>{product.name}</h1>
               <div className="content_main">
-                <p className="description">{product.description}</p>
+                <span className="description"
+                  dangerouslySetInnerHTML={{ __html: product.description }} />
                 <p className="price">${product.productPrice}</p>
               </div>
               <div className="button_box">
