@@ -1,0 +1,45 @@
+.said_bar {
+    display: flex;
+    padding: 2em;
+    padding-left: 5em;
+    width: 100%;
+
+    .left_bar {
+        // outline: 2px solid;
+        width: 12em;
+
+        .said_bar_box {
+            display: flex;
+            flex-direction: column;
+            gap: .5em;
+            align-items: flex-start;
+
+            .navigator {
+                color: var(--color-text-default);
+                font-size: .9em;
+                transition: .3s;
+
+                &:hover {
+                    color: var(--color-text-primary);
+                    transition: .3s;
+                    transform: scale(1.1);
+                }
+            }
+
+            .default {
+                color: var(--color-text-default) !important;
+                transition: .3s;
+                transform: scale(1) !important;
+            }
+
+            .line {
+                border: 1px solid var(--color-border-sub);
+                width: 100%;
+            }
+
+            .activeLink {
+                color: var(--color-text-primary);
+            }
+        }
+    }
+}
