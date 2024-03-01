@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+.event_box {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5em;
+
+    .event {
+        width: 35em;
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        // border: 1px solid var(--color-border-sub);
+        border-radius: .3em;
+        overflow: hidden;
+        box-shadow: 0 11px 15.5px -7.5px #dddddd;
+
+        .event_img {
+            width: 35em;
+        }
+
+        .event_main {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1em;
+            align-items: flex-start;
+            gap: 1em;
+
+            .description_title,
+            .name {
+                font-weight: bold;
+                font-size: 1.2em;
+            }
+
+            .title {
+                font-size: 1em;
+            }
+
+
+            .more {
+                padding: .5em 2em;
+                border-radius: 1em;
+                background: var(--color-bg-orange);
+            }
+
+            .copy_box {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+
+                .copy_link {
+                    display: flex;
+                    align-items: center;
+                    gap: 1em;
+                    transition: .3s;
+                    cursor: pointer;
+
+                    &:hover {
+                        transform: scale(1.1);
+                        transition: .3s;
+                    }
+
+                    .text {
+                        cursor: pointer;
+                        font-weight: bold;
+                    }
+
+                    .icon {
+                        width: 1.5em;
+
+                    }
+                }
+            }
+        }
+    }
+}

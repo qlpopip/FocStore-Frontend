@@ -8,6 +8,7 @@ import ArrowWhite from "./icon-arrow-left-white.svg";
 import ArrowOrange from "./icon-arrow-left-orange.svg";
 import ArrowBlue from "./icon-arrow-left-blue.png";
 import Remove from "./icon-remove.svg";
+import Link from "./icon-link.svg";
 
 const IconsFile = {
     Cart,
@@ -19,6 +20,7 @@ const IconsFile = {
     ArrowBlue,
     Minus,
     Plus,
-    Remove
+    Remove,
+    Link
 };
 export default IconsFile;

@@ -1,8 +1,8 @@
 import { API } from "utils/API";
 
-export const getProduct = (id: string) => {
+export const getEvent = (id: number) => {
     return new API({
-        url: `product/${id}`
+        url: `event/${id}`
     }).get();
 };
 

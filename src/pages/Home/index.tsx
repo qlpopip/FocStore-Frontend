@@ -23,6 +23,8 @@ const Home: React.FC = () => {
   const [showImgView, setShowImgView] = useState(false)
   const [productList, setProductList] = useState<ProductType[]>([]);
   const [totalPage, setTotalPage] = useState(0);
+
+  const [totalCount, setTotalCount] = useState(0);
   const [pending, setPending] = useState(false)
   useEffect(() => {
     async function fetchData() {
@@ -31,6 +33,7 @@ const Home: React.FC = () => {
         const [data] = await getProducts(1, 8);
         setProductList(data.items);
         setTotalPage(data.totalPage);
+        setTotalCount(data.totalCount);
         setPending(false)
       } catch (error) {
         console.log(error)
@@ -80,8 +83,8 @@ const Home: React.FC = () => {
                 <Image src={imgView} alt="" className="img" />
               </div>
             }
-            <Pagination totalPage={totalPage > 0 ? totalPage : 0}
-              currentPage={step + 1} onClickPage={pagination} />
+            {totalCount > 8 && <Pagination totalPage={totalPage > 0 ? totalPage : 0}
+              currentPage={step + 1} onClickPage={pagination} />}
           </div>
         }
       </Layout>

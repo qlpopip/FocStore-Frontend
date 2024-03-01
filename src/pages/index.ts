@@ -8,3 +8,5 @@ export { default as Points } from "./Points";
 export { default as Swap } from "./Swap";
 export { default as DailyCheckIn } from "./DailyCheckIn";
 export { default as WifiPoint } from "./WifiPoint";
+export { default as Event } from "./Event";
+export { default as EventDetail } from "./EventDetail";
