@@ -1,8 +1,9 @@
 import "./index.scss";
 import { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const EyeComponent: React.FC = () => {
+  const navigate = useNavigate()
   const leftEyeRef = useRef<HTMLDivElement>(null);
   const rightEyeRef = useRef<HTMLDivElement>(null);
 
@@ -29,8 +30,8 @@ const EyeComponent: React.FC = () => {
     // eslint-disable-next-line
   }, []);
   const onClickGoBack = () => {
-    sessionStorage.clear();
-    localStorage.clear();
+    navigate("/")
+    window.location.reload()
   };
   return (
     <div className="body">

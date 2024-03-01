@@ -5,12 +5,15 @@ import { Provider } from "react-redux";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { store } from "./share/redux/index";
+import ErrorBoundary from "errorBoundry";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <>
     <BrowserRouter>
       <Provider store={store}>
-        <App />
+        <ErrorBoundary>
+          <App />
+        </ErrorBoundary>
       </Provider>
     </BrowserRouter>
   </>,
