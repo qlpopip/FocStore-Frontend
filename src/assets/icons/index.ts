@@ -10,6 +10,7 @@ import ArrowBlue from "./icon-arrow-left-blue.png";
 import Remove from "./icon-remove.svg";
 import Link from "./icon-link.svg";
 import Calendar from "./icon-calendar.svg";
+import Missed from "./icon-missed.svg";
 
 const IconsFile = {
     Cart,
@@ -23,6 +24,7 @@ const IconsFile = {
     Plus,
     Remove,
     Link,
-    Calendar
+    Calendar,
+    Missed
 };
 export default IconsFile;

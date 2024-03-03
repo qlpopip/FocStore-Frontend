@@ -5,4 +5,9 @@ export const getAttendance = () => {
         url: `attendance/all`
     }).get();
 };
+export const createAttendance = () => {
+    return new API({
+        url: `attendance`
+    }).post();
+}
 
