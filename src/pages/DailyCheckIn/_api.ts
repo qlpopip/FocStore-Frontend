@@ -10,4 +10,9 @@ export const createAttendance = () => {
         url: `attendance`
     }).post();
 }
+export const getStreak = () => {
+    return new API({
+        url: `attendance/streak`
+    }).get();
+}
 

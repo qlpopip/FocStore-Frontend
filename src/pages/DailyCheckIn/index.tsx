@@ -2,7 +2,7 @@ import Layout from "components/organisms/Layout";
 import { SaidBar, Navigator, Loader } from "components/molecules";
 import "./index.scss";
 import { useEffect, useState, useRef } from "react";
-import { createAttendance, getAttendance } from "./_api";
+import { createAttendance, getAttendance, getStreak } from "./_api";
 import { AttendanceType } from "dto";
 import ImagesFile from "assets/images";
 import { Button, Image } from "components/atoms";
@@ -15,11 +15,14 @@ const DailyCheckIn: React.FC = () => {
   const todayRef = useRef<HTMLDivElement>(null);
   const [attendanceList, setAttendanceList] = useState<AttendanceType[]>([]);
   const [pending, setPending] = useState(false)
+  const [loginStreak, setLoginStreak] = useState(0)
   const [showCalendar, setShowCalendar] = useState(false)
   async function fetchData() {
     try {
       setPending(true)
       const [data] = await getAttendance();
+      const res = await getStreak()
+      setLoginStreak(res[0].item)
       setAttendanceList(data.items);
       setPending(false)
     } catch (error) {
@@ -195,7 +198,7 @@ const DailyCheckIn: React.FC = () => {
                 <div className="top">
                   <div className="login_streak">
                     <Image src={ImagesFile.Like} alt="" className="like" />
-                    <p>Login streak : 1 day</p>
+                    <p>Login streak : {loginStreak} day</p>
                   </div>
                   <div className="check_in_calendar" onClick={() => setShowCalendar(true)}>
                     <Image src={IconsFile.Calendar} alt="" className="calendar_icon" />
