@@ -109,7 +109,7 @@ export const login = createAsyncThunk('metaMask/login', async (account: string, 
     const sig = await signMessage(nonce, account);
     const countryCode = await getCountryCode();
     const affiliateLinkCode = sessionStorage.getItem("ref") ? sessionStorage.getItem("ref") : ""
-    const res = await axios.post(process.env.REACT_APP_BACKEND_URL + '/api/auth/login', { sig, pubKey: account, countryCode, affiliateLinkCode });
+    const res = await axios.post(process.env.REACT_APP_BACKEND_URL + 'auth/login', { sig, pubKey: account, countryCode, affiliateLinkCode });
 
     const user = {
         avatar: res.data.item.avatar,
@@ -120,7 +120,7 @@ export const login = createAsyncThunk('metaMask/login', async (account: string, 
     return user;
 });
 const getNonce = async (address: string) => {
-    const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/${address}`)
+    const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}auth/${address}`)
     return res.data.item;
 };
 

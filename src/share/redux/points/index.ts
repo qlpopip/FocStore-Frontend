@@ -14,7 +14,7 @@ export const fetchPointData = createAsyncThunk(
 );
 const getPoints = () => {
   return new API({
-    url: `/api/attendance`
+    url: `attendance`
   }).get();
 };
 const pointsSlice = createSlice({

@@ -4,35 +4,245 @@
     flex-direction: column;
     gap: 3em;
     align-items: center;
+    position: relative;
+    min-height: 20em;
 
 
 
-    .calendar {
-        border: 2px solid red;
+    .streak_calendar {
         display: flex;
+        flex-direction: column;
+        gap: 3em;
+
+        .top {
+            display: flex;
+            gap: 15em;
+
+            .login_streak {
+                background: var(--color-bg-secondary);
+                display: flex;
+                align-items: center;
+                gap: 1em;
+                padding: .5em 1em;
+                border-radius: 1em;
+
+                .like {
+                    width: 1.5em;
+                }
+            }
+
+            .check_in_calendar {
+                display: flex;
+                align-items: center;
+                gap: 1em;
+                transition: .3s;
+
+                &:hover {
+                    transform: scale(1.1);
+                    transition: .3s;
+                }
+
+                .calendar_icon {
+                    width: 1.5em;
+                }
+
+                .text {
+                    font-size: 1em;
+                    color: var(--color-bg-primary-light);
+                }
+            }
+        }
+
+        .card_box {
+            display: flex;
+            width: 100%;
+            overflow-x: scroll;
+            gap: 2em;
+            padding: 3em;
+            position: absolute;
+            top: 4em;
+            left: 0;
+
+            .calendar-day {
+                border: 1px solid var(--color-border-sub);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                padding: 1em;
+                background: var(--color-bg-secondary);
+                border-radius: 1em;
+                gap: 1em;
+
+                .day {
+                    font-size: 1em;
+
+                }
+
+                .daily_point {
+                    // border: 1px solid blue;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1em;
+                    align-items: center;
+
+                    .point {
+                        font-size: 1.2em;
+                        font-weight: bold;
+                        background: #F28C8A;
+                        padding: .2em.5em;
+                        border-radius: .7em;
+                    }
+
+                    .text {
+                        display: none;
+                    }
+
+                    .more {
+                        background: var(--color-bg-dark-primary);
+                        cursor: no-drop;
+
+                        span {
+                            cursor: no-drop;
+
+                        }
+                    }
+                }
+            }
+
+            .today {
+                background: #8CC5EA;
+
+                .daily_point {
+                    // border: 1px solid blue;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1em;
+                    align-items: center;
+
+                    .point {
+                        font-size: 1.2em;
+                        font-weight: bold;
+                        background: #F28C8A;
+                        padding: .2em.5em;
+                        border-radius: .7em;
+                    }
+
+                    .text {
+                        display: none;
+                    }
+
+                    .more {
+                        background: var(--color-bg-dark-primary);
+                        cursor: pointer;
+
+                        span {
+                            cursor: pointer;
+
+                        }
+                    }
+                }
+            }
+        }
+
+
     }
 
     .calendar {
         display: flex;
         flex-direction: column;
-        width: 100%;
+        border: 1px solid var(--color-border-sub);
+        border-radius: .3em;
+        overflow: hidden;
+        background: var(--color-bg-secondary);
+        align-items: center;
+        display: none;
+        position: absolute;
+        z-index: 1000;
+
+        .date {
+            display: flex;
+            justify-content: center;
+            padding: 1em;
+            gap: 1em;
+
+            p {
+                font-size: 2em;
+                font-weight: 700;
+            }
+
+        }
+
+        .calendar-weekdays,
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 6em);
+            text-align: center;
+        }
+
+        .calendar-day {
+            border: 1px solid var(--color-border-sub);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: .5em .5em;
+
+            // gap: .5em;
+            .more {
+                display: none;
+            }
+
+            .day {
+                // background-color: yellow;
+                font-size: 1em;
+            }
+
+            .daily_point {
+                // border: 1px solid blue;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: .5em;
+
+                .point {
+                    font-size: 1.2em;
+                    font-weight: bold;
+                }
+
+                .text {
+                    font-size: .9em;
+                }
+            }
+        }
+
+        .calendar-weekday {
+            border: 1px solid var(--color-border-sub);
+            padding: .5em 0;
+        }
+
+        .today {
+            border: 1px solid blue;
+        }
+
+        .empty {
+            // background-color: #f0f0f0;
+        }
     }
 
-    .calendar-weekdays,
-    .calendar-grid {
-        display: grid;
-        grid-template-columns: repeat(7, 4em);
-        text-align: center;
+    .show_calendar {
+        display: block !important;
     }
+}
 
-    .calendar-day {
-        padding: 10px;
-        border: 1px solid #ddd;
-    }
-
-    .empty {
-        background-color: #f0f0f0;
-    }
-
-
+.overly {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #0000002c;
+    z-index: 999;
 }

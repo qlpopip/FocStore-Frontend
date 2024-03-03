@@ -275,7 +275,9 @@ const Checkout: React.FC = () => {
                                     <div className="order" key={item.product.id}>
                                         <Image src={item.product.img[0]} alt="" className="order_img" />
                                         <div className="order_main">
-                                            <p className="description">{item.product.description}</p>
+                                            {/* <p className="description">{item.product.description}</p> */}
+                                            <span className="description"
+                                                dangerouslySetInnerHTML={{ __html: item.product.description }} />
                                             <div className="product_count">
                                                 <p>{item.productCount} x &nbsp;  </p>
                                                 <p className="price"> ${item.product.productPrice}</p>

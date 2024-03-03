@@ -61,7 +61,9 @@ const ShoppingCart: React.FC = () => {
                 <div className="img">
                   <Image src={item.product.img[0]} alt="" />
                 </div>
-                <div className="name"><p>{item.product.description}</p></div>
+                <div className="name"> <span className="description"
+                  dangerouslySetInnerHTML={{ __html: item.product.description }} /></div>
+
                 <div className="price"><p>${item.product.productPrice}</p></div>
                 <div className="quantity">
                   <Quantity count={item.productCount}
