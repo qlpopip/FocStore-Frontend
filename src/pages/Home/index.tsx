@@ -12,7 +12,6 @@ const Home: React.FC = () => {
   const navigate = useNavigate()
   const onclickPreview = (img: string) => {
     setImgView(img)
-    console.log("da")
     setShowImgView(true)
   }
   const removeImage = () => {

@@ -76,6 +76,21 @@
                 .zip {
                     width: 25%;
                 }
+
+                .zip {
+                    .inp {
+                        padding: .5em;
+                        border-radius: .3em;
+                        border: 1px solid var(--color-border-sub);
+                        background-color: transparent;
+                        margin: 0;
+                    }
+
+                    input::-webkit-outer-spin-button,
+                    input::-webkit-inner-spin-button {
+                        -webkit-appearance: none;
+                    }
+                }
             }
 
             .fourth {

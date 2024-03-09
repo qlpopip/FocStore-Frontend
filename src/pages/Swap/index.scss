@@ -36,11 +36,29 @@
                 padding: 1em 2em;
                 background: #EFEFEF;
                 border-radius: .3em;
+                width: 11em;
 
                 p {
                     font-size: 1.5em;
                     font-weight: bold;
                 }
+            }
+
+            input {
+                font-size: 1em;
+            }
+
+            .inp {
+                padding: .5em;
+                border-radius: .3em;
+                border: 1px solid var(--color-border-sub);
+                background-color: transparent;
+                margin: 0;
+            }
+
+            input::-webkit-outer-spin-button,
+            input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
             }
         }
 
@@ -65,5 +83,37 @@
             }
         }
     }
+
+    .btn_box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1em;
+
+        .message {
+            color: red;
+        }
+
+        .disabled {
+            cursor: no-drop;
+            background: var(--color-border-sub);
+
+            span {
+                cursor: no-drop;
+
+            }
+
+            &:enabled:hover {
+                background: var(--color-border-sub);
+            }
+
+            &:enabled:active {
+                background: var(--color-border-sub);
+            }
+        }
+    }
+
+
 
 }

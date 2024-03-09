@@ -7,11 +7,15 @@ import { AttendanceType } from "dto";
 import ImagesFile from "assets/images";
 import { Button, Image } from "components/atoms";
 import IconsFile from "assets/icons";
+import useConnect from "customHooks/useConnect";
+import { setPoints } from "share/redux/metamask";
+import { useAppDispatch } from "share/redux/hook";
 
 const DailyCheckIn: React.FC = () => {
   type StreakPoints = {
     [dateStr: string]: number;
   };
+  const dispatch = useAppDispatch()
   const todayRef = useRef<HTMLDivElement>(null);
   const [attendanceList, setAttendanceList] = useState<AttendanceType[]>([]);
   const [pending, setPending] = useState(false)
@@ -29,8 +33,11 @@ const DailyCheckIn: React.FC = () => {
       console.log(error)
     }
   }
+  const { connectMetamask } = useConnect()
   useEffect(() => {
     fetchData();
+    connectMetamask()
+    // eslint-disable-next-line
   }, []);
   const [streakPoints, setStreakPoints] = useState<StreakPoints>({});
   useEffect(() => {
@@ -122,6 +129,7 @@ const DailyCheckIn: React.FC = () => {
     try {
       setPending(true)
       const [data] = await createAttendance()
+      dispatch(setPoints(data.item.author.point))
       if (!data.error) {
         fetchData()
       }

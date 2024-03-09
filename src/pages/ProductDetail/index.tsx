@@ -9,6 +9,7 @@ import IconsFile from "assets/icons";
 import { Navigator, Quantity } from "components/molecules";
 import { useAppDispatch, useAppSelector } from "share/redux/hook";
 import { setOrders } from "share/redux/order";
+import useConnect from "customHooks/useConnect";
 const initialProductState: ProductType = {
   name: '',
   description: '',
@@ -20,6 +21,7 @@ const ProductDetail: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch()
+  const { connectMetamask } = useConnect()
   const orders = useAppSelector((state) => state.order.orders);
   const [product, setProduct] = useState<ProductType>(initialProductState);
   const [pending, setPending] = useState(false)
@@ -71,11 +73,13 @@ const ProductDetail: React.FC = () => {
   }
   const addToCard = () => {
     addProduct()
+    connectMetamask()
     navigate("/cart")
 
   }
   const buyNow = () => {
     addProduct()
+    connectMetamask()
     navigate("/checkout")
   }
   const [imgIndex, setImgIndex] = useState(0)
@@ -89,7 +93,6 @@ const ProductDetail: React.FC = () => {
       setImgIndex(prev => prev - 1)
     }
   }
-  console.log(imgIndex, imgIndex < product.img.length)
   return (
     <div>
       <Layout id="product_detail">

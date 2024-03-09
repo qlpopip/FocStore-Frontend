@@ -5,4 +5,9 @@ export const getPoints = () => {
         url: `attendance`
     }).get();
 };
+export const getHistory = () => {
+    return new API({
+        url: `user/history`
+    }).get();
+};
 

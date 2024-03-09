@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from "axios";
-import { setAccount, setCurrentChainId, setError, setProvider } from '.';
+import { setAccount, setCurrentChainId, setError, setPoints, setProvider } from '.';
 import { WEB3 } from 'utils/configs';
 import { ethers } from 'ethers';
 import { connectContract } from '../contract';
@@ -34,7 +34,6 @@ export const connectWallet = createAsyncThunk('metaMask/connectWallet', async (_
             });
 
             window.ethereum.on('chainChanged', (chainId: string) => {
-                console.log('chainChanged', chainId);
                 const chainIdInt = parseInt(chainId, 16);
                 dispatch(setCurrentChainId(chainIdInt.toString()));
                 //@ts-ignore
@@ -116,6 +115,7 @@ export const login = createAsyncThunk('metaMask/login', async (account: string, 
         countryCode: res.data.item.countryCode,
         jwt: res.data.item.nonce
     }
+    dispatch(setPoints(res.data.item.point))
     user.jwt && sessionStorage.setItem('token', user.jwt);
     return user;
 });

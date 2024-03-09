@@ -1,8 +1,9 @@
 import { API } from "utils/API";
 
-export const getPoints = () => {
+export const swapPoint = (payload: { point: number }) => {
     return new API({
-        url: `attendance`
-    }).get();
+        url: `user`,
+        payload
+    }).patch();
 };
 

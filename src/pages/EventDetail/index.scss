@@ -44,6 +44,32 @@
                 padding: .5em 2em;
                 border-radius: 1em;
                 background: var(--color-bg-orange);
+
+                &:enabled:hover {
+                    background: #f6b081;
+                }
+
+                &:enabled:active {
+                    background: #ee6e19;
+                }
+            }
+
+            .claimed {
+                background: var(--color-border-sub);
+                cursor: no-drop;
+
+                &:enabled:hover {
+                    background: var(--color-border-sub);
+                }
+
+                &:enabled:active {
+                    background: var(--color-border-sub);
+                }
+
+                span {
+                    cursor: no-drop;
+
+                }
             }
 
             .copy_box {
@@ -72,6 +98,17 @@
                     .icon {
                         width: 1.5em;
 
+                    }
+                }
+
+                .btn_box {
+                    display: flex;
+                    // outline: 2px solid;
+                    align-items: center;
+                    gap: 1em;
+
+                    .icon {
+                        width: 2em;
                     }
                 }
             }

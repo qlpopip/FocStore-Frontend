@@ -81,9 +81,9 @@ const ShoppingCart: React.FC = () => {
                   <span>RETURN TO  SHOP </span>
                 </div>
               </Button>
-              <Button className="more" >
+              {/* <Button className="more" >
                 UPDATE CART
-              </Button>
+              </Button> */}
             </div>
           </div>
           <div className="cart_total round-3">

@@ -8,6 +8,7 @@ const initialState: MetaMaskState = {
   error: null,
   currentChainId: undefined,
   balance: '0',
+  points: 0
 };
 
 
@@ -30,9 +31,12 @@ const metaMaskSlice = createSlice({
     setBalance: (state, action: PayloadAction<string>) => {
       state.balance = action.payload;
     },
+    setPoints: (state, action: PayloadAction<number>) => {
+      state.points = action.payload;
+    },
   },
 });
 
-export const { setProvider, setAccount, setError, setCurrentChainId, setBalance } = metaMaskSlice.actions;
+export const { setProvider, setAccount, setError, setCurrentChainId, setBalance, setPoints } = metaMaskSlice.actions;
 
 export default metaMaskSlice.reducer;

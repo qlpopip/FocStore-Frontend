@@ -10,3 +10,4 @@ export { default as DailyCheckIn } from "./DailyCheckIn";
 export { default as WifiPoint } from "./WifiPoint";
 export { default as Event } from "./Event";
 export { default as EventDetail } from "./EventDetail";
+export { default as Orders } from "./Orders";

@@ -7,6 +7,7 @@ export interface MetaMaskState {
   error: Error | null;
   currentChainId: string | undefined;
   balance: string;
+  points: number
 }
 
 export interface Token {

@@ -14,7 +14,10 @@ export const orderSlice = createSlice({
         orders: action.payload,
       };
     },
+    clearOrders: (state) => {
+      state.orders = initialState.orders
+    },
   },
 });
-export const { setOrders } = orderSlice.actions;
+export const { setOrders, clearOrders } = orderSlice.actions;
 export default orderSlice.reducer;

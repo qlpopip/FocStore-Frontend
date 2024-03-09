@@ -44,45 +44,58 @@
         flex-direction: column;
         gap: 1em;
 
-        .title_history {
-            color: var(--color-bg-primary);
-            font-size: 1.2em;
-            font-weight: 600;
-        }
-
-        .line {
-            border: 1px solid var(--color-border-sub);
-        }
-
-        .history {
+        .history_box {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 5em;
+            flex-direction: column;
+            gap: 1em;
+            height: 15em;
+            // border: 2px solid;
+            overflow-y: scroll;
+            padding-right: 1em;
 
-
-            .point_history {
+            .history_item {
                 display: flex;
                 flex-direction: column;
-                gap: .5em;
+                gap: 1em;
 
-                .count_point {
-                    font-size: 1em;
+                .title_history {
+                    color: var(--color-bg-primary);
+                    font-size: 1.2em;
                     font-weight: 600;
                 }
 
-                .title {
-                    font-size: .9em;
+                .line {
+                    border: 1px solid var(--color-border-sub);
                 }
 
-            }
+                .history {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    gap: 5em;
 
-            .date {
-                font-size: .9em;
+
+                    .point_history {
+                        display: flex;
+                        flex-direction: column;
+                        gap: .5em;
+
+                        .count_point {
+                            font-size: 1em;
+                            font-weight: 600;
+                        }
+
+                        .title {
+                            font-size: .9em;
+                        }
+
+                    }
+
+                    .date {
+                        font-size: .9em;
+                    }
+                }
             }
         }
-
     }
-
-
 }

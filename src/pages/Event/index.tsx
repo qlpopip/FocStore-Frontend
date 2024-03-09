@@ -39,7 +39,7 @@ const Event: React.FC = () => {
             {pending ? <Loader /> :
               <div className="events_box">
                 {eventList.map((item, index) => (
-                  <div className="event" key={item.id}>
+                  <div className="event" key={item.id} onClick={() => navigate(`/event/${item.id}`)}>
                     <Image src={item.img} alt="" className="event_img" />
                     <div className="event_main">
                       <div className="context_box">

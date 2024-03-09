@@ -1,22 +1,22 @@
 import axios from "axios";
 
 interface APIprops {
-  protocol?: string
-  url: string
-  token?: string
-  payload?: Record<string, unknown> //
+  protocol?: string;
+  url: string;
+  token?: string;
+  payload?: any; //
 }
 
 interface HttpProps {
-  status?: number
-  msg?: string | null
+  status?: any;
+  msg?: string | null;
 }
 
 class HttpError {
-  status_code: number;
-  msg: string;
-  constructor({ status = 400, msg = null }: HttpProps) {
-    const msgObj: Record<number, string> = {
+  status_code: any;
+  msg: any;
+  constructor({ status, msg = null }: HttpProps) {
+    const msgObj: any = {
       301: "Moved Permanently",
     };
     this.status_code = status;
@@ -24,17 +24,12 @@ class HttpError {
   }
 }
 
-interface APIOptions {
-  headers: {
-    authorization: string
-  }
-}
 class API {
   protocol: string;
   serverUrl: any;
-  payload: Record<string, unknown>;
+  payload: any;
   url: string;
-  option: APIOptions;
+  option: any = {};
 
   constructor({ url, payload }: APIprops) {
     this.protocol = "http";
@@ -45,7 +40,7 @@ class API {
       },
     };
     this.url = url;
-    this.payload = payload ?? {};
+    this.payload = payload;
   }
   validate() { }
 
