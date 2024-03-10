@@ -10,6 +10,7 @@ import "./index.scss"
 import { CreateOrderType, createOrder } from "./_api";
 import { Link, useNavigate } from "react-router-dom";
 import { clearOrders } from "share/redux/order";
+import { useDaumPostcodePopup } from 'react-daum-postcode';
 interface CryptoData {
     tether: {
         usd: number;
@@ -124,6 +125,41 @@ const Checkout: React.FC = () => {
         };
         fetchData();
     }, []);
+
+    const open = useDaumPostcodePopup();
+    const handleComplete = (data: any) => {
+        // Display the address according to the road name address display rules.
+        // If the variable coming down is empty, it takes a value of an empty string (''), so branch off considering this.
+        const roadAddress = data.roadAddress; // Road name address variable
+        const zonecode = data.zonecode; // Postal code variable
+        let extraRoadAddress = ''; // Reference item variable
+
+
+        // If there is a legal dong name, add it. (Legal ri is excluded)
+        // For legal dong, the last character ends with "dong/ro/ga".
+        if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+            extraRoadAddress += data.bname;
+        }
+        // If there is a building name and it is an apartment, add it.
+        if(data.buildingName !== '' && data.apartment === 'Y'){
+            extraRoadAddress += (extraRoadAddress !== '' ? ', ' + data.buildingName : data.buildingName);
+        }
+        // If there are reference items to display, create the final string including the parentheses.
+        if(extraRoadAddress !== ''){
+            extraRoadAddress = ' (' + extraRoadAddress + ')';
+        }
+    
+        console.log(roadAddress, extraRoadAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+        console.log(zonecode); // e.g. '04794'
+        // TODO: 
+        // 1. Display roadAddress, extraRoadAddress, and zonecode in the input fields
+        // 2.Prompt additional address input for the Other section
+        //      Other section is where user enters the building number, floor, etc.
+      };
+    
+      const handleClick = () => {
+        open({ onComplete: handleComplete });
+      };
     return (
         <div>
             <Layout id="checkout">
@@ -173,6 +209,7 @@ const Checkout: React.FC = () => {
                                                 />
                                             </div>
                                         </div>
+                                        <button type='button' onClick={handleClick}>Open</button>
                                         <div className="address label">
                                             <label htmlFor="address">Address</label>
                                             <input
@@ -185,7 +222,7 @@ const Checkout: React.FC = () => {
                                             />
                                         </div>
                                         <div className="third">
-                                            <div className="country label">
+                                            {/* <div className="country label">
                                                 <label htmlFor="country">Country</label>
                                                 <select name="country" id="country" value={info.country} onChange={handleChange} required>
                                                     <option value="">Select a country</option>
@@ -196,31 +233,7 @@ const Checkout: React.FC = () => {
                                                     <option value="question">I'd like to ask a question</option>
                                                     <option value="proposal">I'd like to make a proposal</option>
                                                 </select>
-                                            </div>
-                                            <div className="state label">
-                                                <label htmlFor="state">Region/State</label>
-                                                <select name="region" id="state" value={info.region}
-                                                    onChange={handleChange} required>
-                                                    <option value="">Select a Region</option>
-                                                    <option value="project">
-                                                        I'd like to start a project
-                                                    </option>
-                                                    <option value="question">I'd like to ask a question</option>
-                                                    <option value="proposal">I'd like to make a proposal</option>
-                                                </select>
-                                            </div>
-                                            <div className="city label">
-                                                <label htmlFor="city">City</label>
-                                                <select name="city" id="city" value={info.city}
-                                                    onChange={handleChange} required>
-                                                    <option value="">Select a city</option>
-                                                    <option value="project">
-                                                        I'd like to start a project
-                                                    </option>
-                                                    <option value="question">I'd like to ask a question</option>
-                                                    <option value="proposal">I'd like to make a proposal</option>
-                                                </select>
-                                            </div>
+                                            </div> */}
                                             <div className="zip label" >
                                                 <label htmlFor="zip_code">Zip Code</label>
                                                 <input
@@ -232,6 +245,18 @@ const Checkout: React.FC = () => {
                                                     onChange={handleChange}
                                                     required
                                                 />
+                                            </div>
+                                            <div className="state label">
+                                                <label htmlFor="state">Additional Road</label>
+                                                <input name="region" id="state" value={info.region}
+                                                    onChange={handleChange} required>
+                                                </input>
+                                            </div>
+                                            <div className="city label">
+                                                <label htmlFor="city">Other</label>
+                                                <input name="other" id="other" value={info.city}
+                                                    onChange={handleChange} required>
+                                                </input>
                                             </div>
                                         </div>
                                         <div className="fourth">

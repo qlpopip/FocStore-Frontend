@@ -31,7 +31,7 @@ const persistConfig = {
   whitelist: ["common"], // only user reducer will be persisted, add other reducers if needed
   transforms: [encryptor],
 };
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer = persistReducer(persistConfig, rootReducer as any);
 
 export const store = configureStore({
   reducer: persistedReducer,
