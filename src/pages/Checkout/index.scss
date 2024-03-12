@@ -70,11 +70,16 @@
 
             .third {
 
-                .country,
+                .secondary,
                 .state,
                 .city,
                 .zip {
                     width: 25%;
+                }
+
+                .secondary {
+                    padding: .5em 1em;
+                    border-radius: .3em;
                 }
 
                 .zip {

@@ -6,47 +6,56 @@ import ImagesFile from "assets/images";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { postWifiPoint } from "./_api";
-import { useAppDispatch } from "share/redux/hook";
+import { useAppDispatch, useAppSelector } from "share/redux/hook";
 import { setPoints } from "share/redux/metamask";
+import useConnect from "customHooks/useConnect";
 
 
 const WifiPoint: React.FC = () => {
   const dispatch = useAppDispatch()
+  const account = useAppSelector(state => state.metamask.account)
   const [rewards, setRewards] = useState({
     times: 37,
     point: 412
   })
   const [pending, setPending] = useState(false)
+  // eslint-disable-next-line
+  const fetchData = async () => {
+    try {
+      setPending(true)
+      const response = await axios.get(
+        "https://api.coingecko.com/api/v3/simple/price",
+        {
+          params: {
+            ids: "tether,ethereum,force",
+            vs_currencies: "usd",
+          },
+        }
+      );
+      setRewards({
+        times: response.data.times,
+        point: response.data.points,
+      });
+      setPending(false)
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const { connectMetamask } = useConnect()
   useEffect(() => {
-    // eslint-disable-next-line
-    const fetchData = async () => {
-      try {
-        setPending(true)
-        const response = await axios.get(
-          "https://api.coingecko.com/api/v3/simple/price",
-          {
-            params: {
-              ids: "tether,ethereum,force",
-              vs_currencies: "usd",
-            },
-          }
-        );
-        setRewards({
-          times: response.data.times,
-          point: response.data.points,
-        });
-        setPending(false)
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+    connectMetamask()
     // fetchData();
-  }, []);
+
+    // eslint-disable-next-line
+  }, [])
   const onClickClaim = async () => {
-    setPending(true)
-    const [data] = await postWifiPoint(rewards)
-    dispatch(setPoints(data.item.author.point))
-    setPending(false)
+    if (account) {
+      setPending(true)
+      const [data] = await postWifiPoint(rewards)
+      // fetchData();
+      dispatch(setPoints(data.item.author.point))
+      setPending(false)
+    }
   }
   return (
     <div>

@@ -53,6 +53,10 @@
             .primary {
                 padding: .1em 2em;
             }
+
+            .disabled {
+                background: var(--color-border-sub);
+            }
         }
     }
 }

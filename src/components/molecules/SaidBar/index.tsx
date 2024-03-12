@@ -28,6 +28,10 @@ const SaidBarComp: React.FC<SaidBarProps> = (props) => {
         {
             title: "EVENT",
             link: "/event"
+        },
+        {
+            title: "ORDER",
+            link: "/orders"
         }
     ]
     return (

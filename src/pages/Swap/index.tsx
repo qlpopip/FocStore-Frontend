@@ -13,7 +13,7 @@ const Swap: React.FC = () => {
   const [pending, setPending] = useState(false)
   const dispatch = useAppDispatch()
   const exchangePoint = async () => {
-    if (swap.point >= 1000) {
+    if (swap.point >= minPoint && swap.point <= maxPoint) {
       setPending(true)
       const [data] = await swapPoint({ point: swap.point })
       dispatch(setPoints(data.item.point))
@@ -31,19 +31,20 @@ const Swap: React.FC = () => {
   }, [])
   const price = 0.73670
   const point = useAppSelector(state => state.metamask.points)
-
+  const minPoint = 1000;
+  const maxPoint = 3000;
   const [swap, setSwap] = useState({
-    point: point,
-    coin: point * price
+    point: point > maxPoint ? maxPoint : point,
+    coin: (point > maxPoint ? maxPoint : point) * price
   })
 
 
   const onChangeTicketNum = (e: React.ChangeEvent<HTMLInputElement>) => {
     const num = Number(e.target.value);
-    if (num < 0) {
+    if (num <= 0) {
       setSwap({ point: 0, coin: 0 * price })
-    } else if (num > point) {
-      setSwap({ point: point, coin: point * price })
+    } else if (num > maxPoint) {
+      setSwap({ point: maxPoint, coin: maxPoint * price })
     } else {
       setSwap({ point: num, coin: num * price })
     }
@@ -64,8 +65,8 @@ const Swap: React.FC = () => {
                     <input
                       className="point_box"
                       type="number"
-                      max={point}
-                      value={swap.point}
+                      max={maxPoint}
+                      value={maxPoint >= swap.point ? swap.point : maxPoint}
                       onChange={(e) => onChangeTicketNum(e)}
                     />
                   </div>
@@ -81,8 +82,9 @@ const Swap: React.FC = () => {
                   </div>
                 </div>
                 <div className="btn_box">
-                  {(swap.point < 1000 || point < 1000) && <p className="message">Less than 1000 coins cannot be exchanged</p>}
-                  <Button className={`primary ${(swap.point < 1000 || point < 1000) && "disabled"}`} onClick={exchangePoint}> Exchange Points </Button>
+                  {(swap.point < minPoint || point < minPoint) && <p className="message">Less than {`${minPoint}`} points cannot be exchanged</p>}
+                  {(swap.point > maxPoint || swap.point > maxPoint) && <p className="message">More than {`${maxPoint}`} points cannot be exchanged</p>}
+                  <Button className={`primary ${(swap.point < minPoint || swap.point > maxPoint) && "disabled"}`} onClick={exchangePoint}> Exchange Points </Button>
                 </div>
               </div>
             }

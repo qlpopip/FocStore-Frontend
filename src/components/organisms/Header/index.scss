@@ -9,9 +9,37 @@
   gap: 1em;
   height: 4em;
 
-  .left_side {
+  .right_side {
     display: flex;
     align-items: center;
+  }
+
+  .left_box {
+    display: flex;
+    align-items: center;
+    gap: 2em;
+
+    .navigation_line {
+      a {
+        margin: 0 .5em;
+        color: var(--color-text-inverse);
+        transition: .3s;
+        width: 1em;
+
+        &:hover {
+          transform: scale(1.1);
+          transition: .3s;
+          color: rgb(137, 203, 244);
+        }
+      }
+
+      .activeLink {
+        transition: .3s;
+        color: rgb(137, 203, 244);
+      }
+
+
+    }
   }
 
   a,

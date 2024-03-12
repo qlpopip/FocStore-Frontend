@@ -8,8 +8,8 @@ import { EventType } from "dto";
 import { useParams } from "react-router-dom";
 import IconsFile from "assets/icons";
 import { useAppDispatch, useAppSelector } from "share/redux/hook";
-import { connectWallet } from "share/redux/metamask/thunks";
 import { setPoints } from "share/redux/metamask";
+import useConnect from "customHooks/useConnect";
 
 const initialEventState: EventType = {
   name: '',
@@ -26,33 +26,14 @@ const EventDetail: React.FC = () => {
   const account = useAppSelector(state => state.metamask.account)
   const dispatch = useAppDispatch();
   const [claimed, setClaimed] = useState(false)
-  // const navigate = useNavigate()
+  const { connectMetamask } = useConnect()
 
-  function isMobileDevice() {
-    return 'ontouchstart' in window || 'onmsgesturechange' in window;
-  }
-  const connectMetamask = async () => {
-    try {
-      if (!account) {
-        if (isMobileDevice()) {
-
-          const dappUrl = process.env.REACT_APP_PUBLIC_API_URL || ''; // TODO enter your dapp URL. For example: https://uniswap.exchange. (don't enter the "https://")
-          window.location.href = "https://metamask.app.link/dapp/" + dappUrl.split('//')[1] + '/trade'
-        }
-        dispatch(connectWallet())
-      }
-      // navigate("/my-points")
-    } catch (e) {
-      console.log(e);
-    }
-  };
   useEffect(() => {
     async function fetchData() {
       try {
         if (id) {
           setPending(true)
           const [data] = await getEvent(Number(id));
-
           setEvent(data.item);
           setPending(false)
         }
@@ -80,23 +61,35 @@ const EventDetail: React.FC = () => {
     // eslint-disable-next-line
   }, [account, reload]);
   const getPoint = async () => {
-    // !account && connectMetamask()
-    if (account) {
-      postPoint()
-    } else {
-      connectMetamask()
-      postPoint()
+    try {
+      if (account) {
+        postPoint()
+      } else {
+        connectMetamask()
+        postPoint()
+      }
+    } catch (error) {
+      console.log(error)
     }
+
   }
   const postPoint = async () => {
-    const [data] = await postEventPoint({ eventId: Number(id) })
-    dispatch(setPoints(data.item.author.point))
-    setReload(!reload)
+    try {
+      const [data] = await postEventPoint({ eventId: Number(id) })
+      if (data && data.item && data.item.author) {
+        dispatch(setPoints(data.item.author.point));
+      } else {
+        console.log("Data or its properties are null or undefined");
+      }
+      setReload(!reload)
+    } catch (error) {
+      console.log(error)
+    }
   }
   return (
     <div>
       <Layout id="event_detail">
-        <Navigator navigation="Reward / WIFI Point" />
+        <Navigator navigation={`Reward / Event / ${event.name.slice(0, 1).toUpperCase() + event.name.slice(1)}`} />
         <div className="event_detail">
           <SaidBar>
             {pending ? <Loader /> :

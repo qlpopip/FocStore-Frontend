@@ -9,13 +9,14 @@ import { Button, Image } from "components/atoms";
 import IconsFile from "assets/icons";
 import useConnect from "customHooks/useConnect";
 import { setPoints } from "share/redux/metamask";
-import { useAppDispatch } from "share/redux/hook";
+import { useAppDispatch, useAppSelector } from "share/redux/hook";
 
 const DailyCheckIn: React.FC = () => {
   type StreakPoints = {
     [dateStr: string]: number;
   };
   const dispatch = useAppDispatch()
+  const account = useAppSelector(state => state.metamask.account)
   const todayRef = useRef<HTMLDivElement>(null);
   const [attendanceList, setAttendanceList] = useState<AttendanceType[]>([]);
   const [pending, setPending] = useState(false)
@@ -23,12 +24,14 @@ const DailyCheckIn: React.FC = () => {
   const [showCalendar, setShowCalendar] = useState(false)
   async function fetchData() {
     try {
-      setPending(true)
-      const [data] = await getAttendance();
-      const res = await getStreak()
-      setLoginStreak(res[0].item)
-      setAttendanceList(data.items);
-      setPending(false)
+      if (account) {
+        setPending(true)
+        const [data] = await getAttendance();
+        const res = await getStreak()
+        setLoginStreak(res[0].item)
+        setAttendanceList(data.items);
+        setPending(false)
+      }
     } catch (error) {
       console.log(error)
     }
@@ -127,13 +130,15 @@ const DailyCheckIn: React.FC = () => {
   }
   const onClickCollect = async () => {
     try {
-      setPending(true)
-      const [data] = await createAttendance()
-      dispatch(setPoints(data.item.author.point))
-      if (!data.error) {
-        fetchData()
+      if (account) {
+        setPending(true)
+        const [data] = await createAttendance()
+        dispatch(setPoints(data.item.author.point))
+        if (!data.error) {
+          fetchData()
+        }
+        setPending(false)
       }
-      setPending(false)
     } catch (error) {
       console.log(error)
     }

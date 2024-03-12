@@ -2,14 +2,14 @@ import { API } from "utils/API";
 
 export interface CreateOrderType {
     status: string,
-    totalPrice: number,
+    priceType: string,
     first_name: string,
     last_name: string,
     custom_code: string,
     address: string,
-    country: string,
-    region: string,
-    city: string,
+    totalPrice: number,
+    road_address: string,
+    others: string,
     zip_code: number,
     email: string,
     phone: string,

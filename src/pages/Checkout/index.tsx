@@ -12,30 +12,34 @@ import { Link, useNavigate } from "react-router-dom";
 import { clearOrders } from "share/redux/order";
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 interface CryptoData {
-    tether: {
+    USDT: {
         usd: number;
     };
-    force: {
+    FOC: {
         usd: number;
     };
-    ethereum: {
+    ETH: {
         usd: number;
     };
 }
 const Checkout: React.FC = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
+    const account = useAppSelector(state => state.metamask.account)
     const orders = useAppSelector((state) => state.order.orders);
     const totalPrice = orders.reduce((total, item) => total + (item.product.productPrice * item.productCount), 0);
     const [pending, setPending] = useState(false)
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setPending(true)
-        const [data] = await createOrder(info)
-        setPending(false)
-        if (!data.error) {
-            navigate("/orders")
-            dispatch(clearOrders())
+        if (account) {
+            setPending(true)
+            const [data] = await createOrder(info)
+            //TODO: transfer tokens
+            setPending(false)
+            if (!data.error) {
+                navigate("/orders")
+                dispatch(clearOrders())
+            }
         }
     };
     const products = orders.map(item => (
@@ -44,24 +48,37 @@ const Checkout: React.FC = () => {
             quantity: item.productCount
         }
     ))
+    const [sort, setSort] = useState("FOC");
+    const [coins, setCoins] = useState<CryptoData>({
+        USDT: {
+            usd: 0
+        },
+        FOC: {
+            usd: 0
+        },
+        ETH: {
+            usd: 0
+        },
+    });
+    const exchangedTotalPrice = ((totalPrice / coins[sort as keyof CryptoData]?.usd));
     const [info, setInfo] = useState<CreateOrderType>({
         status: "PENDING",
-        totalPrice,
+        totalPrice: exchangedTotalPrice,
+        priceType: sort,
         products: products,
         first_name: "",
         last_name: "",
         custom_code: "",
         address: "",
-        country: "",
-        region: "",
-        city: "",
+        road_address: "",
+        others: "",
         zip_code: 0,
         email: "",
         phone: "",
     })
+
     const handleChange = (e:
         | React.ChangeEvent<HTMLInputElement>
-        | React.ChangeEvent<HTMLSelectElement>
         | { name: string; value: string }
     ) => {
         let name: any, value: any;
@@ -83,25 +100,23 @@ const Checkout: React.FC = () => {
         }
         if (name === "sort") {
             setSort(value);
+            setInfo(prevInfo => ({
+                ...prevInfo,
+                priceType: (value)
+            }));
         }
     }
-
+    useEffect(() => {
+        setInfo(prevInfo => ({
+            ...prevInfo,
+            totalPrice: exchangedTotalPrice
+        }));
+    }, [exchangedTotalPrice])
     const onChangeToken = (name: string, value: string) => {
         handleChange({ name, value });
     }
-    const [sort, setSort] = useState("force");
 
-    const [coins, setCoins] = useState<CryptoData>({
-        tether: {
-            usd: 0
-        },
-        force: {
-            usd: 0
-        },
-        ethereum: {
-            usd: 0
-        },
-    });
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -115,15 +130,16 @@ const Checkout: React.FC = () => {
                     }
                 );
                 setCoins({
-                    tether: { usd: response.data.tether?.usd ?? 0 },
-                    force: { usd: response.data.force?.usd ?? 0 },
-                    ethereum: { usd: response.data.ethereum?.usd ?? 0 },
+                    USDT: { usd: response.data.tether?.usd ?? 0 },
+                    FOC: { usd: response.data.force?.usd ?? 0 },
+                    ETH: { usd: response.data.ethereum?.usd ?? 0 },
                 });
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
         fetchData();
+
     }, []);
 
     const open = useDaumPostcodePopup();
@@ -137,29 +153,31 @@ const Checkout: React.FC = () => {
 
         // If there is a legal dong name, add it. (Legal ri is excluded)
         // For legal dong, the last character ends with "dong/ro/ga".
-        if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+        if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
             extraRoadAddress += data.bname;
         }
         // If there is a building name and it is an apartment, add it.
-        if(data.buildingName !== '' && data.apartment === 'Y'){
+        if (data.buildingName !== '' && data.apartment === 'Y') {
             extraRoadAddress += (extraRoadAddress !== '' ? ', ' + data.buildingName : data.buildingName);
         }
         // If there are reference items to display, create the final string including the parentheses.
-        if(extraRoadAddress !== ''){
+        if (extraRoadAddress !== '') {
             extraRoadAddress = ' (' + extraRoadAddress + ')';
         }
-    
+        setInfo({
+            ...info, zip_code: Number(zonecode), address: (roadAddress + " " + extraRoadAddress)
+        })
         console.log(roadAddress, extraRoadAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
         console.log(zonecode); // e.g. '04794'
         // TODO: 
         // 1. Display roadAddress, extraRoadAddress, and zonecode in the input fields
         // 2.Prompt additional address input for the Other section
         //      Other section is where user enters the building number, floor, etc.
-      };
-    
-      const handleClick = () => {
+    };
+
+    const handleClick = () => {
         open({ onComplete: handleComplete });
-      };
+    };
     return (
         <div>
             <Layout id="checkout">
@@ -209,7 +227,6 @@ const Checkout: React.FC = () => {
                                                 />
                                             </div>
                                         </div>
-                                        <button type='button' onClick={handleClick}>Open</button>
                                         <div className="address label">
                                             <label htmlFor="address">Address</label>
                                             <input
@@ -222,18 +239,6 @@ const Checkout: React.FC = () => {
                                             />
                                         </div>
                                         <div className="third">
-                                            {/* <div className="country label">
-                                                <label htmlFor="country">Country</label>
-                                                <select name="country" id="country" value={info.country} onChange={handleChange} required>
-                                                    <option value="">Select a country</option>
-
-                                                    <option value="project">
-                                                        I'd like to start a project
-                                                    </option>
-                                                    <option value="question">I'd like to ask a question</option>
-                                                    <option value="proposal">I'd like to make a proposal</option>
-                                                </select>
-                                            </div> */}
                                             <div className="zip label" >
                                                 <label htmlFor="zip_code">Zip Code</label>
                                                 <input
@@ -247,17 +252,19 @@ const Checkout: React.FC = () => {
                                                 />
                                             </div>
                                             <div className="state label">
-                                                <label htmlFor="state">Additional Road</label>
-                                                <input name="region" id="state" value={info.region}
+                                                <label htmlFor="road_address">Additional Road</label>
+                                                <input name="road_address" id="road_address" value={info.road_address}
                                                     onChange={handleChange} required>
                                                 </input>
                                             </div>
                                             <div className="city label">
-                                                <label htmlFor="city">Other</label>
-                                                <input name="other" id="other" value={info.city}
-                                                    onChange={handleChange} required>
+                                                <label htmlFor="others">Other</label>
+                                                <input name="others" id="others" value={info.others}
+                                                    onChange={handleChange} >
                                                 </input>
                                             </div>
+                                            <Button type='button' className="secondary" onClick={handleClick}>Search</Button>
+
                                         </div>
                                         <div className="fourth">
                                             <div className="email label">
@@ -286,32 +293,32 @@ const Checkout: React.FC = () => {
                                         <div className="payment_box">
                                             <p className="title"> Payment Option</p>
                                             <div className="token_box">
-                                                <div className="token" onClick={() => onChangeToken("sort", "force")}>
+                                                <div className="token" onClick={() => onChangeToken("sort", "FOC")}>
                                                     <div className="img_box">
                                                         <p>FOC Token</p>
                                                     </div>
-                                                    <InputChoose type="radio" name="sort" id="force"
-                                                        checked={sort === "force"} value={"force"}
+                                                    <InputChoose type="radio" name="sort" id="FOC"
+                                                        checked={sort === "FOC"} value={"FOC"}
                                                         onChange={handleChange}
                                                         className="choose_coin" />
                                                 </div>
                                                 <div className="line"></div>
-                                                <div className="token" onClick={() => onChangeToken("sort", "tether")}>
+                                                <div className="token" onClick={() => onChangeToken("sort", "USDT")}>
                                                     <div className="img_box">
                                                         <Image src={ImagesFile.Tether} className="coin_image" />
                                                     </div>
-                                                    <InputChoose type="radio" name="sort" id="tether"
-                                                        checked={sort === "tether"} value={"tether"}
+                                                    <InputChoose type="radio" name="sort" id="USDT"
+                                                        checked={sort === "USDT"} value={"USDT"}
                                                         onChange={handleChange}
                                                         className="choose_coin" />
                                                 </div>
                                                 <div className="line"></div>
-                                                <div className="token" onClick={() => onChangeToken("sort", "ethereum")}>
+                                                <div className="token" onClick={() => onChangeToken("sort", "ETH")}>
                                                     <div className="img_box">
                                                         <Image src={ImagesFile.Ethereum} className="coin_image" />
                                                     </div>
-                                                    <InputChoose type="radio" name="sort" id="ethereum"
-                                                        checked={sort === "ethereum"} value={"ethereum"}
+                                                    <InputChoose type="radio" name="sort" id="ETH"
+                                                        checked={sort === "ETH"} value={"ETH"}
                                                         onChange={handleChange}
                                                         className="choose_coin"
                                                     />
@@ -319,7 +326,7 @@ const Checkout: React.FC = () => {
                                             </div>
                                             <p className="title"> Price</p>
                                             <div className="price_box">
-                                                {(totalPrice / coins[sort as keyof CryptoData]?.usd).toLocaleString('en-US', { style: 'decimal' })}
+                                                {exchangedTotalPrice.toLocaleString('en-US', { style: 'decimal' })}
                                             </div>
                                         </div>
                                     </div>
@@ -370,8 +377,3 @@ const Checkout: React.FC = () => {
 };
 
 export default Checkout;
-
-//Country
-//Region/State
-//City
-//Zip Code

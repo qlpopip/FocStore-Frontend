@@ -7,25 +7,33 @@ import "./index.scss";
 import { useEffect, useState } from "react";
 import { OrderStatusType } from "dto/orderDto";
 import { getOrders } from "./_api";
+import useConnect from "customHooks/useConnect";
+import { useAppSelector } from "share/redux/hook";
 
 const Orders: React.FC = () => {
   const navigate = useNavigate();
-  // const orders = useAppSelector((state) => state.order.orders);
   const [orders, setOrders] = useState<OrderStatusType[]>([])
   const [pending, setPending] = useState(false)
+  const { connectMetamask } = useConnect()
+  const account = useAppSelector(state => state.metamask.account)
   useEffect(() => {
     async function fetchData() {
       try {
-        setPending(true)
-        const [data] = await getOrders();
-        setOrders(data.items);
-        setPending(false)
+        if (account) {
+          setPending(true)
+          const [data] = await getOrders();
+          setOrders(data.items);
+          setPending(false)
+        }
       } catch (error) {
         console.log(error)
       }
     }
     fetchData();
+    connectMetamask()
+    // eslint-disable-next-line
   }, []);
+
   const [showOrder, setShowOrder] = useState({
     index: 0,
     status: false
@@ -86,13 +94,13 @@ const Orders: React.FC = () => {
                       <p className="text">{order.address} </p>
                     </div>
                     <div className="main_box">
-                      <p className="title">Country</p>
-                      <p className="text">{order.country} </p>
+                      <p className="title">road_address</p>
+                      <p className="text">{order.road_address} </p>
                     </div>
-                    <div className="main_box">
-                      <p className="title">Region / State</p>
-                      <p className="text">{order.region} </p>
-                    </div>
+                    {order.others && <div className="main_box">
+                      <p className="title">others</p>
+                      <p className="text">{order.others} </p>
+                    </div>}
                     <div className="main_box">
                       <p className="title">Zip Code</p>
                       <p className="text">{order.zip_code} </p>
@@ -130,7 +138,7 @@ const Orders: React.FC = () => {
                     <div className="line"></div>
                     <div className="total_order">
                       <p>Total</p>
-                      <p >$ {Number(order.totalPrice).toLocaleString('en-US', { style: 'decimal' })} USD </p>
+                      <p > {Number(order.totalPrice).toLocaleString('en-US', { style: 'decimal' })} {order.priceType} </p>
                     </div>
                   </div>
                 </div>

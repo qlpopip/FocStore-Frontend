@@ -8,7 +8,7 @@ const NavigatorComp: React.FC<NavigatorProps> = (props) => {
         <div className="navigate">
             <div className="container">
                 <div className="navigate__box">
-                    <Link to="/">Shop</Link>&nbsp;/&nbsp;
+                    <Link to="/">Home</Link>&nbsp;/&nbsp;
                     {title && path && <><Link to={path}>{title}</Link>&nbsp;/&nbsp;</>}
                     {navigation && (
                         <p>{navigation.slice(0, 1).toUpperCase() + navigation.slice(1)}</p>

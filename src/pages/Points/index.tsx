@@ -68,7 +68,7 @@ const Points: React.FC = () => {
                     Points History {historyList.length === 0 && "Is Not Yet Available"}
                   </p>
                   <div className="history_box">
-                    {account && historyList.length > 0 && historyList.map((item, index) => (
+                    {account && historyList.length > 0 && historyList.slice().reverse().map((item, index) => (
                       <div className="history_item" key={index}>
 
                         <div className="line"></div>
