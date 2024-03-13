@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ethers } from 'ethers';
+import {ethers} from 'ethers';
 import { MetaMaskState } from './interface';
 
 const initialState: MetaMaskState = {
@@ -8,7 +8,10 @@ const initialState: MetaMaskState = {
   error: null,
   currentChainId: undefined,
   balance: '0',
-  points: 0
+  points: 0,
+  usdt: null,
+  foc: null,
+  eth: null
 };
 
 
@@ -34,9 +37,18 @@ const metaMaskSlice = createSlice({
     setPoints: (state, action: PayloadAction<number>) => {
       state.points = action.payload;
     },
+    setUsdt: (state, action) => {
+        state.usdt = action.payload;
+    },
+    setFoc: (state, action) => {
+        state.foc = action.payload;
+    },
+    setEth: (state, action) => {
+        state.eth = action.payload;
+    }
   },
 });
 
-export const { setProvider, setAccount, setError, setCurrentChainId, setBalance, setPoints } = metaMaskSlice.actions;
+export const { setProvider, setAccount, setError, setCurrentChainId, setBalance, setPoints, setEth, setUsdt, setFoc } = metaMaskSlice.actions;
 
 export default metaMaskSlice.reducer;

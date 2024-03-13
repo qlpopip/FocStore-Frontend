@@ -18,23 +18,46 @@ const WifiPoint: React.FC = () => {
     times: 37,
     point: 412
   })
-  const [pending, setPending] = useState(false)
+  const [pending, setPending] = useState(false);
+  async function getWifiPointHistory(
+      walletAddress: string,
+): Promise<{ reward_token: number; reward_count: number }> {
+    try {
+      const response = await axios.post(
+          'https://ad.focad.ph/APIs/WiFiConReward/',
+          {
+            coin_name: 'FOC',
+            datetime: 20240313121433,
+            wallet_address: walletAddress,
+            order_number: 6301903754,
+          },
+          { headers: { 'Content-Type': 'multipart/form-data' } },
+      );
+      console.log(response.data); // Process the response as needed
+      if (response.data.status == '000') {
+    return {
+      reward_token: Number(response.data.reward_token),
+      reward_count: Number(response.data.reward_count),
+    };
+  }
+} catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error('Axios error:', error.response?.data);
+    } else {
+      console.error('Unexpected error:', error);
+    }
+  }
+    return { reward_token: 0, reward_count: 0 };
+}
+
   // eslint-disable-next-line
   const fetchData = async () => {
     try {
       setPending(true)
-      const response = await axios.get(
-        "https://api.coingecko.com/api/v3/simple/price",
-        {
-          params: {
-            ids: "tether,ethereum,force",
-            vs_currencies: "usd",
-          },
-        }
-      );
+      const response = await getWifiPointHistory(account || "");
       setRewards({
-        times: response.data.times,
-        point: response.data.points,
+        times: response.reward_count,
+        point: response.reward_token,
       });
       setPending(false)
     } catch (error) {
@@ -43,8 +66,10 @@ const WifiPoint: React.FC = () => {
   };
   const { connectMetamask } = useConnect()
   useEffect(() => {
-    connectMetamask()
-    // fetchData();
+    connectMetamask().then(() => {
+        //TODO: not sure if it is correct. Account can be null by this time
+        fetchData();
+    })
 
     // eslint-disable-next-line
   }, [])

@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from "axios";
-import { setAccount, setCurrentChainId, setError, setPoints, setProvider } from '.';
+import {setAccount, setCurrentChainId, setError, setEth, setFoc, setPoints, setProvider, setUsdt} from '.';
 import { WEB3 } from 'utils/configs';
 import { ethers } from 'ethers';
-import { connectContract } from '../contract';
+import {RootState} from "../index";
 
 
 export const connectWallet = createAsyncThunk('metaMask/connectWallet', async (_, { dispatch }) => {
@@ -22,7 +22,7 @@ export const connectWallet = createAsyncThunk('metaMask/connectWallet', async (_
             }
 
             dispatch(login(accounts[0]));
-            dispatch(connectContract());
+            dispatch(connectContracts());
 
             window.ethereum.on('accountsChanged', (accounts: string[]) => {
                 if (accounts.length > 0) {
@@ -38,7 +38,7 @@ export const connectWallet = createAsyncThunk('metaMask/connectWallet', async (_
                 dispatch(setCurrentChainId(chainIdInt.toString()));
                 //@ts-ignore
                 dispatch(setProvider(new ethers.BrowserProvider(window.ethereum)));
-                dispatch(connectContract());
+                dispatch(connectContracts());
             });
 
 
@@ -136,3 +136,55 @@ const getCountryCode = async () => {
     const res = await axios.get('https://ipapi.co/json/')
     return res.data.country_code;
 }
+
+
+export const connectContracts = createAsyncThunk(
+    'contract/setContract',
+    async (_, { getState, dispatch }) => {
+        const state = getState() as RootState;
+        const provider = state.metamask.provider;
+        if (!provider) {
+            throw new Error("Provider not initialized");
+        }
+        const signer = await provider.getSigner();
+        const usdt = new ethers.Contract(
+            WEB3.ERC20.usdt,
+            WEB3.ERC20.abi,
+            signer
+        );
+        const foc = new ethers.Contract(
+            WEB3.ERC20.foc,
+            WEB3.ERC20.abi,
+            signer
+        );
+        const eth = new ethers.Contract(
+            WEB3.ERC20.eth,
+            WEB3.ERC20.abi,
+            signer
+        );
+        dispatch(setUsdt(usdt));
+        dispatch(setFoc(foc));
+        dispatch(setEth(eth));
+    }
+);
+
+export const sendTokens = createAsyncThunk(
+    'contract/sendTokens',
+    async (payload: {amount: string, currency: 'ETH' | 'FOC' | 'USDT',}, { getState }) => {
+        const state = getState() as RootState;
+        if(payload.currency === 'ETH') {
+            const eth = state.metamask.eth;
+            const tx = await eth?.transfer(WEB3.TOKEN_RECEIVER.eth, ethers.parseEther(payload.amount));
+            await tx.wait();
+        }
+        if(payload.currency === 'FOC') {
+            const foc = state.metamask.foc;
+            const tx = await foc?.transfer(WEB3.TOKEN_RECEIVER.foc, ethers.parseEther(payload.amount));
+            await tx.wait();
+        }
+        if(payload.currency === 'USDT') {
+            const usdt = state.metamask.usdt;
+            const tx = await usdt?.transfer(WEB3.TOKEN_RECEIVER.usdt, ethers.parseUnits(payload.amount, 6));
+            await tx.wait();
+        }
+    });

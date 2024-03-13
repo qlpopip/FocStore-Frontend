@@ -11,6 +11,7 @@ import { CreateOrderType, createOrder } from "./_api";
 import { Link, useNavigate } from "react-router-dom";
 import { clearOrders } from "share/redux/order";
 import { useDaumPostcodePopup } from 'react-daum-postcode';
+import {sendTokens} from "../../share/redux/metamask/thunks";
 interface CryptoData {
     USDT: {
         usd: number;
@@ -34,7 +35,7 @@ const Checkout: React.FC = () => {
         if (account) {
             setPending(true)
             const [data] = await createOrder(info)
-            //TODO: transfer tokens
+            dispatch(sendTokens({amount: info.totalPrice.toString(), currency: sort}))
             setPending(false)
             if (!data.error) {
                 navigate("/orders")
@@ -48,7 +49,7 @@ const Checkout: React.FC = () => {
             quantity: item.productCount
         }
     ))
-    const [sort, setSort] = useState("FOC");
+    const [sort, setSort] = useState<'ETH'|'FOC'|'USDT'>("FOC");
     const [coins, setCoins] = useState<CryptoData>({
         USDT: {
             usd: 0

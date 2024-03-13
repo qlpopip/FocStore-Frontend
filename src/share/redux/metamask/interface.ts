@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import {Contract, ethers} from "ethers";
 
 // src/store/metamask/types.ts
 export interface MetaMaskState {
@@ -7,7 +7,10 @@ export interface MetaMaskState {
   error: Error | null;
   currentChainId: string | undefined;
   balance: string;
-  points: number
+  points: number;
+  usdt: Contract | null;
+  foc: Contract | null;
+  eth: Contract | null;
 }
 
 export interface Token {

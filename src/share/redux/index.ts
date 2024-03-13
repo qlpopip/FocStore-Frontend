@@ -3,7 +3,6 @@
 import { persistReducer, persistStore } from "redux-persist";
 import { combineReducers } from "redux";
 import common from "./common";
-import contract from "./contract";
 import metamask from "./metamask";
 import order from "./order";
 import player from "./player";
@@ -13,7 +12,6 @@ import storage from "redux-persist/lib/storage"; // LocalStorage for persisting 
 
 const rootReducer = combineReducers({
   common,
-  contract,
   metamask,
   player,
   order,

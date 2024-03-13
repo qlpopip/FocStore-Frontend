@@ -6,180 +6,40 @@ export const WEB3 = {
     SCAN_ADDRESS: 'https://explorer.testnet.thebifrost.io/address/',
     SCAN_URL: 'https://explorer.testnet.thebifrost.io/',
     SYMBOL: 'BFC',
-    GAME_CONTRACT_ADDRESS: '0xFBBD41170928061eC69d50cc569c802B23F447F5',
-    RANDOM_JACKPOT_CONTRACT_ADDRESS: '0x154D8E66b5638f5A33A1CB7C45DEfff4F042a6dD',
-    TICKET_JACKPOT_CONTRACT_ADDRESS: '0x3D0FCA2b701a30bBc02D29E8658970f5a0A1B4c0',
-    TICKET_ADDRESS: '0xEB3A3ccffbF9A7f026A30Dc8B87ed67Dbbfcf7f0',
-    GAME_ABI: [{
-        inputs: [
+    ERC20: {
+        usdt: '0x9e8FEaE3b313cd9928B685C20A46945fc25aBa15',
+        foc: '0x0c527a41d011980e2a4Dd3A8df98831dba077016',
+        eth: '0x6c93Cc0145c3cb5a3dBBb9190cc02c7A032E8A78',
+        abi: [
             {
-                components: [
+                inputs: [
                     {
-                        internalType: 'uint8',
-                        name: 'poolId',
-                        type: 'uint8',
+                        internalType: 'address',
+                        name: 'to',
+                        type: 'address',
                     },
                     {
-                        internalType: 'string',
-                        name: 'avatarUrl',
-                        type: 'string',
-                    },
-                    {
-                        internalType: 'string',
-                        name: 'countryCode',
-                        type: 'string',
-                    },
-                    {
-                        internalType: 'bool',
-                        name: 'upOrDown',
-                        type: 'bool',
-                    },
-                    {
-                        internalType: 'string',
-                        name: 'whiteLabelId',
-                        type: 'string',
+                        internalType: 'uint256',
+                        name: 'value',
+                        type: 'uint256',
                     },
                 ],
-                internalType: 'struct UpVsDownGameV4.makeTradeStruct',
-                name: 'userTrade',
-                type: 'tuple',
+                name: 'transfer',
+                outputs: [
+                    {
+                        internalType: 'bool',
+                        name: '',
+                        type: 'bool',
+                    },
+                ],
+                stateMutability: 'nonpayable',
+                type: 'function',
             },
         ],
-        name: 'makeTrade',
-        outputs: [],
-        stateMutability: 'payable',
-        type: 'function',
-    }],
-    JACKPOT_ABI: [
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "_rounds",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint8",
-                    "name": "v",
-                    "type": "uint8"
-                },
-                {
-                    "internalType": "bytes32",
-                    "name": "r",
-                    "type": "bytes32"
-                },
-                {
-                    "internalType": "bytes32",
-                    "name": "s",
-                    "type": "bytes32"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "deadline",
-                    "type": "uint256"
-                }
-            ],
-            "name": "playJackpot",
-            "outputs": [],
-            "stateMutability": "payable",
-            "type": "function"
-        },
-        {
-            "anonymous": false,
-            "inputs": [
-                {
-                    "indexed": false,
-                    "internalType": "address",
-                    "name": "player",
-                    "type": "address"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "uint256",
-                    "name": "rounds",
-                    "type": "uint256"
-                }
-            ],
-            "name": "PlayJackpot",
-            "type": "event"
-        },
-        {
-            "anonymous": false,
-            "inputs": [
-                {
-                    "indexed": false,
-                    "internalType": "address",
-                    "name": "winner",
-                    "type": "address"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "uint256",
-                    "name": "amount",
-                    "type": "uint256"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "uint256",
-                    "name": "rank",
-                    "type": "uint256"
-                }
-            ],
-            "name": "Jackpot",
-            "type": "event"
-        },
-        ],
-    TICKET_ABI: [
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "account",
-                    "type": "address"
-                }
-            ],
-            "name": "balanceOf",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "owner",
-                    "type": "address"
-                }
-            ],
-            "name": "nonces",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "name",
-            "outputs": [
-                {
-                    "internalType": "string",
-                    "name": "",
-                    "type": "string"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        ]
+    },
+    TOKEN_RECEIVER: {
+        usdt: '0x3ad9e46304B7E7A0C66d874B9d478429003E70C8',
+        foc: '0x3ad9e46304B7E7A0C66d874B9d478429003E70C8',
+        eth: '0x3ad9e46304B7E7A0C66d874B9d478429003E70C8',
+    }
 }
