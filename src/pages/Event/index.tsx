@@ -7,6 +7,7 @@ import { EventType } from "dto";
 import { useNavigate } from "react-router-dom";
 import "./index.scss";
 import { useAppSelector } from "share/redux/hook";
+import IconsFile from "assets/icons";
 
 interface HasEventType {
   id: number,
@@ -61,7 +62,10 @@ const Event: React.FC = () => {
                           <p className="name">{item.name.toUpperCase()}</p>
                           <p className="title">{item.title}</p>
                         </div>
-                        <Button className={`primary ${hasEvent && "disabled"}`} onClick={() => { showIndexEvent(item.id) }}>Get Point </Button>
+                        <div className="btn_box">
+                          {hasEvent && <Image src={IconsFile.Success} alt="" className="icon" />}
+                          <Button className={`primary ${hasEvent && "disabled"}`} onClick={() => { showIndexEvent(item.id) }}>Get Point </Button>
+                        </div>
                       </div>
                     </div>
                   )

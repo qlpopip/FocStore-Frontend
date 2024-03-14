@@ -50,13 +50,25 @@
                 }
             }
 
-            .primary {
-                padding: .1em 2em;
+            .btn_box {
+                display: flex;
+                align-items: center;
+                gap: 1em;
+
+                .icon {
+                    width: 2em;
+                    margin-top: .3em;
+                }
+
+                .primary {
+                    padding: 1em 2em;
+                }
+
+                .disabled {
+                    background: var(--color-border-sub);
+                }
             }
 
-            .disabled {
-                background: var(--color-border-sub);
-            }
         }
     }
 }
