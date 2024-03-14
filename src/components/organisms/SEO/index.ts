@@ -7,25 +7,56 @@ const SEO: React.FC = () => {
   const links = [
     {
       link: "/",
-      title: "Main",
+      title: "Home",
     },
     {
-      link: "/about",
-      title: "About Us",
+      link: "/product/:id",
+      title: "Product Details",
     },
     {
-      link: "/contact-us",
-      title: "Contact Us",
+      link: "/cart",
+      title: "Shopping Cart",
+    },
+    {
+      link: "/checkout",
+      title: "Checkout",
+    },
+    {
+      link: "/orders",
+      title: "My Orders",
+    },
+    {
+      link: "/my-points",
+      title: "My Points",
+    },
+    {
+      link: "/swap-points",
+      title: "Swap Points",
+    },
+    {
+      link: "/daily-check-in",
+      title: "Daily Check-in",
+    },
+    {
+      link: "/wifi-point",
+      title: "WiFi Point",
+    },
+    {
+      link: "/event",
+      title: "Events",
+    },
+    {
+      link: "/event/:id",
+      title: "Event Details",
     },
   ];
-
   const link = links.filter((item) => item.link === location.pathname);
 
   useEffect(() => {
     const prevTitle = document.title;
     // Set newTitle based on whether a matching link is found
     const newTitle =
-      link.length > 0 ? `React - ${link[0].title}` : "React - 404";
+      link.length > 0 ? `Online Store - ${link[0].title}` : "Online Store - 404";
     document.title = newTitle;
 
     // Cleanup function
