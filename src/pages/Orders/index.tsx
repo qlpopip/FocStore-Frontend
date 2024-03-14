@@ -32,7 +32,7 @@ const Orders: React.FC = () => {
     fetchData();
     connectMetamask()
     // eslint-disable-next-line
-  }, []);
+  }, [account]);
 
   const [showOrder, setShowOrder] = useState({
     index: 0,

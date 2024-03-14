@@ -29,10 +29,15 @@ const Points: React.FC = () => {
   }, [])
   useEffect(() => {
     const fetchData = async () => {
-      setPending(true)
-      const [data] = await getHistory()
-      setHistoryList(data.items)
-      setPending(false)
+      try {
+        setPending(true)
+        const [data] = await getHistory()
+        setHistoryList(data.items)
+        setPending(false)
+      } catch (error) {
+        console.log(error)
+      }
+
     }
     account && fetchData()
   }, [account])

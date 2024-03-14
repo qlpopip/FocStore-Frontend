@@ -13,23 +13,23 @@ const Swap: React.FC = () => {
   const [pending, setPending] = useState(false)
   const dispatch = useAppDispatch()
   const exchangePoint = async () => {
-    if (swap.point >= minPoint && swap.point <= maxPoint) {
-      setPending(true)
-      const [data] = await swapPoint({ point: swap.point })
-      dispatch(setPoints(data.item.point))
-      setSwap({
-        point: data.item.point,
-        coin: point * price
-      })
-      setPending(false)
+    try {
+      if (swap.point >= minPoint && swap.point <= maxPoint) {
+        setPending(true)
+        const [data] = await swapPoint({ point: swap.point })
+        dispatch(setPoints(data.item.point))
+        setSwap({
+          point: data.item.point,
+          coin: point * price
+        })
+        setPending(false)
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
   const { connectMetamask } = useConnect()
-  useEffect(() => {
-    connectMetamask()
-    // eslint-disable-next-line
-  }, [])
-  const price = 0.73670
+  const price = 1
   const point = useAppSelector(state => state.metamask.points)
   const minPoint = 1000;
   const maxPoint = 3000;
@@ -37,7 +37,6 @@ const Swap: React.FC = () => {
     point: point > maxPoint ? maxPoint : point,
     coin: (point > maxPoint ? maxPoint : point) * price
   })
-
 
   const onChangeTicketNum = (e: React.ChangeEvent<HTMLInputElement>) => {
     const num = Number(e.target.value);
@@ -49,6 +48,17 @@ const Swap: React.FC = () => {
       setSwap({ point: num, coin: num * price })
     }
   };
+  useEffect(() => {
+    connectMetamask()
+    if (point <= 0) {
+      setSwap({ point: 0, coin: 0 * price })
+    } else if (point > maxPoint) {
+      setSwap({ point: maxPoint, coin: maxPoint * price })
+    } else {
+      setSwap({ point: point, coin: point * price })
+    }
+    // eslint-disable-next-line
+  }, [point])
   return (
     <div>
       <Layout id="swap_points">

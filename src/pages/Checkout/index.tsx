@@ -11,7 +11,7 @@ import { CreateOrderType, createOrder } from "./_api";
 import { Link, useNavigate } from "react-router-dom";
 import { clearOrders } from "share/redux/order";
 import { useDaumPostcodePopup } from 'react-daum-postcode';
-import {sendTokens} from "../../share/redux/metamask/thunks";
+import { sendTokens } from "../../share/redux/metamask/thunks";
 interface CryptoData {
     USDT: {
         usd: number;
@@ -32,15 +32,20 @@ const Checkout: React.FC = () => {
     const [pending, setPending] = useState(false)
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (account) {
-            setPending(true)
-            const [data] = await createOrder(info)
-            dispatch(sendTokens({amount: info.totalPrice.toString(), currency: sort}))
-            setPending(false)
-            if (!data.error) {
-                navigate("/orders")
-                dispatch(clearOrders())
+        try {
+            if (account) {
+                setPending(true)
+                info.totalPrice = info.totalPrice.toString()
+                const [data] = await createOrder(info)
+                dispatch(sendTokens({ amount: info.totalPrice.toString(), currency: sort }))
+                setPending(false)
+                if (!data.error) {
+                    navigate("/orders")
+                    dispatch(clearOrders())
+                }
             }
+        } catch (error) {
+            console.log(error)
         }
     };
     const products = orders.map(item => (
@@ -49,7 +54,7 @@ const Checkout: React.FC = () => {
             quantity: item.productCount
         }
     ))
-    const [sort, setSort] = useState<'ETH'|'FOC'|'USDT'>("FOC");
+    const [sort, setSort] = useState<'ETH' | 'FOC' | 'USDT'>("FOC");
     const [coins, setCoins] = useState<CryptoData>({
         USDT: {
             usd: 0
@@ -125,13 +130,13 @@ const Checkout: React.FC = () => {
                     "https://api.coingecko.com/api/v3/simple/price",
                     {
                         params: {
-                            ids: "tether,ethereum,force",
+                            ids: "ethereum,force",
                             vs_currencies: "usd",
                         },
                     }
                 );
                 setCoins({
-                    USDT: { usd: response.data.tether?.usd ?? 0 },
+                    USDT: { usd: 1 },
                     FOC: { usd: response.data.force?.usd ?? 0 },
                     ETH: { usd: response.data.ethereum?.usd ?? 0 },
                 });
@@ -352,7 +357,7 @@ const Checkout: React.FC = () => {
                                         <div className="line"></div>
                                         <div className="total_order">
                                             <p>Total</p>
-                                            <p >$ {totalPrice.toLocaleString('en-US', { style: 'decimal' })} USD </p>
+                                            <p >$ {totalPrice.toLocaleString('en-US', { style: 'decimal' })} USDT </p>
                                         </div>
                                         <button className="primary" >
                                             <div className="order_btn">

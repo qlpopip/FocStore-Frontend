@@ -20,35 +20,36 @@ const WifiPoint: React.FC = () => {
   })
   const [pending, setPending] = useState(false);
   async function getWifiPointHistory(
-      walletAddress: string,
-): Promise<{ reward_token: number; reward_count: number }> {
+    walletAddress: string,
+  ): Promise<{ reward_token: number; reward_count: number }> {
     try {
       const response = await axios.post(
-          'https://ad.focad.ph/APIs/WiFiConReward/',
-          {
-            coin_name: 'FOC',
-            datetime: 20240313121433,
-            wallet_address: walletAddress,
-            order_number: 6301903754,
-          },
-          { headers: { 'Content-Type': 'multipart/form-data' } },
+        'https://ad.focad.ph/APIs/WiFiConReward/',
+        {
+          coin_name: 'FOC',
+          datetime: 20240313121433,
+          wallet_address: walletAddress,
+          order_number: 6301903754,
+        },
+        { headers: { 'Content-Type': 'multipart/form-data' } },
       );
       console.log(response.data); // Process the response as needed
+      // eslint-disable-next-line
       if (response.data.status == '000') {
-    return {
-      reward_token: Number(response.data.reward_token),
-      reward_count: Number(response.data.reward_count),
-    };
-  }
-} catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error('Axios error:', error.response?.data);
-    } else {
-      console.error('Unexpected error:', error);
+        return {
+          reward_token: Number(response.data.reward_token),
+          reward_count: Number(response.data.reward_count),
+        };
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error('Axios error:', error.response?.data);
+      } else {
+        console.error('Unexpected error:', error);
+      }
     }
-  }
     return { reward_token: 0, reward_count: 0 };
-}
+  }
 
   // eslint-disable-next-line
   const fetchData = async () => {
@@ -67,19 +68,23 @@ const WifiPoint: React.FC = () => {
   const { connectMetamask } = useConnect()
   useEffect(() => {
     connectMetamask().then(() => {
-        //TODO: not sure if it is correct. Account can be null by this time
-        fetchData();
+      //TODO: not sure if it is correct. Account can be null by this time
+      fetchData();
     })
 
     // eslint-disable-next-line
   }, [])
   const onClickClaim = async () => {
-    if (account) {
-      setPending(true)
-      const [data] = await postWifiPoint(rewards)
-      // fetchData();
-      dispatch(setPoints(data.item.author.point))
-      setPending(false)
+    try {
+      if (account) {
+        setPending(true)
+        const [data] = await postWifiPoint(rewards)
+        // fetchData();
+        dispatch(setPoints(data.item.author.point))
+        setPending(false)
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
   return (

@@ -10,7 +10,7 @@ export interface OrderStatusType {
   first_name: string,
   last_name: string,
   address: string,
-  totalPrice: number,
+  totalPrice: number | string,
   road_address: string,
   others: string,
   zip_code: number,

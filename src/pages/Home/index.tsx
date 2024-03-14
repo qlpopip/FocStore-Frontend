@@ -42,9 +42,14 @@ const Home: React.FC = () => {
   }, []);
   const [step, setStep] = useState(0);
   const pagination = async (page: number) => {
-    const [data] = await getProducts(page, 8);
-    setProductList(data.items);
-    setStep(page - 1);
+    try {
+      const [data] = await getProducts(page, 8);
+      setProductList(data.items);
+      setStep(page - 1);
+    } catch (error) {
+      console.log(error)
+    }
+
   };
   return (
     <div>

@@ -7,7 +7,7 @@ export interface CreateOrderType {
     last_name: string,
     custom_code: string,
     address: string,
-    totalPrice: number,
+    totalPrice: number | string,
     road_address: string,
     others: string,
     zip_code: number,
