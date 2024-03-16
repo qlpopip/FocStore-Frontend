@@ -4,6 +4,7 @@ import {setAccount, setCurrentChainId, setError, setEth, setFoc, setPoints, setP
 import { WEB3 } from 'utils/configs';
 import { ethers } from 'ethers';
 import {RootState} from "../index";
+import {clearOrders} from "../order";
 
 
 export const connectWallet = createAsyncThunk('metaMask/connectWallet', async (_, { dispatch }) => {
@@ -170,21 +171,27 @@ export const connectContracts = createAsyncThunk(
 
 export const sendTokens = createAsyncThunk(
     'contract/sendTokens',
-    async (payload: {amount: string, currency: 'ETH' | 'FOC' | 'USDT',}, { getState }) => {
-        const state = getState() as RootState;
-        if(payload.currency === 'ETH') {
-            const eth = state.metamask.eth;
-            const tx = await eth?.transfer(WEB3.TOKEN_RECEIVER.eth, ethers.parseEther(payload.amount));
-            await tx.wait();
+    async (payload: {amount: string, currency: 'ETH' | 'FOC' | 'USDT', navigate: ()=> void}, { getState, dispatch }) => {
+        try {
+            const state = getState() as RootState;
+            if(payload.currency === 'ETH') {
+                const eth = state.metamask.eth;
+                const tx = await eth?.transfer(WEB3.TOKEN_RECEIVER.eth, ethers.parseEther(payload.amount));
+                await tx.wait();
+            }
+            if(payload.currency === 'FOC') {
+                const foc = state.metamask.foc;
+                const tx = await foc?.transfer(WEB3.TOKEN_RECEIVER.foc, ethers.parseEther(payload.amount));
+                await tx.wait();
+            }
+            if(payload.currency === 'USDT') {
+                const usdt = state.metamask.usdt;
+                const tx = await usdt?.transfer(WEB3.TOKEN_RECEIVER.usdt, ethers.parseUnits(payload.amount, 6));
+                await tx.wait();
+            }
+        } catch (e) {
+            console.log(e);
         }
-        if(payload.currency === 'FOC') {
-            const foc = state.metamask.foc;
-            const tx = await foc?.transfer(WEB3.TOKEN_RECEIVER.foc, ethers.parseEther(payload.amount));
-            await tx.wait();
-        }
-        if(payload.currency === 'USDT') {
-            const usdt = state.metamask.usdt;
-            const tx = await usdt?.transfer(WEB3.TOKEN_RECEIVER.usdt, ethers.parseUnits(payload.amount, 6));
-            await tx.wait();
-        }
+        dispatch(clearOrders())
+        payload.navigate();
     });

@@ -9,7 +9,6 @@ import axios from "axios";
 import "./index.scss"
 import { CreateOrderType, createOrder } from "./_api";
 import { Link, useNavigate } from "react-router-dom";
-import { clearOrders } from "share/redux/order";
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { sendTokens } from "../../share/redux/metamask/thunks";
 interface CryptoData {
@@ -37,15 +36,17 @@ const Checkout: React.FC = () => {
                 setPending(true)
                 info.totalPrice = info.totalPrice.toString()
                 const [data] = await createOrder(info)
-                dispatch(sendTokens({ amount: info.totalPrice.toString(), currency: sort }))
-                setPending(false)
-                if (!data.error) {
+                const handlePaymentSuccess = () => {
+                    setPending(false);
                     navigate("/orders")
-                    dispatch(clearOrders())
+                }
+                if(!data.error) {
+                    dispatch(sendTokens({ amount: Number(info.totalPrice).toFixed(6), currency: sort, navigate: handlePaymentSuccess }))
                 }
             }
         } catch (error) {
-            console.log(error)
+            console.log(error);
+            setPending(false);
         }
     };
     const products = orders.map(item => (
