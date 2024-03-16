@@ -77,14 +77,15 @@ const WifiPoint: React.FC = () => {
   }, [account, isPending])
   const onClickClaim = async () => {
     try {
-      if (account) {
+      if (account && rewards.point > 0) {
         setPending(true)
         const [data] = await postWifiPoint(rewards)
-        // fetchData();
+        fetchData();
         dispatch(setPoints(data.item.author.point))
         setPending(false)
       }
     } catch (error) {
+      setPending(false)
       alert(error);
     }
   }
