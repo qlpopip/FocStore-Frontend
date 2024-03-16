@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {ethers} from 'ethers';
+import { ethers } from 'ethers';
 import { MetaMaskState } from './interface';
 
 const initialState: MetaMaskState = {
   provider: null,
   account: undefined,
+  isPending: false,
   error: null,
   currentChainId: undefined,
   balance: '0',
@@ -25,6 +26,9 @@ const metaMaskSlice = createSlice({
     setAccount: (state, action: PayloadAction<string | undefined>) => {
       state.account = action.payload;
     },
+    setIsPending: (state, action: PayloadAction<boolean>) => {
+      state.isPending = action.payload;
+    },
     setError: (state, action: PayloadAction<Error | null>) => {
       state.error = action.payload;
     },
@@ -38,17 +42,17 @@ const metaMaskSlice = createSlice({
       state.points = action.payload;
     },
     setUsdt: (state, action) => {
-        state.usdt = action.payload;
+      state.usdt = action.payload;
     },
     setFoc: (state, action) => {
-        state.foc = action.payload;
+      state.foc = action.payload;
     },
     setEth: (state, action) => {
-        state.eth = action.payload;
+      state.eth = action.payload;
     }
   },
 });
 
-export const { setProvider, setAccount, setError, setCurrentChainId, setBalance, setPoints, setEth, setUsdt, setFoc } = metaMaskSlice.actions;
+export const { setProvider, setAccount, setIsPending, setError, setCurrentChainId, setBalance, setPoints, setEth, setUsdt, setFoc } = metaMaskSlice.actions;
 
 export default metaMaskSlice.reducer;

@@ -35,7 +35,7 @@ const Home: React.FC = () => {
         setTotalCount(data.totalCount);
         setPending(false)
       } catch (error) {
-        console.log(error)
+        alert(error);
       }
     }
     fetchData();
@@ -47,7 +47,7 @@ const Home: React.FC = () => {
       setProductList(data.items);
       setStep(page - 1);
     } catch (error) {
-      console.log(error)
+      alert(error);
     }
 
   };

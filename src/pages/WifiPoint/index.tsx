@@ -14,6 +14,7 @@ import useConnect from "customHooks/useConnect";
 const WifiPoint: React.FC = () => {
   const dispatch = useAppDispatch()
   const account = useAppSelector(state => state.metamask.account)
+  const isPending = useAppSelector((state) => state.metamask.isPending);
   const [rewards, setRewards] = useState({
     times: 37,
     point: 412
@@ -69,11 +70,11 @@ const WifiPoint: React.FC = () => {
   useEffect(() => {
     connectMetamask().then(() => {
       //TODO: not sure if it is correct. Account can be null by this time
-      fetchData();
+      account && isPending && fetchData();
     })
 
     // eslint-disable-next-line
-  }, [])
+  }, [account, isPending])
   const onClickClaim = async () => {
     try {
       if (account) {
@@ -84,7 +85,7 @@ const WifiPoint: React.FC = () => {
         setPending(false)
       }
     } catch (error) {
-      console.log(error)
+      alert(error);
     }
   }
   return (
@@ -105,7 +106,7 @@ const WifiPoint: React.FC = () => {
                       <Image src={ImagesFile.UserLogo} className="icon" />
                       <div className="info_box">
                         <p className="info_title">My wifi usage</p>
-                        <p className="traffic">{rewards.times} times</p>
+                        <p className="traffic">{rewards.times} Times</p>
                       </div>
                     </div>
                     <div className="line"></div>

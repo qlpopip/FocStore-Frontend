@@ -35,7 +35,7 @@ const ProductDetail: React.FC = () => {
           setPending(false)
         }
       } catch (error) {
-        console.log(error)
+        alert(error);
       }
     }
     fetchData();

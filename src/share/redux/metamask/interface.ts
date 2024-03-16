@@ -1,9 +1,10 @@
-import {Contract, ethers} from "ethers";
+import { Contract, ethers } from "ethers";
 
 // src/store/metamask/types.ts
 export interface MetaMaskState {
   provider: ethers.BrowserProvider | null;
   account: string | undefined;
+  isPending: boolean;
   error: Error | null;
   currentChainId: string | undefined;
   balance: string;

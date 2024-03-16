@@ -33,7 +33,7 @@ const Event: React.FC = () => {
         setEventList(data.items);
         setPending(false)
       } catch (error) {
-        console.log(error)
+        alert(error);
       }
     }
     fetchData();

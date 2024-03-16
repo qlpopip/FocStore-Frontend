@@ -38,38 +38,39 @@ const EventDetail: React.FC = () => {
           setPending(false)
         }
       } catch (error) {
-        console.log(error)
+        alert(error);
       }
     }
     fetchData();
   }, [id]);
   const [reload, setReload] = useState(false)
+  const isPending = useAppSelector((state) => state.metamask.isPending);
   useEffect(() => {
     async function fetchData() {
       try {
-        if (id && account) {
+        if (id && account && isPending) {
           setPending(true)
           const [data] = await getEventPoint(Number(id))
           data.item && account ? setClaimed(true) : setClaimed(false)
           setPending(false)
         }
       } catch (error) {
-        console.log(error)
+        alert(error);
       }
     }
     fetchData();
     // eslint-disable-next-line
-  }, [account, reload]);
+  }, [account, reload, isPending]);
   const getPoint = async () => {
     try {
-      if (account) {
+      if (account && isPending) {
         postPoint()
       } else {
         connectMetamask()
-        postPoint()
+        isPending && postPoint()
       }
     } catch (error) {
-      console.log(error)
+      alert(error);
     }
 
   }
@@ -83,7 +84,7 @@ const EventDetail: React.FC = () => {
       }
       setReload(!reload)
     } catch (error) {
-      console.log(error)
+      alert(error);
     }
   }
   return (

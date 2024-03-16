@@ -16,23 +16,25 @@ const Orders: React.FC = () => {
   const [pending, setPending] = useState(false)
   const { connectMetamask } = useConnect()
   const account = useAppSelector(state => state.metamask.account)
+  const isPending = useAppSelector((state) => state.metamask.isPending);
   useEffect(() => {
     async function fetchData() {
       try {
-        if (account) {
+        if (account && isPending) {
           setPending(true)
           const [data] = await getOrders();
           setOrders(data.items);
           setPending(false)
         }
       } catch (error) {
-        console.log(error)
+        alert(error)
+        setPending(false)
       }
     }
     fetchData();
     connectMetamask()
     // eslint-disable-next-line
-  }, [account]);
+  }, [account, isPending]);
 
   const [showOrder, setShowOrder] = useState({
     index: 0,

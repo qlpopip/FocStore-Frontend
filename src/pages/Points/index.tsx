@@ -13,6 +13,7 @@ import useConnect from "customHooks/useConnect";
 
 const Points: React.FC = () => {
   const account = useAppSelector((state) => state.metamask.account);
+  const isPending = useAppSelector((state) => state.metamask.isPending);
   const points = useAppSelector((state) => state.metamask.points);
   const navigate = useNavigate()
   const [pending, setPending] = useState(false)
@@ -35,12 +36,13 @@ const Points: React.FC = () => {
         setHistoryList(data.items)
         setPending(false)
       } catch (error) {
-        console.log(error)
+        setPending(false)
+        alert(error)
       }
 
     }
-    account && fetchData()
-  }, [account])
+    account && isPending && fetchData()
+  }, [account, isPending])
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
 

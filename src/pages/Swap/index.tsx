@@ -25,8 +25,8 @@ const Swap: React.FC = () => {
         setPending(false)
       }
     } catch (error) {
-      console.log(error);
-        setPending(false);
+      alert(error);
+      setPending(false);
     }
   }
   const { connectMetamask } = useConnect()

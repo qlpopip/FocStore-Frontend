@@ -40,12 +40,12 @@ const Checkout: React.FC = () => {
                     setPending(false);
                     navigate("/orders")
                 }
-                if(!data.error) {
+                if (!data.error) {
                     dispatch(sendTokens({ amount: Number(info.totalPrice).toFixed(6), currency: sort, navigate: handlePaymentSuccess }))
                 }
             }
         } catch (error) {
-            console.log(error);
+            alert(error);
             setPending(false);
         }
     };

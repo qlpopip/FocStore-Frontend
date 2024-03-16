@@ -33,15 +33,17 @@ const DailyCheckIn: React.FC = () => {
         setPending(false)
       }
     } catch (error) {
-      console.log(error)
+      setPending(false)
+      alert(error)
     }
   }
   const { connectMetamask } = useConnect()
+  const isPending = useAppSelector((state) => state.metamask.isPending);
   useEffect(() => {
-    fetchData();
+    isPending && fetchData();
     connectMetamask()
     // eslint-disable-next-line
-  }, []);
+  }, [account, isPending]);
   const [streakPoints, setStreakPoints] = useState<StreakPoints>({});
   useEffect(() => {
     const calculatePoints = () => {
@@ -140,7 +142,8 @@ const DailyCheckIn: React.FC = () => {
         setPending(false)
       }
     } catch (error) {
-      console.log(error)
+      setPending(false)
+      alert(error)
     }
   }
   for (let day = 1; day <= daysInMonth; day++) {
