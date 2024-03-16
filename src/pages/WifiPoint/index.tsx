@@ -16,8 +16,8 @@ const WifiPoint: React.FC = () => {
   const account = useAppSelector(state => state.metamask.account)
   const isPending = useAppSelector((state) => state.metamask.isPending);
   const [rewards, setRewards] = useState({
-    times: 37,
-    point: 412
+    times: 0,
+    point: 0
   })
   const [pending, setPending] = useState(false);
   async function getWifiPointHistory(
@@ -34,7 +34,6 @@ const WifiPoint: React.FC = () => {
         },
         { headers: { 'Content-Type': 'multipart/form-data' } },
       );
-      console.log(response.data); // Process the response as needed
       // eslint-disable-next-line
       if (response.data.status == '000') {
         return {
@@ -63,7 +62,8 @@ const WifiPoint: React.FC = () => {
       });
       setPending(false)
     } catch (error) {
-      console.error("Error fetching data:", error);
+      setPending(false)
+      alert(error);
     }
   };
   const { connectMetamask } = useConnect()
