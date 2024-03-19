@@ -22,14 +22,19 @@ const DailyCheckIn: React.FC = () => {
   const [pending, setPending] = useState(false)
   const [loginStreak, setLoginStreak] = useState(0)
   const [showCalendar, setShowCalendar] = useState(false)
+  const { connectMetamask, handleLogoutAndConnect } = useConnect()
   async function fetchData() {
     try {
       if (account) {
         setPending(true)
-        const [data] = await getAttendance();
-        const res = await getStreak()
-        setLoginStreak(res[0].item)
-        setAttendanceList(data.items);
+        const attendance = await getAttendance();
+        const data = await getStreak()
+        if (data[0] && attendance[0]) {
+          setLoginStreak(data[0].item)
+          setAttendanceList(attendance[0].items);
+        } else if ((data[1] && data[1].status_code === 401) || (attendance[1] && attendance[1].status_code === 401)) {
+          handleLogoutAndConnect()
+        }
         setPending(false)
       }
     } catch (error) {
@@ -37,7 +42,6 @@ const DailyCheckIn: React.FC = () => {
       alert(error)
     }
   }
-  const { connectMetamask } = useConnect()
   const isPending = useAppSelector((state) => state.metamask.isPending);
   useEffect(() => {
     isPending && fetchData();
@@ -134,10 +138,12 @@ const DailyCheckIn: React.FC = () => {
     try {
       if (account) {
         setPending(true)
-        const [data] = await createAttendance()
-        dispatch(setPoints(data.item.author.point))
-        if (!data.error) {
+        const data = await createAttendance()
+        if (data[0]) {
+          dispatch(setPoints(data[0].item.author.point))
           fetchData()
+        } else if (data[1] && data[1].status_code === 401) {
+          handleLogoutAndConnect()
         }
         setPending(false)
       }

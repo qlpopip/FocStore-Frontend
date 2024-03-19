@@ -48,6 +48,11 @@
                 font-size: 1em;
             }
 
+            input[type="number"] {
+                appearance: none;
+                -webkit-appearance: none;
+            }
+
             .inp {
                 padding: .5em;
                 border-radius: .3em;
@@ -60,6 +65,9 @@
             input::-webkit-inner-spin-button {
                 -webkit-appearance: none;
             }
+
+
+
         }
 
         .swap {

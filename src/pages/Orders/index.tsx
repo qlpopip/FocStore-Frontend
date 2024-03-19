@@ -14,7 +14,7 @@ const Orders: React.FC = () => {
   const navigate = useNavigate();
   const [orders, setOrders] = useState<OrderStatusType[]>([])
   const [pending, setPending] = useState(false)
-  const { connectMetamask } = useConnect()
+  const { connectMetamask, handleLogoutAndConnect } = useConnect()
   const account = useAppSelector(state => state.metamask.account)
   const isPending = useAppSelector((state) => state.metamask.isPending);
   useEffect(() => {
@@ -22,8 +22,12 @@ const Orders: React.FC = () => {
       try {
         if (account && isPending) {
           setPending(true)
-          const [data] = await getOrders();
-          setOrders(data.items);
+          const data = await getOrders();
+          if (data[0]) {
+            setOrders(data[0].items);
+          } else if ((data[1] && data[1].status_code === 401)) {
+            handleLogoutAndConnect()
+          }
           setPending(false)
         }
       } catch (error) {

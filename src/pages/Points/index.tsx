@@ -17,7 +17,7 @@ const Points: React.FC = () => {
   const points = useAppSelector((state) => state.metamask.points);
   const navigate = useNavigate()
   const [pending, setPending] = useState(false)
-  const { connectMetamask } = useConnect()
+  const { connectMetamask, handleLogoutAndConnect } = useConnect()
   interface HistoryType {
     point: number,
     pointName: string,
@@ -32,8 +32,12 @@ const Points: React.FC = () => {
     const fetchData = async () => {
       try {
         setPending(true)
-        const [data] = await getHistory()
-        setHistoryList(data.items)
+        const data = await getHistory()
+        if (data[0]) {
+          setHistoryList(data[0].items)
+        } else if ((data[1] && data[1].status_code === 401)) {
+          handleLogoutAndConnect()
+        }
         setPending(false)
       } catch (error) {
         setPending(false)
@@ -42,6 +46,7 @@ const Points: React.FC = () => {
 
     }
     account && isPending && fetchData()
+    // eslint-disable-next-line
   }, [account, isPending])
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);

@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getProduct } from "./_api";
 import { ProductType } from "dto";
 import IconsFile from "assets/icons";
-import { Navigator, Quantity } from "components/molecules";
+import { Loader, Navigator, Quantity } from "components/molecules";
 import { useAppDispatch, useAppSelector } from "share/redux/hook";
 import { setOrders } from "share/redux/order";
 import useConnect from "customHooks/useConnect";
@@ -30,8 +30,10 @@ const ProductDetail: React.FC = () => {
       try {
         if (id) {
           setPending(true)
-          const [data] = await getProduct(id);
-          setProduct(data.item);
+          const data = await getProduct(id);
+          if (data[0]) {
+            setProduct(data[0].item);
+          }
           setPending(false)
         }
       } catch (error) {
@@ -97,7 +99,7 @@ const ProductDetail: React.FC = () => {
     <div>
       <Layout id="product_detail">
         <Navigator navigation={product.name} />
-        {pending ? <h1>Loading...</h1> :
+        {pending ? <Loader /> :
           <div className="detail">
             <div className="img_box">
               <Image src={product.img[imgIndex]} alt="" className="big_img" />

@@ -26,15 +26,19 @@ const EventDetail: React.FC = () => {
   const account = useAppSelector(state => state.metamask.account)
   const dispatch = useAppDispatch();
   const [claimed, setClaimed] = useState(false)
-  const { connectMetamask } = useConnect()
+  const { connectMetamask, handleLogoutAndConnect } = useConnect()
 
   useEffect(() => {
     async function fetchData() {
       try {
         if (id) {
           setPending(true)
-          const [data] = await getEvent(Number(id));
-          setEvent(data.item);
+          const data = await getEvent(Number(id));
+          if (data[0]) {
+            setEvent(data[0].item);
+          } else if ((data[1] && data[1].status_code === 401)) {
+            handleLogoutAndConnect()
+          }
           setPending(false)
         }
       } catch (error) {
@@ -42,6 +46,7 @@ const EventDetail: React.FC = () => {
       }
     }
     fetchData();
+    // eslint-disable-next-line
   }, [id]);
   const [reload, setReload] = useState(false)
   const isPending = useAppSelector((state) => state.metamask.isPending);
@@ -50,8 +55,12 @@ const EventDetail: React.FC = () => {
       try {
         if (id && account && isPending) {
           setPending(true)
-          const [data] = await getEventPoint(Number(id))
-          data.item && account ? setClaimed(true) : setClaimed(false)
+          const data = await getEventPoint(Number(id))
+          if (data[0]) {
+            data[0].item && account ? setClaimed(true) : setClaimed(false)
+          } else if ((data[1] && data[1].status_code === 401)) {
+            handleLogoutAndConnect()
+          }
           setPending(false)
         }
       } catch (error) {
@@ -64,7 +73,7 @@ const EventDetail: React.FC = () => {
   const getPoint = async () => {
     try {
       if (account && isPending) {
-        postPoint()
+        !claimed && postPoint()
       } else {
         connectMetamask()
         isPending && postPoint()
@@ -76,11 +85,15 @@ const EventDetail: React.FC = () => {
   }
   const postPoint = async () => {
     try {
-      const [data] = await postEventPoint({ eventId: Number(id) })
-      if (data && data.item && data.item.author) {
-        dispatch(setPoints(data.item.author.point));
-      } else {
-        console.log("Data or its properties are null or undefined");
+      const data = await postEventPoint({ eventId: Number(id) })
+      if (data[0]) {
+        if (data && data[0].item && data[0].item.author) {
+          dispatch(setPoints(data[0].item.author.point));
+        } else {
+          console.log("Data or its properties are null or undefined");
+        }
+      } else if ((data[1] && data[1].status_code === 401)) {
+        handleLogoutAndConnect()
       }
       setReload(!reload)
     } catch (error) {

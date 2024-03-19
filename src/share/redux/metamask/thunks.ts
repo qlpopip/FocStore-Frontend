@@ -14,7 +14,7 @@ export const connectWallet = createAsyncThunk('metaMask/connectWallet', async (_
             dispatch(setProvider(new ethers.BrowserProvider(window.ethereum)));
 
             const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-            dispatch(setAccount(accounts[0]));
+            // dispatch(setAccount(accounts[0]));
 
             const chainId = await window.ethereum.request({ method: 'eth_chainId' });
             dispatch(setCurrentChainId(chainId.toString()));
@@ -120,6 +120,7 @@ export const login = createAsyncThunk('metaMask/login', async (account: string, 
     dispatch(setPoints(res.data.item.point))
     user.jwt && sessionStorage.setItem('token', user.jwt);
     dispatch(setIsPending(true))
+    dispatch(setAccount(account));
     return user;
 });
 const getNonce = async (address: string) => {

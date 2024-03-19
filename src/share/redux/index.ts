@@ -2,7 +2,6 @@
 
 import { persistReducer, persistStore } from "redux-persist";
 import { combineReducers } from "redux";
-import common from "./common";
 import metamask from "./metamask";
 import order from "./order";
 import player from "./player";
@@ -11,7 +10,6 @@ import { encryptTransform } from "redux-persist-transform-encrypt";
 import storage from "redux-persist/lib/storage"; // LocalStorage for persisting the data
 
 const rootReducer = combineReducers({
-  common,
   metamask,
   player,
   order,
@@ -26,7 +24,7 @@ const encryptor = encryptTransform({
 const persistConfig = {
   key: "root", // key for the localStorage entry
   storage, // define which storage to use
-  whitelist: ["common"], // only user reducer will be persisted, add other reducers if needed
+  whitelist: ["order", "metamask"], // only user reducer will be persisted, add other reducers if needed
   transforms: [encryptor],
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer as any);

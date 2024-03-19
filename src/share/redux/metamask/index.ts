@@ -49,10 +49,23 @@ const metaMaskSlice = createSlice({
     },
     setEth: (state, action) => {
       state.eth = action.payload;
+    },
+    logout: state => {
+      state.provider = null;
+      state.account = undefined;
+      state.isPending = false;
+      state.error = null;
+      state.currentChainId = undefined;
+      state.balance = '0';
+      state.points = 0;
+      state.usdt = null;
+      state.foc = null;
+      state.eth = null;
     }
+
   },
 });
 
-export const { setProvider, setAccount, setIsPending, setError, setCurrentChainId, setBalance, setPoints, setEth, setUsdt, setFoc } = metaMaskSlice.actions;
+export const { logout, setProvider, setAccount, setIsPending, setError, setCurrentChainId, setBalance, setPoints, setEth, setUsdt, setFoc } = metaMaskSlice.actions;
 
 export default metaMaskSlice.reducer;

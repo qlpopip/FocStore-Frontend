@@ -11,6 +11,7 @@ import { CreateOrderType, createOrder } from "./_api";
 import { Link, useNavigate } from "react-router-dom";
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { sendTokens } from "../../share/redux/metamask/thunks";
+import useConnect from "customHooks/useConnect";
 interface CryptoData {
     USDT: {
         usd: number;
@@ -29,19 +30,23 @@ const Checkout: React.FC = () => {
     const orders = useAppSelector((state) => state.order.orders);
     const totalPrice = orders.reduce((total, item) => total + (item.product.productPrice * item.productCount), 0);
     const [pending, setPending] = useState(false)
+    const { connectMetamask, handleLogoutAndConnect } = useConnect()
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             if (account) {
                 setPending(true)
                 info.totalPrice = info.totalPrice.toString()
-                const [data] = await createOrder(info)
-                const handlePaymentSuccess = () => {
-                    setPending(false);
-                    navigate("/orders")
-                }
-                if (!data.error) {
+                const data = await createOrder(info)
+                if (data[0]) {
+                    const handlePaymentSuccess = () => {
+                        setPending(false);
+                        navigate("/orders")
+                    }
                     dispatch(sendTokens({ amount: Number(info.totalPrice).toFixed(6), currency: sort, navigate: handlePaymentSuccess }))
+
+                } else if ((data[1] && data[1].status_code === 401)) {
+                    handleLogoutAndConnect()
                 }
             }
         } catch (error) {
@@ -79,7 +84,7 @@ const Checkout: React.FC = () => {
         address: "",
         road_address: "",
         others: "",
-        zip_code: 0,
+        zip_code: "",
         email: "",
         phone: "",
     })
@@ -99,10 +104,16 @@ const Checkout: React.FC = () => {
             ...prevInfo,
             [name]: value
         }));
-        if (name === "zip_code") {
+        if (name === "zip_code" && value !== "") {
             setInfo(prevInfo => ({
                 ...prevInfo,
                 zip_code: Number(value)
+            }));
+        }
+        if (name === "zip_code" && value === "") {
+            setInfo(prevInfo => ({
+                ...prevInfo,
+                zip_code: ""
             }));
         }
         if (name === "sort") {
@@ -146,7 +157,8 @@ const Checkout: React.FC = () => {
             }
         };
         fetchData();
-
+        connectMetamask()
+        // eslint-disable-next-line
     }, []);
 
     const open = useDaumPostcodePopup();

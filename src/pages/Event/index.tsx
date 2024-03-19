@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import "./index.scss";
 import { useAppSelector } from "share/redux/hook";
 import IconsFile from "assets/icons";
+import useConnect from "customHooks/useConnect";
 
 interface HasEventType {
   id: number,
@@ -20,17 +21,25 @@ const Event: React.FC = () => {
   const [hasEventList, setHasEventList] = useState<HasEventType[]>([]);
   const [pending, setPending] = useState(false)
   const account = useAppSelector(state => state.metamask.account)
+  const { handleLogoutAndConnect } = useConnect()
   useEffect(() => {
     async function fetchData() {
       try {
         setPending(true)
-        const [data] = await getEvents();
+        const data = await getEvents();
         if (account) {
           const hasEvents = await getEventPoints()
-          setHasEventList(hasEvents[0].items)
+          if (hasEvents[0]) {
+            setHasEventList(hasEvents[0].items)
+          } else if ((hasEvents[1] && hasEvents[1].status_code === 401)) {
+            handleLogoutAndConnect()
+          }
         }
-
-        setEventList(data.items);
+        if (data[0]) {
+          setEventList(data[0].items);
+        } else if ((data[1] && data[1].status_code === 401)) {
+          handleLogoutAndConnect()
+        }
         setPending(false)
       } catch (error) {
         alert(error);

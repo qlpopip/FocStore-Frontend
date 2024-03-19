@@ -66,7 +66,7 @@ const WifiPoint: React.FC = () => {
       alert(error);
     }
   };
-  const { connectMetamask } = useConnect()
+  const { connectMetamask, handleLogoutAndConnect } = useConnect()
   useEffect(() => {
     connectMetamask().then(() => {
       //TODO: not sure if it is correct. Account can be null by this time
@@ -79,9 +79,13 @@ const WifiPoint: React.FC = () => {
     try {
       if (account && rewards.point > 0) {
         setPending(true)
-        const [data] = await postWifiPoint(rewards)
-        fetchData();
-        dispatch(setPoints(data.item.author.point))
+        const data = await postWifiPoint(rewards)
+        if (data[0]) {
+          dispatch(setPoints(data[0].item.author.point))
+          fetchData();
+        } else if ((data[1] && data[1].status_code === 401)) {
+          handleLogoutAndConnect()
+        }
         setPending(false)
       }
     } catch (error) {

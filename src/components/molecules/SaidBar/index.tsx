@@ -1,5 +1,7 @@
+import { useAppDispatch } from "share/redux/hook";
 import "./index.scss"
-import { NavLink } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
+import { logout } from "share/redux/metamask";
 
 
 export interface SaidBarProps {
@@ -8,6 +10,7 @@ export interface SaidBarProps {
 
 const SaidBarComp: React.FC<SaidBarProps> = (props) => {
     const { children } = props;
+    const dispatch = useAppDispatch()
     const arrayData = [
         {
             title: "MY POINTS",
@@ -34,6 +37,9 @@ const SaidBarComp: React.FC<SaidBarProps> = (props) => {
             link: "/orders"
         }
     ]
+    const logOut = () => {
+        dispatch(logout())
+    }
     return (
 
         <div className="said_bar">
@@ -50,6 +56,7 @@ const SaidBarComp: React.FC<SaidBarProps> = (props) => {
                             {item.title}
                         </NavLink>
                     ))}
+                    <Link to="/" className="navigator" onClick={logOut}>LOG OUT</Link>
                 </div>
             </div>
             {children}

@@ -29,10 +29,12 @@ const Home: React.FC = () => {
     async function fetchData() {
       try {
         setPending(true)
-        const [data] = await getProducts(1, 8);
-        setProductList(data.items);
-        setTotalPage(data.totalPage);
-        setTotalCount(data.totalCount);
+        const data = await getProducts(1, 8);
+        if (data[0]) {
+          setProductList(data[0].items);
+          setTotalPage(data[0].totalPage);
+          setTotalCount(data[0].totalCount);
+        }
         setPending(false)
       } catch (error) {
         alert(error);
@@ -43,9 +45,13 @@ const Home: React.FC = () => {
   const [step, setStep] = useState(0);
   const pagination = async (page: number) => {
     try {
-      const [data] = await getProducts(page, 8);
-      setProductList(data.items);
+      setPending(true)
+      const data = await getProducts(page, 8);
+      if (data[0]) {
+        setProductList(data[0].items);
+      }
       setStep(page - 1);
+      setPending(false)
     } catch (error) {
       alert(error);
     }

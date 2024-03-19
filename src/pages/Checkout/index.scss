@@ -233,6 +233,7 @@
                 padding: .5em;
                 background: var(--color-bg-orange);
                 color: var(--color-text-inverse);
+                user-select: none;
 
                 &:enabled:hover {
                     background: #f6b081;

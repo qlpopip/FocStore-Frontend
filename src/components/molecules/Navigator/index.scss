@@ -2,6 +2,7 @@
     background-color: var(--color-bg-default-v2);
     padding: .7em 3em;
     font-size: 1.2em;
+    user-select: none;
 
     .navigate__box {
         display: flex;
