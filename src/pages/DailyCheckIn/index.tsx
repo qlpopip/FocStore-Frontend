@@ -167,7 +167,7 @@ const DailyCheckIn: React.FC = () => {
           {isPastOrToday ? (streakPoints[dateStr] ? (<p className={`point collected`}>{"+" + streakPoints[dateStr]} </p>) :
             (<Image src={IconsFile.Missed} alt="" className="point_missed" />)) : (<p className="point">{"+" + points}</p>)}
 
-          <p className={`text ${isPastOrToday && streakPoints[dateStr] && "collected"}`}>   {isPastOrToday ? (streakPoints[dateStr] ? "" :
+          <p className={`text ${isPastOrToday && streakPoints[dateStr] && "collected"}`}>   {isPastOrToday ? (streakPoints[dateStr] ? "Collected" :
             "Missed") : (streakPoints[todayStr] && isToday ? "Collected" : "")}</p>
           {isPastOrToday ? (streakPoints[dateStr] ? (<Button className="more">Collected </Button>) :
             (<Button className="more">Missed </Button>)) : (<Button className="more" onClick={() => !streakPoints[todayStr] && isToday && onClickCollect()}>{streakPoints[todayStr] && isToday ? "Collected" : "Collect"}  </Button>)}

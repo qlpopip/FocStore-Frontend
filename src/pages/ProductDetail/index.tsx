@@ -31,8 +31,10 @@ const ProductDetail: React.FC = () => {
         if (id) {
           setPending(true)
           const data = await getProduct(id);
-          if (data[0]) {
+          if (data[0] && !data[0].error) {
             setProduct(data[0].item);
+          } else if (data[0] && data[0].error) {
+            alert(data[0].msg)
           }
           setPending(false)
         }

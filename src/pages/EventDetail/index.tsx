@@ -34,10 +34,12 @@ const EventDetail: React.FC = () => {
         if (id) {
           setPending(true)
           const data = await getEvent(Number(id));
-          if (data[0]) {
+          if (data[0] && !data[0].error) {
             setEvent(data[0].item);
           } else if ((data[1] && data[1].status_code === 401)) {
             handleLogoutAndConnect()
+          } else if (data[0] && data[0].error) {
+            alert(data[0].msg)
           }
           setPending(false)
         }
