@@ -37,5 +37,5 @@ interface Ethereum {
 }
 
 interface Window {
-  ethereum?: Ethereum;
+  ronin?: Ethereum;
 }

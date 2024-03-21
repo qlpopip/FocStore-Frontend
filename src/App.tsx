@@ -1,3 +1,4 @@
+'use client';
 import { ShoppingCart, Home, ProductDetail, Checkout, Points, Swap, DailyCheckIn, WifiPoint, Event, EventDetail, Orders } from "./pages";
 import { Eye, SEO } from "./components/organisms";
 import { Route, Routes } from "react-router-dom";

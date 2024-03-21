@@ -1,116 +1,68 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import {createAsyncThunk} from '@reduxjs/toolkit';
 import axios from "axios";
-import { setAccount, setCurrentChainId, setError, setEth, setFoc, setIsPending, setPoints, setProvider, setUsdt } from '.';
-import { WEB3 } from 'utils/configs';
-import { ethers } from 'ethers';
-import { RootState } from "../index";
-import { clearOrders } from "../order";
+import {
+    setAccount,
+    setError,
+    setEth,
+    setFoc,
+    setIsPending,
+    setPoints,
+    setProvider,
+    setUsdt
+} from '.';
+import {WEB3} from 'utils/configs';
+import {ethers} from 'ethers';
+import {RootState} from "../index";
+import {clearOrders} from "../order";
+import {WalletSDK} from "@roninnetwork/wallet-sdk";
 
 
-export const connectWallet = createAsyncThunk('metaMask/connectWallet', async (_, { dispatch }) => {
-    if (window.ethereum) {
-        try {
-            // dispatch(setIsPending(true))
-            dispatch(setProvider(new ethers.BrowserProvider(window.ethereum)));
+export const connectWallet = createAsyncThunk('metaMask/connectWallet', async (_, {dispatch}) => {
+    const sdk = new WalletSDK()
+    await sdk.connectInjected()
 
-            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-            // dispatch(setAccount(accounts[0]));
+    const isInstalled = checkRoninInstalled()
+    if (!isInstalled) {
+        console.log('Ronin Wallet is not installed');
+        return;
+    }
 
-            const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-            dispatch(setCurrentChainId(chainId.toString()));
-
-            if (chainId.toString() !== '0x' + WEB3.CHAIN_ID.toString(16)) {
-                dispatch(switchChain(WEB3.CHAIN_ID));
-            }
-
+    try {
+        const accounts = await sdk.requestAccounts()
+        if (accounts) {
+            dispatch(setAccount(accounts[0]));
             dispatch(login(accounts[0]));
-            dispatch(connectContracts());
-
-            window.ethereum.on('accountsChanged', (accounts: string[]) => {
-                if (accounts.length > 0) {
-                    dispatch(setAccount(accounts[0]));
-                    dispatch(login(accounts[0]));
-                } else {
-                    dispatch(setAccount(undefined));
-                }
-            });
-
-            window.ethereum.on('chainChanged', (chainId: string) => {
-                const chainIdInt = parseInt(chainId, 16);
-                dispatch(setCurrentChainId(chainIdInt.toString()));
-                //@ts-ignore
-                dispatch(setProvider(new ethers.BrowserProvider(window.ethereum)));
-                dispatch(connectContracts());
-            });
-
-
-        } catch (error) {
-            dispatch(setError(error as Error));
         }
-    } else {
-        console.log('MetaMask is not installed');
-    }
-});
-export const switchChain = createAsyncThunk('metaMask/switchChain', async (chainId: number, { dispatch }) => {
-    // Switch between chains in MetaMask
-    const chainIdHex = '0x' + chainId.toString(16);
-    try {
-        await window.ethereum?.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: chainIdHex }],
-        });
-        dispatch(setCurrentChainId(chainId.toString()));
+        // dispatch(setIsPending(true))
+        //@ts-ignore
+        dispatch(setProvider(new ethers.BrowserProvider(window.ronin.provider)));
+        dispatch(connectContracts());
     } catch (error) {
-        await addChain(chainIdHex,
-            WEB3.CHAIN_NAME,
-            WEB3.JSON_RPC_URL,
-            WEB3.SYMBOL,
-            WEB3.SYMBOL,
-            WEB3.SCAN_URL
-        );
+        dispatch(setError(error as Error));
     }
-    const latestData = await window.ethereum?.request({ method: 'eth_chainId' });
-    dispatch(setCurrentChainId(latestData?.toString()));
 });
-const addChain = async (chainId: string,
-    chainName: string,
-    rpcUrl: string,
-    symbol: string,
-    name: string,
-    scanUrl: string) => {
-    try {
-        await window.ethereum?.request({
-            method: "wallet_addEthereumChain",
-            params: [
-                {
-                    blockExplorerUrls: [
-                        scanUrl
-                    ],
-                    iconUrls: [],
-                    nativeCurrency: {
-                        name,
-                        symbol,
-                        decimals: 18
-                    },
-                    rpcUrls: [
-                        rpcUrl
-                    ],
-                    chainId,
-                    chainName
-                }
-            ]
 
-        });
-    } catch (error) {
-        setError(error as Error);
+function checkRoninInstalled() {
+    if ('ronin' in window) {
+        return true
     }
-};
-export const login = createAsyncThunk('metaMask/login', async (account: string, { dispatch }) => {
+
+    window.open('https://wallet.roninchain.com', '_blank')
+    return false
+}
+
+
+export const login = createAsyncThunk('metaMask/login', async (account: string, {dispatch}) => {
     const nonce = await getNonce(account);
     const sig = await signMessage(nonce, account);
     const countryCode = await getCountryCode();
     const affiliateLinkCode = sessionStorage.getItem("ref") ? sessionStorage.getItem("ref") : ""
-    const res = await axios.post(process.env.REACT_APP_BACKEND_URL + 'auth/login', { sig, pubKey: account, countryCode, affiliateLinkCode });
+    const res = await axios.post(process.env.REACT_APP_BACKEND_URL + 'auth/login', {
+        sig,
+        pubKey: account,
+        countryCode,
+        affiliateLinkCode
+    });
 
     const user = {
         avatar: res.data.item.avatar,
@@ -130,7 +82,7 @@ const getNonce = async (address: string) => {
 
 const signMessage = (nonce: string, address: string) => {
     // @ts-ignore
-    return window.ethereum.request({
+    return window.ronin.provider.request({
         method: 'personal_sign',
         params: [nonce, address],
     });
@@ -144,7 +96,7 @@ const getCountryCode = async () => {
 
 export const connectContracts = createAsyncThunk(
     'contract/setContract',
-    async (_, { getState, dispatch }) => {
+    async (_, {getState, dispatch}) => {
         const state = getState() as RootState;
         const provider = state.metamask.provider;
         if (!provider) {
@@ -174,7 +126,10 @@ export const connectContracts = createAsyncThunk(
 
 export const sendTokens = createAsyncThunk(
     'contract/sendTokens',
-    async (payload: { amount: string, currency: 'ETH' | 'FOC' | 'USDT', navigate: () => void }, { getState, dispatch }) => {
+    async (payload: { amount: string, currency: 'ETH' | 'FOC' | 'USDT', navigate: () => void }, {
+        getState,
+        dispatch
+    }) => {
         try {
             const state = getState() as RootState;
             if (payload.currency === 'ETH') {
