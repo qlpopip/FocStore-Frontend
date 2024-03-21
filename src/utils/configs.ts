@@ -1,7 +1,7 @@
 export const WEB3 = {
     JSON_RPC_URL: 'https://ronin/rpc',
     CHAIN_ID: 2020,
-    CHAIN_NAME: 'Bifrost Test',
+    CHAIN_NAME: 'Ronin',
     SCAN_TX: 'https://app.roninchain.com/tx/',
     SCAN_ADDRESS: 'https://app.roninchain.com/address/',
     SCAN_URL: 'https://app.roninchain.com/',
