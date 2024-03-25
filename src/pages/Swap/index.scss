@@ -1,127 +1,133 @@
 .points_box {
-    width: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3em;
+  align-items: center;
+
+  .swap_box {
     display: flex;
     flex-direction: column;
+    box-shadow: 0px 4px 4px 0px #0000000d;
+    border-radius: 0.3em;
+    padding: 2em 7em;
     gap: 3em;
-    align-items: center;
 
+    .point {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2em;
 
-
-    .swap_box {
-        display: flex;
-        flex-direction: column;
-        box-shadow: 0px 4px 4px 0px #0000000D;
-        border-radius: .3em;
-        padding: 2em 7em;
-        gap: 3em;
-
-        .point {
-            display: flex;
-            align-items: center;
-            gap: 2em;
-
-            .coin_logo {}
-
-            .title {
-                color: #26278D;
-                font-size: 1em;
-            }
-
-            .icon {
-                width: 1.5em;
-
-            }
-
-            .point_box {
-                padding: 1em 2em;
-                background: #EFEFEF;
-                border-radius: .3em;
-                width: 11em;
-
-                p {
-                    font-size: 1.5em;
-                    font-weight: bold;
-                }
-            }
-
-            input {
-                font-size: 1em;
-            }
-
-            input[type="number"] {
-                appearance: none;
-                -webkit-appearance: none;
-            }
-
-            .inp {
-                padding: .5em;
-                border-radius: .3em;
-                border: 1px solid var(--color-border-sub);
-                background-color: transparent;
-                margin: 0;
-            }
-
-            input::-webkit-outer-spin-button,
-            input::-webkit-inner-spin-button {
-                -webkit-appearance: none;
-            }
-
-
-
-        }
-
-        .swap {
-            background-color: aqua;
-            position: relative;
-
-            .line {
-                border: 1px solid var(--color-border-sub);
-            }
-
-            .swap_icon {
-                background: var(--color-bg-orange);
-                padding: 1em;
-                width: 4em;
-                height: 4em;
-                border-radius: 50%;
-                position: absolute;
-                left: 50%;
-                transform: translate(-50%);
-                top: -2em;
-            }
-        }
-    }
-
-    .btn_box {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+      @media (max-width: 900px) {
         gap: 1em;
+      }
 
-        .message {
-            color: red;
+      .coin_logo {
+        width: 96px;
+        @media (max-width: 900px) {
+          width: 3em;
         }
+      }
 
-        .disabled {
-            cursor: no-drop;
-            background: var(--color-border-sub);
+      .title {
+        color: #26278d;
+        font-size: 1em;
+      }
 
-            span {
-                cursor: no-drop;
+      .icon {
+        width: 1.5em;
+      }
 
-            }
+      .point_box {
+        padding: 1em 2em;
+        background: #efefef;
+        border-radius: 0.3em;
+        width: 11em;
 
-            &:enabled:hover {
-                background: var(--color-border-sub);
-            }
-
-            &:enabled:active {
-                background: var(--color-border-sub);
-            }
+        p {
+          font-size: 1.5em;
+          font-weight: bold;
         }
+      }
+
+      input {
+        font-size: 1em;
+      }
+
+      input[type="number"] {
+        appearance: none;
+        -webkit-appearance: none;
+      }
+
+      .inp {
+        padding: 0.5em;
+        border-radius: 0.3em;
+        border: 1px solid var(--color-border-sub);
+        background-color: transparent;
+        margin: 0;
+      }
+
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+      }
     }
 
+    .swap {
+      background-color: aqua;
+      position: relative;
 
+      .line {
+        border: 1px solid var(--color-border-sub);
+      }
 
+      .swap_icon {
+        background: var(--color-bg-orange);
+        padding: 1em;
+        width: 4em;
+        height: 4em;
+        border-radius: 50%;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%);
+        top: -2em;
+
+        @media (max-width: 900px) {
+          width: 3em;
+          height: 3em;
+          top: -1.5em;
+        }
+      }
+    }
+  }
+
+  .btn_box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+
+    .message {
+      color: red;
+    }
+
+    .disabled {
+      cursor: no-drop;
+      background: var(--color-border-sub);
+
+      span {
+        cursor: no-drop;
+      }
+
+      &:enabled:hover {
+        background: var(--color-border-sub);
+      }
+
+      &:enabled:active {
+        background: var(--color-border-sub);
+      }
+    }
+  }
 }

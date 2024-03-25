@@ -25,8 +25,9 @@ const ButtonComp: React.FC<ButtonProps> = (props) => {
     <button
       type={type}
       onClick={onClick}
-      className={`button round-3 ${className} ${isInactive ? "inactive" : ""
-        } ${theme}`}
+      className={`button round-16 ${className} ${
+        isInactive ? "inactive" : ""
+      } ${theme}`}
       disabled={isInactive}
     >
       <span>{children}</span>

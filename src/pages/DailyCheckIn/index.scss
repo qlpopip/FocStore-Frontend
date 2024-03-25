@@ -1,287 +1,286 @@
 .points_box {
-    width: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3em;
+  align-items: center;
+  position: relative;
+  min-height: 20em;
+
+  .streak_calendar {
     display: flex;
     flex-direction: column;
     gap: 3em;
-    align-items: center;
-    position: relative;
-    min-height: 20em;
 
-    .streak_calendar {
-        display: flex;
-        flex-direction: column;
-        gap: 3em;
+    .top {
+      display: flex;
+      gap: 15em;
 
-        .top {
-            display: flex;
-            gap: 15em;
+      @media (max-width: 900px) {
+        gap: 1em;
+      }
 
-            .login_streak {
-                background: var(--color-bg-secondary);
-                display: flex;
-                align-items: center;
-                gap: 1em;
-                padding: .5em 1em;
-                border-radius: 1em;
-
-                .like {
-                    width: 1.5em;
-                }
-            }
-
-            .check_in_calendar {
-                display: flex;
-                align-items: center;
-                gap: 1em;
-                transition: .3s;
-
-                &:hover {
-                    transform: scale(1.1);
-                    transition: .3s;
-                }
-
-                .calendar_icon {
-                    width: 1.5em;
-                }
-
-                .text {
-                    font-size: 1em;
-                    color: var(--color-bg-primary-light);
-                }
-            }
-        }
-
-        .card_box {
-            display: flex;
-            width: 100%;
-            overflow-x: scroll;
-            gap: 2em;
-            padding: 3em;
-            position: absolute;
-            top: 4em;
-            left: 0;
-
-            .calendar-day {
-                border: 1px solid var(--color-border-sub);
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: flex-start;
-                padding: 1em;
-                background: var(--color-bg-secondary);
-                border-radius: 1em;
-                gap: 1em;
-
-                .day {
-                    display: none;
-                }
-
-                .streak_calendar_day {
-                    font-size: 1em;
-                    // border: 1px solid;
-                }
-
-                .daily_point {
-                    width: 100%;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    // gap: 1em;
-                    align-items: center;
-                    // border: 1px solid;
-                    height: 5.5em;
-
-                    .point {
-                        font-size: 1.2em;
-                        font-weight: bold;
-                        background: #F28C8A;
-                        padding: .2em.5em;
-                        border-radius: .7em;
-                    }
-
-                    .point_missed {
-                        border: 3px solid #F28C8A;
-                        border-radius: 50%;
-                        padding: .1em;
-                        width: 2em;
-                        height: 2em;
-                    }
-
-                    .text {
-                        display: none;
-                    }
-
-                    .more {
-                        background: var(--color-bg-dark-primary);
-                        cursor: no-drop;
-                        width: 6.5em;
-
-                        span {
-                            cursor: no-drop;
-
-                        }
-                    }
-                }
-            }
-
-            .today {
-                background: #8CC5EA;
-
-                .daily_point {
-                    width: 100%;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-
-                    .point {
-                        font-size: 1.2em;
-                        font-weight: bold;
-                        background: #F28C8A;
-                        padding: .2em.5em;
-                        border-radius: .7em;
-                    }
-
-                    .text {
-                        display: none;
-                    }
-
-                    .more {
-                        background: var(--color-bg-dark-primary);
-                        cursor: pointer;
-
-                        span {
-                            cursor: pointer;
-
-                        }
-                    }
-                }
-            }
-        }
-
-
-    }
-
-    .calendar {
-        display: flex;
-        flex-direction: column;
-        border: 1px solid var(--color-border-sub);
-        border-radius: .3em;
-        overflow: hidden;
+      .login_streak {
         background: var(--color-bg-secondary);
+        display: flex;
         align-items: center;
+        gap: 1em;
+        padding: 0.5em 1em;
+        border-radius: 1em;
+
+        .like {
+          width: 1.5em;
+        }
+      }
+
+      .check_in_calendar {
+        display: flex;
+        align-items: center;
+        gap: 1em;
+        transition: 0.3s;
+
+        &:hover {
+          transform: scale(1.1);
+          transition: 0.3s;
+        }
+
+        .calendar_icon {
+          width: 1.5em;
+        }
+
+        .text {
+          font-size: 1em;
+          color: var(--color-bg-primary-light);
+        }
+      }
+    }
+
+    .card_box {
+      display: flex;
+      width: 100%;
+      overflow-x: scroll;
+      gap: 2em;
+      padding: 3em;
+      position: absolute;
+      top: 4em;
+      left: 0;
+
+      .calendar-day {
+        border: 1px solid var(--color-border-sub);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 1em;
+        background: var(--color-bg-secondary);
+        border-radius: 1em;
+        gap: 1em;
+
+        .day {
+          display: none;
+        }
+
+        .streak_calendar_day {
+          font-size: 1em;
+          // border: 1px solid;
+        }
+
+        .daily_point {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          // gap: 1em;
+          align-items: center;
+          // border: 1px solid;
+          height: 5.5em;
+
+          .point {
+            font-size: 1.2em;
+            font-weight: bold;
+            background: #f28c8a;
+            padding: 0.2em.5em;
+            border-radius: 0.7em;
+          }
+
+          .point_missed {
+            border: 3px solid #f28c8a;
+            border-radius: 50%;
+            padding: 0.1em;
+            width: 2em;
+            height: 2em;
+          }
+
+          .text {
+            display: none;
+          }
+
+          .more {
+            background: var(--color-bg-dark-primary);
+            cursor: no-drop;
+            width: 6.5em;
+
+            span {
+              cursor: no-drop;
+            }
+          }
+        }
+      }
+
+      .today {
+        background: #8cc5ea;
+
+        .daily_point {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          .point {
+            font-size: 1.2em;
+            font-weight: bold;
+            background: #f28c8a;
+            padding: 0.2em.5em;
+            border-radius: 0.7em;
+          }
+
+          .text {
+            display: none;
+          }
+
+          .more {
+            background: var(--color-bg-dark-primary);
+            cursor: pointer;
+
+            span {
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .calendar {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-border-sub);
+    border-radius: 0.3em;
+    overflow: hidden;
+    background: var(--color-bg-secondary);
+    align-items: center;
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    top: -2em;
+
+    .date {
+      display: flex;
+      justify-content: center;
+      padding: 0.5em;
+      gap: 1em;
+
+      p {
+        font-size: 2em;
+        font-weight: 700;
+      }
+    }
+
+    .calendar-weekdays,
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 6em);
+      text-align: center;
+    }
+
+    .missed {
+      color: #f28c8a;
+    }
+
+    .calendar-day {
+      border: 1px solid var(--color-border-sub);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 0.5em 0.5em;
+
+      .more {
         display: none;
-        position: absolute;
-        z-index: 1000;
-        top: -2em;
+      }
 
-        .date {
-            display: flex;
-            justify-content: center;
-            padding: .5em;
-            gap: 1em;
+      .streak_calendar_day {
+        display: none;
+      }
 
-            p {
-                font-size: 2em;
-                font-weight: 700;
-            }
+      .day {
+        font-size: 0.8em;
+        font-weight: bold;
+        color: var(--color-text-default);
+      }
 
+      .daily_point {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 2.3em;
+
+        .point {
+          font-size: 1em;
+          font-weight: bold;
+          color: #d1d1d1;
         }
 
-        .calendar-weekdays,
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 6em);
-            text-align: center;
+        .point_missed {
+          border: 2px solid #f28c8a;
+          border-radius: 50%;
+          padding: 0.1em;
+          width: 1.2em;
+          height: 1.2em;
         }
 
-        .missed {
-            color: #F28C8A
+        .text {
+          font-size: 0.8em;
         }
 
-        .calendar-day {
-            border: 1px solid var(--color-border-sub);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            padding: .5em .5em;
-
-            .more {
-                display: none;
-            }
-
-            .streak_calendar_day {
-                display: none;
-            }
-
-            .day {
-                font-size: .8em;
-                font-weight: bold;
-                color: var(--color-text-default);
-            }
-
-            .daily_point {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                height: 2.3em;
-
-                .point {
-                    font-size: 1em;
-                    font-weight: bold;
-                    color: #D1D1D1;
-                }
-
-                .point_missed {
-                    border: 2px solid #F28C8A;
-                    border-radius: 50%;
-                    padding: .1em;
-                    width: 1.2em;
-                    height: 1.2em;
-                }
-
-                .text {
-                    font-size: .8em;
-                }
-
-                .collected {
-                    color: var(--color-text-primary);
-                }
-            }
+        .collected {
+          color: var(--color-text-default);
         }
-
-        .calendar-weekday {
-            border: 1px solid var(--color-border-sub);
-            padding: .5em 0;
-        }
-
-        .today {
-            color: var(--color-text-primary);
-
-            .daily_point {
-                .point {
-                    color: var(--color-text-primary);
-                }
-            }
-        }
-
-        .empty {
-            // background-color: #f0f0f0;
-        }
+      }
     }
 
-    .show_calendar {
-        display: block !important;
+    .calendar-weekday {
+      border: 1px solid var(--color-border-sub);
+      padding: 0.5em 0;
     }
+
+    .today {
+      color: var(--color-text-primary);
+
+      .daily_point {
+        .point {
+          color: var(--color-text-primary);
+        }
+      }
+    }
+
+    .empty {
+      // background-color: #f0f0f0;
+    }
+  }
+
+  .show_calendar {
+    display: block !important;
+  }
 }
 
 .overly {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #0000002c;
-    z-index: 999;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #0000002c;
+  z-index: 999;
 }

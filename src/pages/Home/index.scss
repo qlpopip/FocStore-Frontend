@@ -7,11 +7,11 @@
   // overflow-y: scroll;
 
   .table {
-    width: 63em;
     display: flex;
     flex-wrap: wrap;
     gap: 1em;
     padding: 2em 0;
+    justify-content: center;
 
     .card {
       display: flex;
@@ -22,13 +22,12 @@
       height: 20em;
       gap: 2em;
       padding: 1em 1em 2em 1em !important;
-      transition: .3s;
+      transition: 0.3s;
       user-select: none;
 
       &:hover {
-        transition: .3s;
-        box-shadow: 0px 8px 24px 0px #191C1F1F;
-
+        transition: 0.3s;
+        box-shadow: 0px 8px 24px 0px #191c1f1f;
       }
 
       .img_box {
@@ -49,7 +48,7 @@
         // }
         .ant-image-mask {
           align-items: center;
-          background: rgba(0, 0, 0, .5);
+          background: rgba(0, 0, 0, 0.5);
           bottom: 0;
           color: #fff;
           cursor: pointer;
@@ -60,7 +59,7 @@
           position: absolute;
           right: 0;
           top: 0;
-          transition: opacity .3s;
+          transition: opacity 0.3s;
 
           .ant-image-mask-info {
             overflow: hidden;
@@ -99,7 +98,7 @@
           width: 100%;
 
           &:hover {
-            opacity: .8;
+            opacity: 0.8;
           }
         }
       }
@@ -112,7 +111,6 @@
         width: 100%;
         cursor: pointer !important;
         min-height: 4.5em;
-
 
         .description {
           width: 100%;
@@ -128,17 +126,19 @@
 
           p {
             cursor: pointer;
-            font-size: 1em;
+            font-size: 1.25em;
+            font-weight: 500;
+            color: var(--color-text-primary);
           }
         }
 
         .price {
           color: var(--color-text-primary);
-          transition: .3s;
+          transition: 0.3s;
 
           &:hover {
             transform: scale(1.02);
-            transition: .3s;
+            transition: 0.3s;
           }
         }
       }
