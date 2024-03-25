@@ -9,7 +9,7 @@ const Header: React.FC = () => {
     <div id="navbar">
       <div className="left_box">
         <Link to="/">
-          <img src={IconsFile.Logo} style={{ width: "120px" }} />
+          <img src={IconsFile.Logo} style={{ width: "120px" }} alt="" />
         </Link>
         <div className="navigation_line">
           <NavLink
