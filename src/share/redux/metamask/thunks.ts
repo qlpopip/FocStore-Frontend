@@ -41,8 +41,8 @@ export const connectWallet = createAsyncThunk(
 
     try {
       if (isMobileDevice() && uri) {
-        window.open(sdk.getDeeplink());
-        await sdk.connectMobile();
+        alert("deeplink: " + uri);
+        window.open(uri, "_blank");
       }
       await sdk.connectInjected();
       const accounts = await sdk.requestAccounts();
