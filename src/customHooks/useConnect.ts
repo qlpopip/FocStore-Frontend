@@ -12,6 +12,7 @@ const useConnect = () => {
   const dispatch = useAppDispatch();
   const account = useAppSelector((state) => state.metamask.account);
   const sdkRef = useRef<WalletSDK | null>(null);
+  // eslint-disable-next-line
   const [uri, setUri] = useState<string | null>(null);
 
   useEffect(() => {
@@ -38,11 +39,9 @@ const useConnect = () => {
   const connectMetamask = async () => {
     try {
       if (!account) {
-        if (isMobileDevice()) {
+        if (!isMobileDevice()) {
           await connectRonin();
-          if (uri) {
-            window.open(sdkRef.current?.getDeeplink(), "_blank");
-          }
+          window.open(sdkRef.current?.getDeeplink(), "_blank");
         }
         dispatch(connectWallet());
       }
