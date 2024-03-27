@@ -23,13 +23,14 @@ const useConnect = () => {
   }, []);
 
   async function connectRonin() {
-    if (sdkRef.current) await sdkRef.current.connectMobile();
+    // if (sdkRef.current) await sdkRef.current.connectMobile();
     sdkRef.current.on(WCEvent.DISPLAY_URI, (wcUri: string) => {
       window.open(
         `https://wallet.roninchain.com/auth-connect?uri=${wcUri}`,
         "_blank"
       );
     });
+    await sdkRef.current.connectMobile();
   }
 
   const connectMetamask = async () => {
