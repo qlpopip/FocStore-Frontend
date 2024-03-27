@@ -85,7 +85,9 @@ const Points: React.FC = () => {
                     <p>Points</p>
                   </div>
                   {isMobile && !account && (
-                    <a href={uri}>Connect Ronin Mobile</a>
+                    <Link to={uri} target="_blank">
+                      Connect Ronin Mobile
+                    </Link>
                   )}
                   <Button
                     className="primary"
