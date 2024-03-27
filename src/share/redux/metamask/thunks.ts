@@ -21,7 +21,7 @@ export const connectWallet = createAsyncThunk(
   async (_, { dispatch }) => {
     const sdk = new WalletSDK({
       mobileOptions: {
-        walletConnectProjectId: "465b3df31e1f68b98f0742db849788d9",
+        walletConnectProjectId: "22d5c6fcb2166b600bd72c3b1f0e67b2",
       },
     });
 
@@ -32,7 +32,7 @@ export const connectWallet = createAsyncThunk(
     }
 
     try {
-      await sdk.connectInjected();
+      await sdk.connect();
       const accounts = await sdk.requestAccounts();
       if (accounts) {
         dispatch(login(accounts[0]));
