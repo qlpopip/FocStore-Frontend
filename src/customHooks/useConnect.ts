@@ -19,7 +19,7 @@ const useConnect = () => {
     try {
       if (!account) {
         if (isMobileDevice()) {
-          window.open(sdk?.getDeeplink());
+          window.open("https://wallet.roninchain.com", "_blank");
         }
         dispatch(connectWallet());
       }
