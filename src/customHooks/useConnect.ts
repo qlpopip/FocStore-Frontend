@@ -4,13 +4,10 @@ import { logout, setURI } from "share/redux/metamask";
 import { connectWallet } from "share/redux/metamask/thunks";
 import { WCEvent, WalletSDK } from "@roninnetwork/wallet-sdk";
 
-const isMobileDevice = () => {
-  return "ontouchstart" in window || "onmsgesturechange" in window;
-};
-
 const useConnect = () => {
   const dispatch = useAppDispatch();
   const account = useAppSelector((state) => state.metamask.account);
+  const isMobile = useAppSelector((state) => state.metamask.isMobile);
   const sdkRef = useRef<WalletSDK | null>(null);
 
   useEffect(() => {
@@ -38,7 +35,7 @@ const useConnect = () => {
   const connectMetamask = async () => {
     try {
       if (!account) {
-        if (isMobileDevice()) {
+        if (isMobile) {
           await connectRonin();
           return;
         }

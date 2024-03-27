@@ -11,14 +11,11 @@ import { useEffect, useState } from "react";
 import { getHistory } from "./_api";
 import useConnect from "customHooks/useConnect";
 
-const isMobileDevice = () => {
-  return "ontouchstart" in window || "onmsgesturechange" in window;
-};
-
 const Points: React.FC = () => {
   const account = useAppSelector((state) => state.metamask.account);
   const isPending = useAppSelector((state) => state.metamask.isPending);
   const points = useAppSelector((state) => state.metamask.points);
+  const isMobile = useAppSelector((state) => state.metamask.isMobile);
   const navigate = useNavigate();
   const [pending, setPending] = useState(false);
   const { connectMetamask, handleLogoutAndConnect } = useConnect();
@@ -87,7 +84,7 @@ const Points: React.FC = () => {
                     <p className="count">{points}</p>
                     <p>Points</p>
                   </div>
-                  {isMobileDevice() && !account && (
+                  {isMobile && !account && (
                     <a href={uri}>Connect Ronin Mobile</a>
                   )}
                   <Button

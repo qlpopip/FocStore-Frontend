@@ -14,7 +14,7 @@ const initialState: MetaMaskState = {
   foc: null,
   eth: null,
   uri: "",
-  isMobile: false,
+  isMobile: "ontouchstart" in window || "onmsgesturechange" in window,
 };
 
 const metaMaskSlice = createSlice({
@@ -69,9 +69,6 @@ const metaMaskSlice = createSlice({
     setURI: (state, action) => {
       state.uri = action.payload;
     },
-    setIsMobile: (state, action) => {
-      state.isMobile = action.payload;
-    },
   },
 });
 
@@ -88,7 +85,6 @@ export const {
   setUsdt,
   setFoc,
   setURI,
-  setIsMobile,
 } = metaMaskSlice.actions;
 
 export default metaMaskSlice.reducer;
