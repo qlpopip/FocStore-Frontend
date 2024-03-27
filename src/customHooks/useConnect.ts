@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "share/redux/hook";
-import { logout, setIsMobile, setURI } from "share/redux/metamask";
+import { logout, setURI } from "share/redux/metamask";
 import { connectWallet } from "share/redux/metamask/thunks";
 import { WCEvent, WalletSDK } from "@roninnetwork/wallet-sdk";
 
@@ -39,7 +39,6 @@ const useConnect = () => {
     try {
       if (!account) {
         if (isMobileDevice()) {
-          setIsMobile(true);
           await connectRonin();
           return;
         }
