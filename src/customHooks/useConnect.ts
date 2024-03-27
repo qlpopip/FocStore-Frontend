@@ -25,8 +25,10 @@ const useConnect = () => {
   async function connectRonin() {
     // if (sdkRef.current) await sdkRef.current.connectMobile();
     sdkRef.current.on(WCEvent.DISPLAY_URI, (wcUri: string) => {
+      const remainingUri = wcUri.replace(/^wc:/, "");
+
       window.open(
-        `https://wallet.roninchain.com/auth-connect?uri=${wcUri}`,
+        `https://wallet.roninchain.com/auth-connect?uri=wc%${remainingUri}`,
         "_blank"
       );
     });
