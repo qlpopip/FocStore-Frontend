@@ -9,7 +9,7 @@ const useConnect = () => {
   const connectMetamask = async () => {
     try {
       if (!account) {
-        if (window.ronin !== undefined) {
+        if (window.ronin === undefined) {
           window.open("https://wallet.roninchain.com", "_blank");
           return;
         }
