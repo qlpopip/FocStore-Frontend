@@ -25,8 +25,8 @@ const useConnect = () => {
 
   async function connectRonin() {
     console.log("connectRonin");
-    sdkRef.current.on(WCEvent.DISPLAY_URI, (uri: string) => {
-      setUri(uri);
+    sdkRef.current.on(WCEvent.DISPLAY_URI, (wcUri: string) => {
+      setUri(wcUri);
     });
     console.log(sdkRef.current);
     await sdkRef.current.connectMobile();
