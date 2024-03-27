@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import {
@@ -41,8 +42,8 @@ export const connectWallet = createAsyncThunk(
 
     try {
       if (isMobileDevice() && uri) {
-        window.open(sdk.getDeeplink(), "_blank");
-        return;
+        window.open(sdk.getDeeplink());
+        await sdk.connectMobile();
       }
       await sdk.connectInjected();
       const accounts = await sdk.requestAccounts();
