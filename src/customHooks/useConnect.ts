@@ -32,7 +32,7 @@ const useConnect = () => {
         if (isMobileDevice()) {
           await connectRonin();
 
-          if (uri) {
+          if (uri && sdkRef.current) {
             window.open(sdkRef.current.getDeepLink(), "_blank");
             return;
           }
