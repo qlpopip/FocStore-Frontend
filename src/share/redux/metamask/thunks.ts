@@ -8,17 +8,14 @@ import {
   setIsPending,
   setPoints,
   setProvider,
+  setSDK,
   setUsdt,
 } from ".";
 import { WEB3 } from "utils/configs";
 import { ethers } from "ethers";
 import { RootState } from "../index";
 import { clearOrders } from "../order";
-import { WalletSDK, WCEvent } from "@roninnetwork/wallet-sdk";
-
-function isMobileDevice() {
-  return "ontouchstart" in window || "onmsgesturechange" in window;
-}
+import { WalletSDK } from "@roninnetwork/wallet-sdk";
 
 export const connectWallet = createAsyncThunk(
   "metaMask/connectWallet",
@@ -28,10 +25,7 @@ export const connectWallet = createAsyncThunk(
         walletConnectProjectId: "465b3df31e1f68b98f0742db849788d9",
       },
     });
-    var uri;
-    sdk.on(WCEvent.DISPLAY_URI, (wcuri) => {
-      uri = wcuri;
-    });
+    setSDK(sdk);
 
     const isInstalled = checkRoninInstalled();
     if (!isInstalled) {
@@ -40,10 +34,6 @@ export const connectWallet = createAsyncThunk(
     }
 
     try {
-      if (isMobileDevice() && uri) {
-        await sdk.connectMobile();
-        window.open(sdk.getDeeplink(), "_blank");
-      }
       await sdk.connectInjected();
       const accounts = await sdk.requestAccounts();
       if (accounts) {
