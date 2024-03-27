@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useAppDispatch, useAppSelector } from "share/redux/hook";
+import { useAppDispatch } from "share/redux/hook";
 import { logout } from "share/redux/metamask";
 import { connectWallet } from "share/redux/metamask/thunks";
 import { WCEvent, WalletSDK } from "@roninnetwork/wallet-sdk";
@@ -10,7 +10,7 @@ function isMobileDevice() {
 
 const useConnect = () => {
   const dispatch = useAppDispatch();
-  const account = useAppSelector((state) => state.metamask.account);
+  // const account = useAppSelector((state) => state.metamask.account);
   const sdkRef = useRef<any>(null);
 
   useEffect(() => {
