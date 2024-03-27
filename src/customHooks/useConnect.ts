@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "share/redux/hook";
 import { logout } from "share/redux/metamask";
 import { connectWallet } from "share/redux/metamask/thunks";
@@ -12,6 +12,7 @@ const useConnect = () => {
   const dispatch = useAppDispatch();
   const account = useAppSelector((state) => state.metamask.account);
   const sdkRef = useRef<WalletSDK | null>(null);
+  const [uri, setUri] = useState<string | null>(null);
 
   useEffect(() => {
     const sdk = new WalletSDK({
@@ -25,8 +26,7 @@ const useConnect = () => {
 
   const registerDisplayUriListener = () => {
     sdkRef.current?.on(WCEvent.DISPLAY_URI, (wcUri: string) => {
-      const encodedUri = encodeURIComponent(wcUri);
-      window.open(`wc:${encodedUri}`, "_blank");
+      setUri(wcUri);
     });
   };
 
@@ -40,7 +40,9 @@ const useConnect = () => {
       if (!account) {
         if (isMobileDevice()) {
           await connectRonin();
-          return;
+          if (uri) {
+            window.open(sdkRef.current?.getDeeplink(), "_blank");
+          }
         }
         dispatch(connectWallet());
       }
