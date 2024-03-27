@@ -19,27 +19,26 @@ const useConnect = () => {
     sdkRef.current = sdk;
   }, [sdk]);
 
-  // useEffect(() => {
-  //   if (!account) {
-  //     connectMetamask();
-  //   }
-  // }, [account]);
+  async function connectRonin() {
+    sdkRef.current.on(WCEvent.DISPLAY_URI, (uri: string) => {
+      setUri(uri);
+    });
+    await sdkRef.current.connectMobile();
+  }
 
   const connectMetamask = async () => {
     try {
       if (!account) {
         if (isMobileDevice()) {
-          sdkRef.current.on(WCEvent.DISPLAY_URI, (uri: string) => {
-            setUri(uri);
-          });
-          await sdkRef.current.connectMobile();
+          await connectRonin();
 
           if (uri) {
             window.open(sdkRef.current.getDeepLink(), "_blank");
             return;
           }
+        } else {
+          dispatch(connectWallet());
         }
-        dispatch(connectWallet());
       }
     } catch (e) {
       console.log(e);
