@@ -1,4 +1,3 @@
-import { useEffect, useState, useRef } from "react";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import {
@@ -15,45 +14,22 @@ import { WEB3 } from "utils/configs";
 import { ethers } from "ethers";
 import { RootState } from "../index";
 import { clearOrders } from "../order";
-import { WalletSDK, WCEvent } from "@roninnetwork/wallet-sdk";
-
-function isMobileDevice() {
-  return "ontouchstart" in window || "onmsgesturechange" in window;
-}
+import { WalletSDK } from "@roninnetwork/wallet-sdk";
 
 export const connectWallet = createAsyncThunk(
   "metaMask/connectWallet",
   async (_, { dispatch }) => {
-    const [uri, setUri] = useState("");
-    const sdkRef = useRef<WalletSDK | null>(null);
-
-    useEffect(() => {
-      const sdk = new WalletSDK({
-        mobileOptions: {
-          walletConnectProjectId: "465b3df31e1f68b98f0742db849788d9",
-        },
-      });
-      sdkRef.current = sdk;
-    }, []);
+    const sdk = new WalletSDK();
+    await sdk.connectInjected();
 
     const isInstalled = checkRoninInstalled();
-
     if (!isInstalled) {
       console.log("Ronin Wallet is not installed");
       return;
     }
 
-    if (isMobileDevice() && uri) {
-      sdkRef.current?.on(WCEvent.DISPLAY_URI, (wcUri) => {
-        setUri(wcUri);
-      });
-      window.open(sdkRef.current?.getDeeplink(), "_blank");
-    } else {
-      await sdkRef.current?.connectInjected();
-    }
-
     try {
-      const accounts = await sdkRef.current?.requestAccounts();
+      const accounts = await sdk.requestAccounts();
       if (accounts) {
         dispatch(setAccount(accounts[0]));
         dispatch(login(accounts[0]));

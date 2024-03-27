@@ -12,15 +12,15 @@ const useConnect = () => {
   //     connectMetamask();
   //   }
   // }, [account]);
-  // function isMobileDevice() {
-  //   return "ontouchstart" in window || "onmsgesturechange" in window;
-  // }
+  function isMobileDevice() {
+    return "ontouchstart" in window || "onmsgesturechange" in window;
+  }
   const connectMetamask = async () => {
     try {
       if (!account) {
-        // if (isMobileDevice()) {
-        //   window.open("https://wallet.roninchain.com", "_blank");
-        // }
+        if (isMobileDevice()) {
+          window.open("https://wallet.roninchain.com", "_blank");
+        }
         dispatch(connectWallet());
       }
     } catch (e) {
