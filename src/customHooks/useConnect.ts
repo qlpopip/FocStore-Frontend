@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "share/redux/hook";
 import { logout } from "share/redux/metamask";
 import { connectWallet } from "share/redux/metamask/thunks";
-import { WCEvent } from "@roninnetwork/wallet-sdk";
+import { WCEvent, WalletSDK } from "@roninnetwork/wallet-sdk";
 
 function isMobileDevice() {
   return "ontouchstart" in window || "onmsgesturechange" in window;
@@ -11,13 +11,16 @@ function isMobileDevice() {
 const useConnect = () => {
   const dispatch = useAppDispatch();
   const account = useAppSelector((state) => state.metamask.account);
-  const sdk = useAppSelector((state) => state.metamask.sdk);
   const [uri, setUri] = useState<string>("");
   const sdkRef = useRef<any>(null);
 
   useEffect(() => {
-    sdkRef.current = sdk;
-  }, [sdk]);
+    sdkRef.current = new WalletSDK({
+      mobileOptions: {
+        walletConnectProjectId: "465b3df31e1f68b98f0742db849788d9",
+      },
+    });
+  }, []);
 
   async function connectRonin() {
     sdkRef.current.on(WCEvent.DISPLAY_URI, (uri: string) => {

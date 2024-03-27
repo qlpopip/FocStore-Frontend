@@ -8,7 +8,6 @@ import {
   setIsPending,
   setPoints,
   setProvider,
-  setSDK,
   setUsdt,
 } from ".";
 import { WEB3 } from "utils/configs";
@@ -25,7 +24,6 @@ export const connectWallet = createAsyncThunk(
         walletConnectProjectId: "465b3df31e1f68b98f0742db849788d9",
       },
     });
-    setSDK(sdk);
 
     const isInstalled = checkRoninInstalled();
     if (!isInstalled) {
