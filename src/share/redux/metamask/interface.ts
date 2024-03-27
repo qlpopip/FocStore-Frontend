@@ -13,7 +13,8 @@ export interface MetaMaskState {
   usdt: Contract | null;
   foc: Contract | null;
   eth: Contract | null;
-  sdk: WalletSDK | null;
+  uri: string;
+  isMobile: boolean;
 }
 
 export interface Token {

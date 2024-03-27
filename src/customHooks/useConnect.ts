@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "share/redux/hook";
-import { logout } from "share/redux/metamask";
+import { logout, setIsMobile, setURI } from "share/redux/metamask";
 import { connectWallet } from "share/redux/metamask/thunks";
 import { WCEvent, WalletSDK } from "@roninnetwork/wallet-sdk";
 
@@ -26,15 +26,7 @@ const useConnect = () => {
   const registerDisplayUriListener = () => {
     sdkRef.current?.on(WCEvent.DISPLAY_URI, (wcUri: string) => {
       const encodedUri = encodeURIComponent(wcUri);
-      const newWindow = window.open(
-        `https://wallet.roninchain.com/auth-connect?uri=${encodedUri}`,
-        "_blank",
-        "noopener"
-      );
-
-      if (newWindow) {
-        newWindow.focus();
-      }
+      setURI(`https://wallet.roninchain.com/auth-connect?uri=${encodedUri}`);
     });
   };
 
@@ -47,6 +39,7 @@ const useConnect = () => {
     try {
       if (!account) {
         if (isMobileDevice()) {
+          setIsMobile(true);
           await connectRonin();
           return;
         }

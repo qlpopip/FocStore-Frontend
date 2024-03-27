@@ -13,7 +13,8 @@ const initialState: MetaMaskState = {
   usdt: null,
   foc: null,
   eth: null,
-  sdk: null,
+  uri: "",
+  isMobile: false,
 };
 
 const metaMaskSlice = createSlice({
@@ -65,8 +66,11 @@ const metaMaskSlice = createSlice({
       state.foc = null;
       state.eth = null;
     },
-    setSDK: (state, action) => {
-      state.sdk = action.payload;
+    setURI: (state, action) => {
+      state.uri = action.payload;
+    },
+    setIsMobile: (state, action) => {
+      state.isMobile = action.payload;
     },
   },
 });
@@ -83,7 +87,8 @@ export const {
   setEth,
   setUsdt,
   setFoc,
-  setSDK,
+  setURI,
+  setIsMobile,
 } = metaMaskSlice.actions;
 
 export default metaMaskSlice.reducer;
