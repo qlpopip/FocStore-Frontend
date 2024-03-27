@@ -1,4 +1,3 @@
-import { useEffect, useState, useRef } from "react";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import {
@@ -9,7 +8,6 @@ import {
   setIsPending,
   setPoints,
   setProvider,
-  setSDK,
   setUsdt,
 } from ".";
 import { WEB3 } from "utils/configs";
