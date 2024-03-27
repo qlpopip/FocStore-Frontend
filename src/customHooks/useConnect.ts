@@ -34,13 +34,11 @@ const useConnect = () => {
 
   const connectMetamask = async () => {
     try {
-      if (!account) {
-        if (isMobileDevice()) {
-          await connectRonin();
-          return;
-        } else {
-          dispatch(connectWallet());
-        }
+      if (isMobileDevice()) {
+        await connectRonin();
+        return;
+      } else {
+        dispatch(connectWallet());
       }
     } catch (e) {
       console.log(e);
