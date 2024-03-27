@@ -26,10 +26,7 @@ const useConnect = () => {
   const registerDisplayUriListener = () => {
     sdkRef.current?.on(WCEvent.DISPLAY_URI, (wcUri: string) => {
       const encodedUri = encodeURIComponent(wcUri);
-      window.open(
-        `https://wallet.roninchain.com/auth-connect?uri=${encodedUri}`,
-        "_blank"
-      );
+      window.open(`wc:${encodedUri}`, "_blank");
     });
   };
 
