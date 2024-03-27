@@ -4,7 +4,6 @@ import { connectWallet } from "share/redux/metamask/thunks";
 
 const useConnect = () => {
   const dispatch = useAppDispatch();
-  const sdk = useAppSelector((state) => state.metamask.sdk);
   const account = useAppSelector((state) => state.metamask.account);
 
   // useEffect(() => {

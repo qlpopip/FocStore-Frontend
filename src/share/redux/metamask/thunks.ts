@@ -26,7 +26,6 @@ export const connectWallet = createAsyncThunk(
       },
     });
     setSDK(sdk);
-    await sdk.connectInjected();
 
     const isInstalled = checkRoninInstalled();
     if (!isInstalled) {
@@ -35,6 +34,7 @@ export const connectWallet = createAsyncThunk(
     }
 
     try {
+      await sdk.connectInjected();
       const accounts = await sdk.requestAccounts();
       if (accounts) {
         dispatch(setAccount(accounts[0]));
@@ -54,7 +54,6 @@ function checkRoninInstalled() {
   if ("ronin" in window) {
     return true;
   }
-
   window.open("https://wallet.roninchain.com", "_blank");
   return false;
 }
