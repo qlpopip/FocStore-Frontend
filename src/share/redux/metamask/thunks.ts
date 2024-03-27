@@ -37,7 +37,6 @@ export const connectWallet = createAsyncThunk(
       await sdk.connectInjected();
       const accounts = await sdk.requestAccounts();
       if (accounts) {
-        dispatch(setAccount(accounts[0]));
         dispatch(login(accounts[0]));
       }
       // dispatch(setIsPending(true))
