@@ -15,6 +15,7 @@ const useConnect = () => {
   const sdkRef = useRef<any>(null);
 
   useEffect(() => {
+    console.log("useEffect");
     sdkRef.current = new WalletSDK({
       mobileOptions: {
         walletConnectProjectId: "465b3df31e1f68b98f0742db849788d9",
@@ -23,9 +24,11 @@ const useConnect = () => {
   }, []);
 
   async function connectRonin() {
+    console.log("connectRonin");
     sdkRef.current.on(WCEvent.DISPLAY_URI, (uri: string) => {
       setUri(uri);
     });
+    console.log(sdkRef.current);
     await sdkRef.current.connectMobile();
   }
 
@@ -36,7 +39,9 @@ const useConnect = () => {
           await connectRonin();
 
           if (uri && sdkRef.current) {
-            window.open(sdkRef.current.getDeepLink(), "_blank");
+            const remainingUri = uri.replace(/^wc:/, "");
+            const authUrl = `https://wallet.roninchain.com/auth-connect?uri=wc%${remainingUri}`;
+            window.open(authUrl, "_blank");
             return;
           }
         } else {
