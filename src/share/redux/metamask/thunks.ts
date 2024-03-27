@@ -8,6 +8,7 @@ import {
   setIsPending,
   setPoints,
   setProvider,
+  setSDK,
   setUsdt,
 } from ".";
 import { WEB3 } from "utils/configs";
@@ -19,7 +20,12 @@ import { WalletSDK } from "@roninnetwork/wallet-sdk";
 export const connectWallet = createAsyncThunk(
   "metaMask/connectWallet",
   async (_, { dispatch }) => {
-    const sdk = new WalletSDK();
+    const sdk = new WalletSDK({
+      mobileOptions: {
+        walletConnectProjectId: "465b3df31e1f68b98f0742db849788d9",
+      },
+    });
+    setSDK(sdk);
     await sdk.connectInjected();
 
     const isInstalled = checkRoninInstalled();

@@ -1,4 +1,5 @@
 import { Contract, ethers } from "ethers";
+import { WalletSDK } from "@roninnetwork/wallet-sdk";
 
 // src/store/metamask/types.ts
 export interface MetaMaskState {
@@ -12,6 +13,7 @@ export interface MetaMaskState {
   usdt: Contract | null;
   foc: Contract | null;
   eth: Contract | null;
+  sdk: WalletSDK | null;
 }
 
 export interface Token {
