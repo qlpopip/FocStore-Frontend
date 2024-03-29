@@ -9,6 +9,7 @@ import {
   setPoints,
   setProvider,
   setUsdt,
+  setRouter,
 } from ".";
 import { WEB3 } from "utils/configs";
 import { ethers } from "ethers";
@@ -118,9 +119,15 @@ export const connectContracts = createAsyncThunk(
     const usdt = new ethers.Contract(WEB3.ERC20.usdt, WEB3.ERC20.abi, signer);
     const foc = new ethers.Contract(WEB3.ERC20.foc, WEB3.ERC20.abi, signer);
     const eth = new ethers.Contract(WEB3.ERC20.eth, WEB3.ERC20.abi, signer);
+    const router = new ethers.Contract(
+      WEB3.ROUTER.address,
+      WEB3.ROUTER.abi,
+      signer
+    );
     dispatch(setUsdt(usdt));
     dispatch(setFoc(foc));
     dispatch(setEth(eth));
+    dispatch(setRouter(router));
   }
 );
 

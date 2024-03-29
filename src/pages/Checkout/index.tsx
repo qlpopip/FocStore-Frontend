@@ -12,6 +12,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import { sendTokens } from "../../share/redux/metamask/thunks";
 import useConnect from "customHooks/useConnect";
+import { ethers } from "ethers";
+import BigNumber from "bignumber.js";
+import { WEB3 } from "utils/configs";
+
 interface CryptoData {
   USDT: {
     usd: number;
@@ -28,6 +32,8 @@ const Checkout: React.FC = () => {
   const dispatch = useAppDispatch();
   const account = useAppSelector((state) => state.metamask.account);
   const orders = useAppSelector((state) => state.order.orders);
+  const router = useAppSelector((state) => state.metamask.router);
+
   const totalPrice = orders.reduce(
     (total, item) => total + item.product.productPrice * item.productCount,
     0
@@ -146,14 +152,20 @@ const Checkout: React.FC = () => {
           "https://api.coingecko.com/api/v3/simple/price",
           {
             params: {
-              ids: "ethereum,force",
+              ids: "ethereum",
               vs_currencies: "usd",
             },
           }
         );
+        const response2 = await router?.getAmountsOut(ethers.parseEther("1"), [
+          WEB3.ERC20.foc,
+          WEB3.ERC20.usdc,
+        ]);
+        const decimal = BigNumber(10).exponentiatedBy(18);
+        const divided = BigNumber(response2[1]).dividedBy(decimal).toString();
         setCoins({
           USDT: { usd: 1 },
-          FOC: { usd: response.data.force?.usd ?? 0 },
+          FOC: { usd: parseInt(divided) ?? 0 },
           ETH: { usd: response.data.ethereum?.usd ?? 0 },
         });
       } catch (error) {

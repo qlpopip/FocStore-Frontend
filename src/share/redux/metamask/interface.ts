@@ -15,6 +15,7 @@ export interface MetaMaskState {
   eth: Contract | null;
   uri: string;
   isMobile: boolean;
+  router: Contract | null;
 }
 
 export interface Token {
