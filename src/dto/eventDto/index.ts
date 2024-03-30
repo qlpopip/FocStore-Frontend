@@ -5,4 +5,5 @@ export interface EventType {
   point: number
   img: string
   id: number
+  active: boolean
 }

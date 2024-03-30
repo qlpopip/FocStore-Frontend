@@ -4,4 +4,5 @@ export interface ProductType {
   productPrice: number
   img: string[]
   id: number
+  active: boolean
 }

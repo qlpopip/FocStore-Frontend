@@ -18,6 +18,7 @@ const initialEventState: EventType = {
   point: 0,
   img: '',
   id: 0,
+  active: false
 };
 const EventDetail: React.FC = () => {
   const { id } = useParams();
@@ -74,11 +75,13 @@ const EventDetail: React.FC = () => {
   }, [account, reload, isPending]);
   const getPoint = async () => {
     try {
-      if (account && isPending) {
-        !claimed && postPoint()
-      } else {
-        connectMetamask()
-        isPending && postPoint()
+      if (event.active) {
+        if (account && isPending) {
+          !claimed && postPoint()
+        } else {
+          connectMetamask()
+          isPending && postPoint()
+        }
       }
     } catch (error) {
       alert(error);
@@ -115,14 +118,14 @@ const EventDetail: React.FC = () => {
                   <div className="event_main">
                     <p className="name">{event.name.toUpperCase()}</p>
                     <p className="title">{event.title}</p>
-                    {!account && <Button className="more" onClick={connectMetamask}>Connect to claim</Button>}
-                    <p className="description_title">Description</p>
+                    {(!account) && <Button className={`more ${!event.active && "claimed"} `} onClick={() => event.active && connectMetamask()}>Connect to claim</Button>}
+                    <p className="description_title">Description </p>
                     <span className="description"
                       dangerouslySetInnerHTML={{ __html: event.description }} />
                     <div className="copy_box">
                       <div className="btn_box">
                         {claimed && <Image src={IconsFile.Success} alt="" className="icon" />}
-                        <Button className={`more ${claimed && "claimed"}`} onClick={getPoint}>+{event.point} Points </Button>
+                        <Button className={`more ${(claimed || !event.active) && "claimed"} `} onClick={getPoint}>+{event.point} Points </Button>
                       </div>
                     </div>
                   </div>

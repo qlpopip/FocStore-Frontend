@@ -16,6 +16,7 @@ const initialProductState: ProductType = {
   productPrice: 0,
   img: [],
   id: 0,
+  active: false
 };
 const ProductDetail: React.FC = () => {
   const { id } = useParams();
@@ -123,9 +124,8 @@ const ProductDetail: React.FC = () => {
                       onClick={() => setImgIndex(index)}
                       key={img}
                       alt=""
-                      className={`small_img ${
-                        index === imgIndex && "active_img"
-                      }`}
+                      className={`small_img ${index === imgIndex && "active_img"
+                        }`}
                     />
                   ))}
                   <Image
@@ -156,13 +156,13 @@ const ProductDetail: React.FC = () => {
                   IncrementProduct={IncrementProduct}
                   DecrementProduct={DecrementProduct}
                 />
-                <Button className="primary" onClick={addToCard}>
+                <Button className="primary " onClick={() => product.active && addToCard()}>
                   {" "}
                   <div className="add_cart_btn">
                     <span>ADD TO CARD</span> <Image src={IconsFile.Cart} />
                   </div>{" "}
                 </Button>
-                <Button className="secondary" onClick={buyNow}>
+                <Button className="secondary " onClick={() => product.active && buyNow()}>
                   BUY NOW
                 </Button>
               </div>
