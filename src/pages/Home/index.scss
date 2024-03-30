@@ -19,9 +19,9 @@
       align-items: center;
       border: 1px solid var(--color-border-sub);
       width: 15em;
-      height: 20em;
+      height: 19em;
       gap: 2em;
-      padding: 1em 1em 2em 1em !important;
+      padding: 1em 1em 1em 1em !important;
       transition: 0.3s;
       user-select: none;
 
@@ -110,7 +110,7 @@
         align-items: flex-start;
         width: 100%;
         cursor: pointer !important;
-        min-height: 4.5em;
+        min-height: 3em;
 
         .description {
           width: 100%;

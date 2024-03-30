@@ -90,9 +90,7 @@ const Home: React.FC = () => {
                     onClick={() => navigate(`product/${item.id}`)}
                   >
                     <div className="description">
-                      <span
-                        dangerouslySetInnerHTML={{ __html: item.description }}
-                      />
+                      <p>{item.name}</p>
                     </div>
                     <Link to={`/product/${item.id}`} className="price">
                       $
