@@ -75,31 +75,9 @@
 
       .copy_box {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
         align-items: center;
         width: 100%;
-
-        .copy_link {
-          display: flex;
-          align-items: center;
-          gap: 1em;
-          transition: 0.3s;
-          cursor: pointer;
-
-          &:hover {
-            transform: scale(1.1);
-            transition: 0.3s;
-          }
-
-          .text {
-            cursor: pointer;
-            font-weight: bold;
-          }
-
-          .icon {
-            width: 1.5em;
-          }
-        }
 
         .btn_box {
           display: flex;
