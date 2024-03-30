@@ -1,268 +1,291 @@
 .checkout_box {
+  margin-top: 3em;
+  border-radius: 0.3em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-    margin-top: 3em;
-    border-radius: .3em;
+  #contact_form {
     display: flex;
-    flex-direction: column;
+    align-items: flex-start;
     justify-content: center;
-    align-items: center;
+    gap: 2em;
 
-    #contact_form {
-        display: flex;
-        align-items: flex-start;
-        justify-content: center;
-        gap: 2em;
-
-        .left_side {
-            width: 40em;
-            display: flex;
-            flex-direction: column;
-            gap: 1em;
-
-            .label {
-                display: flex;
-                flex-direction: column;
-                gap: .3em;
-                justify-content: flex-end;
-
-                label {
-                    padding-left: .3em;
-
-                }
-            }
-
-
-            input,
-            select {
-                width: 100%;
-                padding: .5em 1em;
-                border-radius: .3em;
-                border: 1px solid var(--color-border-sub);
-                background: transparent;
-
-                &:focus {
-                    outline: 1px solid var(--color-border-primary);
-                }
-            }
-
-            .first,
-            .third,
-            .fourth {
-                display: flex;
-                align-items: flex-end;
-                gap: 1em;
-            }
-
-            .first {
-                .first_name {
-                    width: 25%;
-                }
-
-                .last_name {
-                    width: 25%;
-
-                }
-
-                .custom_code {
-                    width: 50%;
-                }
-            }
-
-            .third {
-
-                .secondary,
-                .state,
-                .city,
-                .zip {
-                    width: 25%;
-                }
-
-                .secondary {
-                    padding: .5em 1em;
-                    border-radius: .3em;
-                }
-
-                .zip {
-                    .inp {
-                        padding: .5em;
-                        border-radius: .3em;
-                        border: 1px solid var(--color-border-sub);
-                        background-color: transparent;
-                        margin: 0;
-                    }
-
-                    input::-webkit-outer-spin-button,
-                    input::-webkit-inner-spin-button {
-                        -webkit-appearance: none;
-                    }
-                }
-            }
-
-            .fourth {
-
-                .email,
-                .phone {
-                    width: 50%;
-                }
-            }
-
-            .payment_box {
-                margin-top: 3em;
-                border: 1px solid var(--color-border-sub);
-                border-radius: .3em;
-
-                .token_box {
-                    display: flex;
-                    width: 30em;
-                    align-items: center;
-                    border: 1px solid var(--color-border-sub);
-                    border-radius: .3em;
-                    margin: 1em 5em;
-
-                    .token {
-                        width: 10em;
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        justify-content: space-between;
-                        gap: 1em;
-                        padding: 1em;
-                        cursor: pointer;
-
-                        .img_box {
-                            height: 2.5em;
-                            display: flex;
-                            align-items: center;
-
-                            p {
-                                cursor: pointer;
-                            }
-
-                            .coin_image {
-                                width: 7em;
-                                // outline: 2px solid red;
-
-
-                            }
-                        }
-
-                        .choose_coin {
-                            // outline: 2px solid;
-
-                        }
-                    }
-
-                    .line {
-                        height: 4em;
-                        border: 1px solid var(--color-border-sub);
-                    }
-                }
-
-                .title {
-                    padding: .5em;
-
-                }
-
-                .price_box {
-                    border: 1px solid var(--color-border-sub);
-                    border-radius: .3em;
-                    padding: .5em;
-                    margin-bottom: 1em;
-                }
-
-            }
-        }
-
-        .orders_box {
-            display: flex;
-            flex-direction: column;
-            gap: 1em;
-            padding: 1em;
-            border-radius: .3em;
-            border: 1px solid var(--color-border-sub);
-            width: 22em;
-
-            .order {
-                display: flex;
-                align-items: center;
-                gap: 1em;
-
-                .order_img {
-                    width: 4em;
-                }
-
-                .order_main {
-                    display: flex;
-                    flex-direction: column;
-                    gap: .3em;
-
-                    .description {
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        white-space: nowrap;
-                        width: 15em;
-                    }
-
-                    .product_count {
-                        display: flex;
-
-                        .price {
-                            color: var(--color-text-primary);
-                        }
-                    }
-                }
-
-            }
-
-            .line {
-                border: 1px solid var(--color-border-sub);
-            }
-
-            .total_order {
-                display: flex;
-                justify-content: space-between;
-            }
-
-            .primary {
-                cursor: pointer;
-                transition: background 0.2s;
-                border: 1px solid transparent;
-                border-radius: .3em;
-                box-sizing: border-box;
-                margin-bottom: 1em;
-                padding: .5em;
-                background: var(--color-bg-orange);
-                color: var(--color-text-inverse);
-                user-select: none;
-
-                &:enabled:hover {
-                    background: #f6b081;
-                }
-
-                &:enabled:active {
-                    background: #ee6e19;
-                }
-
-                .order_btn {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 1em;
-                    color: var(--color-text-inverse);
-
-                    .arrow {
-                        cursor: pointer;
-                        transform: rotate(180deg);
-                    }
-
-                    span {
-                        cursor: pointer;
-                    }
-                }
-            }
-        }
+    @media (max-width: 1080px) {
+      flex-direction: column;
+      align-items: center;
     }
 
+    .left_side {
+      width: 40em;
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
 
+      @media (max-width: 900px) {
+        width: 100%;
+        padding: 1em;
+      }
 
+      .label {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3em;
+        justify-content: flex-end;
+
+        label {
+          padding-left: 0.3em;
+        }
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 0.5em 1em;
+        border-radius: 0.3em;
+        border: 1px solid var(--color-border-sub);
+        background: transparent;
+
+        &:focus {
+          outline: 1px solid var(--color-border-orange);
+        }
+      }
+
+      .first,
+      .third,
+      .fourth {
+        display: flex;
+        align-items: flex-end;
+        gap: 1em;
+
+        @media (max-width: 900px) {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+
+      .responsive {
+        display: flex;
+        gap: 1em;
+      }
+
+      .first {
+        .first_name {
+          width: 100%;
+
+          .flex {
+            display: flex;
+            gap: 1em;
+          }
+        }
+
+        .last_name {
+          display: flex;
+          align-items: flex-end;
+        }
+
+        .custom_code {
+          width: 100%;
+        }
+      }
+
+      .third {
+        .secondary,
+        .state,
+        .city,
+        .zip {
+          width: 50%;
+        }
+
+        .secondary {
+          padding: 0.5em 1em;
+          border-radius: 0.3em;
+        }
+
+        .zip {
+          .inp {
+            padding: 0.5em;
+            border-radius: 0.3em;
+            border: 1px solid var(--color-border-sub);
+            background-color: transparent;
+            margin: 0;
+          }
+
+          input::-webkit-outer-spin-button,
+          input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+          }
+        }
+      }
+
+      .fourth {
+        .email,
+        .phone {
+          width: 50%;
+        }
+      }
+
+      .payment_box {
+        margin-top: 3em;
+        border: 1px solid var(--color-border-sub);
+        border-radius: 0.3em;
+        padding: 1em;
+
+        .token_box {
+          display: flex;
+          width: 30em;
+          align-items: center;
+          border: 1px solid var(--color-border-sub);
+          border-radius: 0.3em;
+          margin: 1em 5em;
+
+          @media (max-width: 900px) {
+            width: auto;
+            margin: 1em 0;
+            flex-direction: column;
+          }
+
+          .token {
+            width: 10em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1em;
+            padding: 1em;
+            cursor: pointer;
+
+            .img_box {
+              height: 2.5em;
+              display: flex;
+              align-items: center;
+
+              p {
+                cursor: pointer;
+              }
+
+              .coin_image {
+                width: 7em;
+                // outline: 2px solid red;
+              }
+            }
+
+            .choose_coin {
+              // outline: 2px solid;
+            }
+          }
+
+          .line {
+            height: 4em;
+            border: 1px solid var(--color-border-sub);
+
+            @media (max-width: 900px) {
+              width: 100%;
+              height: auto;
+            }
+          }
+        }
+
+        .title {
+          padding: 0.5em;
+        }
+
+        .price_box {
+          border: 1px solid var(--color-border-sub);
+          border-radius: 0.3em;
+          padding: 0.5em;
+          margin-bottom: 1em;
+        }
+      }
+    }
+
+    .orders_box {
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+      padding: 1em;
+      border-radius: 0.3em;
+      border: 1px solid var(--color-border-sub);
+      width: 22em;
+
+      .order {
+        display: flex;
+        align-items: center;
+        gap: 1em;
+
+        .order_img {
+          width: 4em;
+        }
+
+        .order_main {
+          display: flex;
+          flex-direction: column;
+          gap: 0.3em;
+
+          .description {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 15em;
+          }
+
+          .product_count {
+            display: flex;
+
+            .price {
+              color: var(--color-text-primary);
+            }
+          }
+        }
+      }
+
+      .line {
+        border: 1px solid var(--color-border-sub);
+      }
+
+      .total_order {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .primary {
+        cursor: pointer;
+        transition: background 0.2s;
+        border: 1px solid transparent;
+        border-radius: 0.3em;
+        box-sizing: border-box;
+        margin-bottom: 1em;
+        padding: 0.5em;
+        background: var(--color-bg-orange);
+        color: var(--color-text-inverse);
+        user-select: none;
+
+        &:enabled:hover {
+          background: #f6b081;
+        }
+
+        &:enabled:active {
+          background: #ee6e19;
+        }
+
+        .order_btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1em;
+          color: var(--color-text-inverse);
+
+          .arrow {
+            cursor: pointer;
+            transform: rotate(180deg);
+          }
+
+          span {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
 }

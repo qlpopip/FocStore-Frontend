@@ -1,12 +1,14 @@
 .navigate {
-    background-color: var(--color-bg-default-v2);
-    padding: .7em 3em;
-    font-size: 1.2em;
-    user-select: none;
+  background: linear-gradient(
+    139.73deg,
+    rgb(229, 253, 255) 0%,
+    rgb(243, 239, 255) 100%
+  );
+  padding: 0.7em 3em;
+  font-size: 1.2em;
+  user-select: none;
 
-    .navigate__box {
-        display: flex;
-    }
-
-
+  .navigate__box {
+    display: flex;
+  }
 }

@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ethers } from 'ethers';
-import { MetaMaskState } from './interface';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ethers } from "ethers";
+import { MetaMaskState } from "./interface";
 
 const initialState: MetaMaskState = {
   provider: null,
@@ -8,19 +8,24 @@ const initialState: MetaMaskState = {
   isPending: false,
   error: null,
   currentChainId: undefined,
-  balance: '0',
+  balance: "0",
   points: 0,
   usdt: null,
   foc: null,
-  eth: null
+  eth: null,
+  uri: "",
+  isMobile: "ontouchstart" in window || "onmsgesturechange" in window,
+  router: null,
 };
 
-
 const metaMaskSlice = createSlice({
-  name: 'metaMask',
+  name: "metaMask",
   initialState,
   reducers: {
-    setProvider: (state, action: PayloadAction<ethers.BrowserProvider | null>) => {
+    setProvider: (
+      state,
+      action: PayloadAction<ethers.BrowserProvider | null>
+    ) => {
       state.provider = action.payload;
     },
     setAccount: (state, action: PayloadAction<string | undefined>) => {
@@ -50,22 +55,41 @@ const metaMaskSlice = createSlice({
     setEth: (state, action) => {
       state.eth = action.payload;
     },
-    logout: state => {
+    logout: (state) => {
       state.provider = null;
       state.account = undefined;
       state.isPending = false;
       state.error = null;
       state.currentChainId = undefined;
-      state.balance = '0';
+      state.balance = "0";
       state.points = 0;
       state.usdt = null;
       state.foc = null;
       state.eth = null;
-    }
-
+    },
+    setURI: (state, action) => {
+      state.uri = action.payload;
+    },
+    setRouter: (state, action) => {
+      state.router = action.payload;
+    },
   },
 });
 
-export const { logout, setProvider, setAccount, setIsPending, setError, setCurrentChainId, setBalance, setPoints, setEth, setUsdt, setFoc } = metaMaskSlice.actions;
+export const {
+  logout,
+  setProvider,
+  setAccount,
+  setIsPending,
+  setError,
+  setCurrentChainId,
+  setBalance,
+  setPoints,
+  setEth,
+  setUsdt,
+  setFoc,
+  setURI,
+  setRouter,
+} = metaMaskSlice.actions;
 
 export default metaMaskSlice.reducer;

@@ -15,39 +15,38 @@ const Points: React.FC = () => {
   const account = useAppSelector((state) => state.metamask.account);
   const isPending = useAppSelector((state) => state.metamask.isPending);
   const points = useAppSelector((state) => state.metamask.points);
-  const navigate = useNavigate()
-  const [pending, setPending] = useState(false)
-  const { connectMetamask, handleLogoutAndConnect } = useConnect()
+  const navigate = useNavigate();
+  const [pending, setPending] = useState(false);
+  const { connectMetamask, handleLogoutAndConnect } = useConnect();
   interface HistoryType {
-    point: number,
-    pointName: string,
-    created_at: string
+    point: number;
+    pointName: string;
+    created_at: string;
   }
-  const [historyList, setHistoryList] = useState<HistoryType[]>([])
+  const [historyList, setHistoryList] = useState<HistoryType[]>([]);
   useEffect(() => {
-    connectMetamask()
+    connectMetamask();
     // eslint-disable-next-line
-  }, [])
+  }, []);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setPending(true)
-        const data = await getHistory()
+        setPending(true);
+        const data = await getHistory();
         if (data[0]) {
-          setHistoryList(data[0].items)
-        } else if ((data[1] && data[1].status_code === 401)) {
-          handleLogoutAndConnect()
+          setHistoryList(data[0].items);
+        } else if (data[1] && data[1].status_code === 401) {
+          handleLogoutAndConnect();
         }
-        setPending(false)
+        setPending(false);
       } catch (error) {
-        setPending(false)
-        alert(error)
+        setPending(false);
+        alert(error);
       }
-
-    }
-    account && isPending && fetchData()
+    };
+    account && isPending && fetchData();
     // eslint-disable-next-line
-  }, [account, isPending])
+  }, [account, isPending]);
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
 
@@ -56,50 +55,75 @@ const Points: React.FC = () => {
     const day = ("0" + date.getDate()).slice(-2);
 
     const formattedDate = `${year}.${month}.${day}`;
-    return formattedDate
-  }
+    return formattedDate;
+  };
   return (
     <div>
       <Layout id="my_points">
         <Navigator navigation="Reward / My Points" />
-        {pending ? <Loader /> :
+        {pending ? (
+          <Loader />
+        ) : (
           <div className="my_points">
-            <SaidBar >
+            <SaidBar>
               <div className="points_box">
                 <div className="points">
                   <Image src={ImagesFile.User} className="user_icon" />
-                  {account && <Link to={WEB3.SCAN_ADDRESS + account} target="_blank" className="address">{shortenAddress(account)}</Link>}
+                  {account && (
+                    <Link
+                      to={WEB3.SCAN_ADDRESS + account}
+                      target="_blank"
+                      className="address"
+                    >
+                      {shortenAddress(account)}
+                    </Link>
+                  )}
                   <div className="point">
                     <p className="count">{points}</p>
                     <p>Points</p>
                   </div>
-                  <Button className="primary" onClick={() => { navigate("/swap-points") }}>Convert Points to FOC</Button>
+                  <Button
+                    className="primary"
+                    onClick={() => {
+                      navigate("/swap-points");
+                    }}
+                  >
+                    Convert Points to FOC
+                  </Button>
                 </div>
                 <div className="points_history">
                   <p className="title_history">
-                    Points History {historyList.length === 0 && "Is Not Yet Available"}
+                    Points History{" "}
+                    {historyList.length === 0 && "Is Not Yet Available"}
                   </p>
                   <div className="history_box">
-                    {account && historyList.length > 0 && historyList.slice().reverse().map((item, index) => (
-                      <div className="history_item" key={index}>
-
-                        <div className="line"></div>
-                        <div className="history">
-                          <div className="point_history">
-                            <p className="count_point">+ {item.point} P</p>
-                            <p className="title">Reward {'>'} {item.pointName}</p>
+                    {account &&
+                      historyList.length > 0 &&
+                      historyList
+                        .slice()
+                        .reverse()
+                        .map((item, index) => (
+                          <div className="history_item" key={index}>
+                            <div className="line"></div>
+                            <div className="history">
+                              <div className="point_history">
+                                <p className="count_point">+ {item.point} P</p>
+                                <p className="title">
+                                  Reward {">"} {item.pointName}
+                                </p>
+                              </div>
+                              <div className="date">
+                                {formatDate(item.created_at)}
+                              </div>
+                            </div>
                           </div>
-                          <div className="date">{formatDate(item.created_at)}</div>
-                        </div>
-                      </div>
-                    ))}
+                        ))}
                   </div>
                 </div>
-
               </div>
             </SaidBar>
           </div>
-        }
+        )}
       </Layout>
     </div>
   );

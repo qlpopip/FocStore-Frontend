@@ -1,101 +1,100 @@
 .points_box {
-    width: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3em;
+  align-items: center;
+
+  .points {
     display: flex;
     flex-direction: column;
-    gap: 3em;
-    align-items: center;
+    gap: 1em;
 
-    .points {
-        display: flex;
-        flex-direction: column;
-        gap: 1em;
-
-        .user_icon {
-            width: 12em;
-            border-radius: 50%;
-            border: 5.55px solid var(--color-border-orange);
-        }
-
-        .address {
-            text-align: center;
-            font-weight: bold;
-        }
-
-        .point {
-            display: flex;
-            align-items: center;
-            padding-left: 4em;
-            gap: 2em;
-
-            .count {
-                font-size: 2.5em;
-                color: var(--color-text-orange);
-            }
-        }
-
-        .primary {
-            box-shadow: 7.396573066711426px 7.396573066711426px 36.98286437988281px 0px #00000040;
-
-        }
+    .user_icon {
+      width: 12em;
+      border-radius: 50%;
+      border: 5.55px solid var(--color-border-orange);
     }
 
-    .points_history {
+    .address {
+      text-align: center;
+      font-weight: bold;
+      color: var(--color-bg-primary);
+    }
+
+    .point {
+      display: flex;
+      align-items: center;
+      padding-left: 4em;
+      gap: 2em;
+
+      .count {
+        font-size: 2.5em;
+        color: var(--color-text-orange);
+      }
+    }
+
+    .primary {
+      box-shadow: 7.396573066711426px 7.396573066711426px 36.98286437988281px
+        0px #00000040;
+    }
+  }
+
+  .points_history {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+
+    .history_box {
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+      height: 15em;
+      // border: 2px solid;
+      overflow-y: scroll;
+      padding-right: 1em;
+
+      .history_item {
         display: flex;
         flex-direction: column;
         gap: 1em;
 
-        .history_box {
+        .title_history {
+          color: var(--color-bg-primary);
+          font-size: 1.2em;
+          font-weight: 600;
+        }
+
+        .line {
+          border: 1px solid var(--color-border-sub);
+        }
+
+        .history {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 5em;
+
+          .point_history {
             display: flex;
             flex-direction: column;
-            gap: 1em;
-            height: 15em;
-            // border: 2px solid;
-            overflow-y: scroll;
-            padding-right: 1em;
+            gap: 0.5em;
 
-            .history_item {
-                display: flex;
-                flex-direction: column;
-                gap: 1em;
-
-                .title_history {
-                    color: var(--color-bg-primary);
-                    font-size: 1.2em;
-                    font-weight: 600;
-                }
-
-                .line {
-                    border: 1px solid var(--color-border-sub);
-                }
-
-                .history {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    gap: 5em;
-
-
-                    .point_history {
-                        display: flex;
-                        flex-direction: column;
-                        gap: .5em;
-
-                        .count_point {
-                            font-size: 1em;
-                            font-weight: 600;
-                        }
-
-                        .title {
-                            font-size: .9em;
-                        }
-
-                    }
-
-                    .date {
-                        font-size: .9em;
-                    }
-                }
+            .count_point {
+              font-size: 1em;
+              font-weight: 600;
             }
+
+            .title {
+              font-size: 0.9em;
+            }
+          }
+
+          .date {
+            font-size: 0.9em;
+          }
         }
+      }
     }
+  }
 }

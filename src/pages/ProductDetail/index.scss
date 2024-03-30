@@ -4,6 +4,11 @@
   gap: 2em;
   padding-top: 2em;
 
+  @media (max-width: 900px) {
+    flex-direction: column;
+    gap: 2em;
+  }
+
   .img_box {
     display: flex;
     flex-direction: column;
@@ -16,27 +21,31 @@
       width: 30em;
       height: 25em;
       border: 1px solid var(--color-border-sub);
-      border-radius: .3em;
+      border-radius: 0.3em;
+
+      @media (max-width: 900px) {
+        width: 90%;
+        height: auto;
+      }
     }
 
     .all_images {
       display: flex;
       align-items: center;
-      gap: .5em;
+      gap: 0.5em;
 
       .arrow {
         background: var(--color-bg-orange);
         width: 2em;
-        padding: .2em;
+        padding: 0.2em;
         border-radius: 50%;
         cursor: pointer;
-        transition: .3s;
+        transition: 0.3s;
 
         &:hover {
           transform: scale(1.1);
-          transition: .3s;
+          transition: 0.3s;
           background: #f6b081;
-
         }
 
         &:active {
@@ -46,11 +55,11 @@
 
       .right {
         transform: rotate(180deg);
-        transition: .3s;
+        transition: 0.3s;
 
         &:hover {
           transform: rotate(180deg) scale(1.1);
-          transition: .3s;
+          transition: 0.3s;
         }
       }
 
@@ -58,7 +67,7 @@
         width: 6em;
         height: 5em;
         border: 1px solid var(--color-border-sub);
-        border-radius: .3em;
+        border-radius: 0.3em;
         cursor: pointer;
       }
 
@@ -74,13 +83,19 @@
     gap: 1.5em;
     width: 30em;
 
+    @media (max-width: 900px) {
+      width: 100%;
+      padding: 1em;
+    }
+
     .content_main {
       display: flex;
       flex-direction: column;
       gap: 1em;
       font-size: 1em;
 
-      .description {}
+      .description {
+      }
 
       .price {
         color: var(--color-text-primary);
@@ -92,13 +107,14 @@
     .button_box {
       display: flex;
       justify-content: space-around;
+      gap: 0.1em;
 
       .primary {
         display: flex;
 
         .add_cart_btn {
           display: flex;
-          gap: .5em;
+          gap: 0.5em;
 
           span {
             font-size: 1em;
@@ -109,9 +125,7 @@
             height: 1em;
           }
         }
-
       }
-
     }
   }
 }

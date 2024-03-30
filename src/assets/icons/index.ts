@@ -1,6 +1,6 @@
 import Cart from "./icon-cart.svg";
 import Profile from "./icon-profile.svg";
-import Logo from "./logo.svg";
+import Logo from "./logo_foc.svg";
 import Eye from "./icon-eye.svg";
 import Minus from "./icon-minus.svg";
 import Plus from "./icon-plus.svg";
@@ -15,20 +15,20 @@ import ArrowSub from "./icon-arrow-left-sub.svg";
 import Success from "./icon-success.svg";
 
 const IconsFile = {
-    Cart,
-    Profile,
-    Logo,
-    Eye,
-    ArrowWhite,
-    ArrowOrange,
-    ArrowBlue,
-    Minus,
-    Plus,
-    Remove,
-    Link,
-    Calendar,
-    Missed,
-    ArrowSub,
-    Success
+  Cart,
+  Profile,
+  Logo,
+  Eye,
+  ArrowWhite,
+  ArrowOrange,
+  ArrowBlue,
+  Minus,
+  Plus,
+  Remove,
+  Link,
+  Calendar,
+  Missed,
+  ArrowSub,
+  Success,
 };
 export default IconsFile;

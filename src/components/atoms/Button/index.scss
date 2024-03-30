@@ -2,14 +2,21 @@
   border: 0;
   background: none;
   cursor: pointer;
-  padding: .8em 1.5em;
+  padding: 0.8em 1.5em;
   transition: background 0.3s;
   border: 1px solid transparent;
   box-sizing: border-box;
   user-select: none;
 
+  @media (max-width: 900px) {
+    padding: 0.5em 1em;
+  }
+
   span {
     cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    white-space: nowrap;
   }
 
   //* theme
@@ -49,7 +56,7 @@
     background: var(--color-text-inverse);
     border: 1px solid var(--color-border-sub);
 
-    &>.icon {
+    & > .icon {
       width: 10px;
       margin-left: 10px;
       display: flex;

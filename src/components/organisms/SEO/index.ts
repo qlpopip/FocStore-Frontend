@@ -56,7 +56,9 @@ const SEO: React.FC = () => {
     const prevTitle = document.title;
     // Set newTitle based on whether a matching link is found
     const newTitle =
-      link.length > 0 ? `Online Store - ${link[0].title}` : "Online Store - 404";
+      link.length > 0
+        ? `FOC Online Store - ${link[0].title}`
+        : "FOC Online Store - 404";
     document.title = newTitle;
 
     // Cleanup function

@@ -4,44 +4,45 @@
 :root {
   //* color
   // background
-  --color-bg-default: #FFFFFF;
-  --color-bg-default-v2: #F2F4F5;
-  --color-bg-secondary: #F2EFE6;
-  --color-bg-inverse: #191C1F;
-  --color-bg-primary: #1B6392;
-  --color-bg-primary-light: #8CC5F9;
-  --color-bg-orange: #FA8232;
-  --color-bg-light-primary: #EFEFEF;
-  --color-bg-dark-primary: #E5E6EB;
+  --color-bg-default: #ffffff;
+  --color-bg-default-v2: #f2f4f5;
+  --color-bg-secondary: #f2efe6;
+  --color-bg-inverse: #191c1f;
+  --color-bg-primary: #8c1fff;
+  --color-bg-primary-light: #8cc5f9;
+  --color-bg-orange: #f0aa1e;
+  --color-bg-light-primary: #efefef;
+  --color-bg-dark-primary: #e5e6eb;
   --color-bg-overlay-dark: rgba(0, 0, 0, 0.8);
   --color-bg-overlay-default: rgba(0, 0, 0, 0.4);
   --color-bg-overlay-light: rgba(0, 0, 0, 0.2);
   // text
-  --color-text-default: #191C1F;
-  --color-text-primary: #2DA5F3;
-  --color-text-orange: #FA8232;
-  --color-text-inverse: #FFFFFF;
+  --color-text-default: #191c1f;
+  --color-text-primary: #17022d;
+  --color-text-orange: #f0aa1e;
+  --color-text-secondary: #8b767c;
+  --color-text-inverse: #ffffff;
   --color-text-sub: #475156;
 
   --color-text-disabled: #bbbbbb;
   --color-text-success: #90c58d;
-  --color-text-warning: #f16a00;
+  --color-text-warning: #f0aa1e;
   --color-text-danger: #f12f2e;
   // icon
   --color-icon-default: #222222;
   --color-icon-sub: #777777;
   --color-icon-disabled: #bbbbbb;
   --color-icon-inverse: #ffffff;
-  --color-icon-primary: #2DA5F3;
+  --color-icon-primary: #2da5f3;
   --color-icon-success: #90c58d;
   --color-icon-warning: #f16a00;
   --color-icon-danger: #f12f2e;
   // border
-  --color-border-default: #E4E7E9;
-  --color-border-orange: #FA8232;
+  --color-border-default: #e4e7e9;
+  --color-border-orange: #f0aa1e;
   --color-border-inverse: #f4f8fb;
-  --color-border-primary: #2DA5F3;
-  --color-border-sub: #C9CFD2;
+  --color-border-primary: #2da5f3;
+  --color-border-sub: #c9cfd2;
   --color-border-overlay: rgba(0, 0, 0, 0.1);
   --color-border-success: #90c58d;
   --color-border-danger: #f12f2e;
@@ -50,8 +51,6 @@
   --color-input-text: #000000;
   --color-line-gradient: linear-gradient(135deg, #448fff 0%, #2a61ff 100%);
 }
-
-
 
 * {
   margin: 0px;
@@ -154,6 +153,10 @@ body {
   border-radius: 3px;
 }
 
+.round-16 {
+  border-radius: 16px;
+}
+
 // etc
 // swiper style
 .carousel {
@@ -161,7 +164,6 @@ body {
     height: 100%;
 
     &:hover {
-
       .swiper-button-prev,
       .swiper-button-next {
         display: flex;
