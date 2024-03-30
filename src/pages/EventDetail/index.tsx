@@ -120,10 +120,6 @@ const EventDetail: React.FC = () => {
                     <span className="description"
                       dangerouslySetInnerHTML={{ __html: event.description }} />
                     <div className="copy_box">
-                      <div className="copy_link">
-                        <p className="text">{event.name.toUpperCase()}</p>
-                        <Image src={IconsFile.Link} alt="" className="icon" />
-                      </div>
                       <div className="btn_box">
                         {claimed && <Image src={IconsFile.Success} alt="" className="icon" />}
                         <Button className={`more ${claimed && "claimed"}`} onClick={getPoint}>+{event.point} Points </Button>
