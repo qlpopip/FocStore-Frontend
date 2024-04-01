@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import ImagesFile from "assets/images";
 import axios from "axios";
 import "./index.scss";
-import { CreateOrderType, createOrder } from "./_api";
+import {CreateOrderType, createOrder, removeOrder} from "./_api";
 import { Link, useNavigate } from "react-router-dom";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import { sendTokens } from "../../share/redux/metamask/thunks";
@@ -48,7 +48,13 @@ const Checkout: React.FC = () => {
         info.totalPrice = info.totalPrice.toString();
         const data = await createOrder(info);
         if (data[0]) {
-          const handlePaymentSuccess = () => {
+          const handleAfterPayment = async (success: boolean) => {
+            if (!success) {
+              setPending(false);
+              await removeOrder(data[0].item.id);
+              alert("Payment failed");
+              return;
+            }
             setPending(false);
             navigate("/orders");
           };
@@ -56,7 +62,7 @@ const Checkout: React.FC = () => {
             sendTokens({
               amount: Number(info.totalPrice).toFixed(6),
               currency: sort,
-              navigate: handlePaymentSuccess,
+              navigate: handleAfterPayment,
             })
           );
         } else if (data[1] && data[1].status_code === 401) {

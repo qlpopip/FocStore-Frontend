@@ -137,7 +137,7 @@ export const sendTokens = createAsyncThunk(
     payload: {
       amount: string;
       currency: "ETH" | "FOC" | "USDT";
-      navigate: () => void;
+      navigate: (success: boolean) => void;
     },
     { getState, dispatch }
   ) => {
@@ -152,7 +152,10 @@ export const sendTokens = createAsyncThunk(
         await tx.wait();
       }
       if (payload.currency === "FOC") {
+          console.log('TRYING TO SEND FOC');
         const foc = state.metamask.foc;
+          console.log('FOC', foc);
+
         const tx = await foc?.transfer(
           WEB3.TOKEN_RECEIVER.foc,
           ethers.parseEther(payload.amount)
@@ -167,10 +170,12 @@ export const sendTokens = createAsyncThunk(
         );
         await tx.wait();
       }
+        dispatch(clearOrders());
+        payload.navigate(true);
     } catch (e) {
-      console.log(e);
+        payload.navigate(false);
+        console.log(e);
     }
-    dispatch(clearOrders());
-    payload.navigate();
+
   }
 );

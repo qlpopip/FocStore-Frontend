@@ -25,3 +25,9 @@ export const createOrder = (payload: CreateOrderType) => {
     }).post();
 };
 
+export const removeOrder = (id: number) => {
+    return new API({
+        url: `order/${id}`
+    }).delete();
+}
+
