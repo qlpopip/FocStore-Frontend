@@ -19,11 +19,16 @@ const Swap: React.FC = () => {
         setPending(true)
         const data = await swapPoint({ point: Number(swap.point) })
         if (data[0]) {
-          dispatch(setPoints(data[0].item.point))
-          setSwap({
-            point: data[0].item.point,
-            coin: point * price
-          })
+          if (!data[0].error) {
+
+            dispatch(setPoints(data[0].item.point))
+            setSwap({
+              point: data[0].item.point,
+              coin: point * price
+            })
+          } else {
+            alert(data[0].error)
+          }
         } else if ((data[1] && data[1].status_code === 401)) {
           handleLogoutAndConnect()
         }
