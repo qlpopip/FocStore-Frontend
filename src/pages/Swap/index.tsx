@@ -27,7 +27,7 @@ const Swap: React.FC = () => {
               coin: point * price
             })
           } else {
-            alert(data[0].error)
+            alert(data[0].msg)
           }
         } else if ((data[1] && data[1].status_code === 401)) {
           handleLogoutAndConnect()

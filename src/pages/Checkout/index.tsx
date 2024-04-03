@@ -153,6 +153,11 @@ const Checkout: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const currencyInfo = {
+        USDT: { usd: 1 },
+        FOC: { usd: 0 },
+        ETH: { usd: 0 },
+      }
       try {
         const response = await axios.get(
           "https://api.coingecko.com/api/v3/simple/price",
@@ -163,20 +168,18 @@ const Checkout: React.FC = () => {
             },
           }
         );
+        currencyInfo.ETH.usd = response.data.ethereum?.usd ?? 0;
         const response2 = await router?.getAmountsOut(ethers.parseEther("1"), [
           WEB3.ERC20.foc,
           WEB3.ERC20.usdc,
         ]);
         const decimal = BigNumber(10).exponentiatedBy(18);
         const divided = BigNumber(response2[1]).dividedBy(decimal).toString();
-        setCoins({
-          USDT: { usd: 1 },
-          FOC: { usd: parseInt(divided) ?? 0 },
-          ETH: { usd: response.data.ethereum?.usd ?? 0 },
-        });
+        currencyInfo.FOC.usd = Number(divided);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
+      setCoins(currencyInfo);
     };
     fetchData();
     connectMetamask();
