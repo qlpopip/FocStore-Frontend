@@ -11,8 +11,10 @@ export interface MetaMaskState {
   balance: string;
   points: number;
   usdt: Contract | null;
+  usdc: Contract | null;
   foc: Contract | null;
   eth: Contract | null;
+  wron: Contract | null;
   uri: string;
   isMobile: boolean;
   router: Contract | null;

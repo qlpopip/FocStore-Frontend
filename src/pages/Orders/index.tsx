@@ -23,6 +23,7 @@ const Orders: React.FC = () => {
         if (account && isPending) {
           setPending(true);
           const data = await getOrders();
+          console.log(data);
           if (data[0]) {
             setOrders(data[0].items);
           } else if (data[1] && data[1].status_code === 401) {
