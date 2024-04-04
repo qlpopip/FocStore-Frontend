@@ -108,7 +108,7 @@ const Swap: React.FC = () => {
                 </div>
                 <div className="btn_box">
                   {(Number(swap.point) < minPoint || point < minPoint) && <p className="message">Less than {`${minPoint}`} points cannot be exchanged</p>}
-                  {(Number(swap.point) > maxPoint || Number(swap.point) > maxPoint) && <p className="message">More than {`${maxPoint}`} points cannot be exchanged</p>}
+                  {(Number(swap.point) >= maxPoint) && <p className="message">More than {`${maxPoint}`} points cannot be exchanged</p>}
                   <Button className={`primary ${(Number(swap.point) < minPoint || Number(swap.point) > maxPoint) && "disabled"}`} onClick={exchangePoint}> Exchange Points </Button>
                 </div>
               </div>
