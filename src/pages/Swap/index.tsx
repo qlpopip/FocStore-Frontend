@@ -9,6 +9,8 @@ import useConnect from "customHooks/useConnect";
 import { setPoints } from "share/redux/metamask";
 import { swapPoint } from "./_api";
 
+const MIN_POINT = 1000;
+const MAX_POINT = 3000;
 const Swap: React.FC = () => {
   const [pending, setPending] = useState(false)
   const dispatch = useAppDispatch()
@@ -41,8 +43,8 @@ const Swap: React.FC = () => {
   }
   const price = 1
   const point = useAppSelector(state => state.metamask.points)
-  const minPoint = 1000;
-  let maxPoint = 3000;
+  const minPoint = MIN_POINT;
+  let maxPoint = MAX_POINT;
   const [swap, setSwap] = useState<{
     point: number | string,
     coin: number
