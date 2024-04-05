@@ -7,7 +7,6 @@ import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "share/redux/hook";
 import useConnect from "customHooks/useConnect";
 import { logout } from "share/redux/metamask";
-import { log } from "console";
 
 const Header: React.FC = () => {
   const account = useAppSelector((state) => state.metamask.account);
