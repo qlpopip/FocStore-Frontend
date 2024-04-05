@@ -1,5 +1,5 @@
 import Layout from "components/organisms/Layout";
-import { SaidBar, Navigator, Loader } from "components/molecules";
+import { MyPageSaidBar, Navigator, Loader } from "components/molecules";
 import "./index.scss";
 import { Button, Image } from "components/atoms";
 import ImagesFile from "assets/images";
@@ -12,29 +12,28 @@ import { swapPoint } from "./_api";
 const MIN_POINT = 1000;
 const MAX_POINT = 3000;
 const Swap: React.FC = () => {
-  const [pending, setPending] = useState(false)
-  const dispatch = useAppDispatch()
-  const { connectMetamask, handleLogoutAndConnect } = useConnect()
+  const [pending, setPending] = useState(false);
+  const dispatch = useAppDispatch();
+  const { connectMetamask, handleLogoutAndConnect } = useConnect();
   const exchangePoint = async () => {
     try {
       if (Number(swap.point) >= minPoint && Number(swap.point) <= maxPoint) {
-        setPending(true)
-        const data = await swapPoint({ point: Number(swap.point) })
+        setPending(true);
+        const data = await swapPoint({ point: Number(swap.point) });
         if (data[0]) {
           if (!data[0].error) {
-
-            dispatch(setPoints(data[0].item.point))
+            dispatch(setPoints(data[0].item.point));
             setSwap({
               point: data[0].item.point,
-              coin: point * price
-            })
+              coin: point * price,
+            });
           } else {
-            alert(data[0].msg)
+            alert(data[0].msg);
           }
-        } else if ((data[1] && data[1].status_code === 401)) {
-          handleLogoutAndConnect()
+        } else if (data[1] && data[1].status_code === 401) {
+          handleLogoutAndConnect();
         }
-        setPending(false)
+        setPending(false);
       }
     } catch (error) {
       alert(error);
@@ -46,17 +45,17 @@ const Swap: React.FC = () => {
   const minPoint = MIN_POINT;
   let maxPoint = MAX_POINT;
   const [swap, setSwap] = useState<{
-    point: number | string,
-    coin: number
+    point: number | string;
+    coin: number;
   }>({
     point: Number(point) > maxPoint ? maxPoint : Number(point),
-    coin: (point > maxPoint ? maxPoint : point) * price
-  })
+    coin: (point > maxPoint ? maxPoint : point) * price,
+  });
 
   const onChangeTicketNum = (e: React.ChangeEvent<HTMLInputElement>) => {
     const num = Number(e.target.value);
     if (num <= 0) {
-      setSwap({ point: '', coin: 0 * price }); // Set point to an empty string
+      setSwap({ point: "", coin: 0 * price }); // Set point to an empty string
     } else if (num > point) {
       setSwap({ point: point, coin: point * price });
     } else if (num > maxPoint) {
@@ -66,23 +65,25 @@ const Swap: React.FC = () => {
     }
   };
   useEffect(() => {
-    connectMetamask()
+    connectMetamask();
     if (point <= 0) {
-      setSwap({ point: 0, coin: 0 * price })
+      setSwap({ point: 0, coin: 0 * price });
     } else if (point > maxPoint) {
-      setSwap({ point: maxPoint, coin: maxPoint * price })
+      setSwap({ point: maxPoint, coin: maxPoint * price });
     } else {
-      setSwap({ point: point, coin: point * price })
+      setSwap({ point: point, coin: point * price });
     }
     // eslint-disable-next-line
-  }, [point])
+  }, [point]);
   return (
     <div>
       <Layout id="swap_points">
-        <Navigator navigation="Reward / Swap Points" />
+        <Navigator navigation="My Page / Swap Points" />
         <div className="swap_points">
-          <SaidBar >
-            {pending ? <Loader /> :
+          <MyPageSaidBar>
+            {pending ? (
+              <Loader />
+            ) : (
               <div className="points_box">
                 <div className="swap_box">
                   <div className="point">
@@ -93,7 +94,9 @@ const Swap: React.FC = () => {
                       className="point_box"
                       type="number"
                       max={maxPoint}
-                      value={maxPoint >= Number(swap.point) ? swap.point : maxPoint}
+                      value={
+                        maxPoint >= Number(swap.point) ? swap.point : maxPoint
+                      }
                       onChange={(e) => onChangeTicketNum(e)}
                     />
                   </div>
@@ -105,7 +108,13 @@ const Swap: React.FC = () => {
                     <Image src={ImagesFile.Force} className="coin_logo" />
                     <p className="title">FOC</p>
                     <Image src={ImagesFile.Vector} className="icon" />
-                    <input className="point_box" value={swap.coin.toFixed(2)} type="number" name="coin" readOnly />
+                    <input
+                      className="point_box"
+                      value={swap.coin.toFixed(2)}
+                      type="number"
+                      name="coin"
+                      readOnly
+                    />
                   </div>
                 </div>
                 <div className="btn_box">
@@ -114,8 +123,8 @@ const Swap: React.FC = () => {
                   <Button className={`primary ${(Number(swap.point) < minPoint || Number(swap.point) > maxPoint) && "disabled"}`} onClick={exchangePoint}> Exchange Points </Button>
                 </div>
               </div>
-            }
-          </SaidBar>
+            )}
+          </MyPageSaidBar>
         </div>
       </Layout>
     </div>

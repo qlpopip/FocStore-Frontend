@@ -5,3 +5,5 @@ export { default as Pagination } from "./Pagination";
 export { default as Quantity } from "./Quantity";
 export { default as Navigator } from "./Navigator";
 export { default as SaidBar } from "./SaidBar";
+export { default as EventSaidBar } from "./EventSaidBar";
+export { default as MyPageSaidBar } from "./MyPageSaidBar";

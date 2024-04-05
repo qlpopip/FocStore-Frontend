@@ -1,5 +1,5 @@
 import Layout from "components/organisms/Layout";
-import { SaidBar, Navigator, Loader } from "components/molecules";
+import { MyPageSaidBar, Navigator, Loader } from "components/molecules";
 import "./index.scss";
 import { Button, Image } from "components/atoms";
 import ImagesFile from "assets/images";
@@ -60,12 +60,12 @@ const Points: React.FC = () => {
   return (
     <div>
       <Layout id="my_points">
-        <Navigator navigation="Reward / My Points" />
+        <Navigator navigation="My Page / My Points" />
         {pending ? (
           <Loader />
         ) : (
           <div className="my_points">
-            <SaidBar>
+            <MyPageSaidBar>
               <div className="points_box">
                 <div className="points">
                   <Image src={ImagesFile.User} className="user_icon" />
@@ -121,7 +121,7 @@ const Points: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </SaidBar>
+            </MyPageSaidBar>
           </div>
         )}
       </Layout>

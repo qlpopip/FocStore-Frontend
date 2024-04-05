@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import ImagesFile from "assets/images";
 import axios from "axios";
 import "./index.scss";
-import {CreateOrderType, createOrder, removeOrder} from "./_api";
+import { CreateOrderType, createOrder, removeOrder } from "./_api";
 import { Link, useNavigate } from "react-router-dom";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import { sendTokens } from "../../share/redux/metamask/thunks";
@@ -51,7 +51,7 @@ const Checkout: React.FC = () => {
           const handleAfterPayment = async (success: boolean) => {
             if (!success) {
               setPending(false);
-              await removeOrder(data[0].item.id);
+              if (data[0].item?.id) await removeOrder(data[0].item?.id);
               alert("Payment failed");
               return;
             }
@@ -157,18 +157,18 @@ const Checkout: React.FC = () => {
         USDT: { usd: 1 },
         FOC: { usd: 0 },
         ETH: { usd: 0 },
-      }
+      };
       try {
         const response = await axios.get(
           "https://api.coingecko.com/api/v3/simple/price",
           {
             params: {
-              ids: "ethereum",
+              ids: "ronin",
               vs_currencies: "usd",
             },
           }
         );
-        currencyInfo.ETH.usd = response.data.ethereum?.usd ?? 0;
+        currencyInfo.ETH.usd = response.data.ronin?.usd ?? 0;
         const response2 = await router?.getAmountsOut(ethers.parseEther("1"), [
           WEB3.ERC20.foc,
           WEB3.ERC20.usdc,
@@ -467,7 +467,7 @@ const Checkout: React.FC = () => {
                         {totalPrice.toLocaleString("en-US", {
                           style: "decimal",
                         })}{" "}
-                        USDT{" "}
+                        USDC{" "}
                       </p>
                     </div>
                     <button className="primary">

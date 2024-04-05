@@ -9,9 +9,11 @@ import {
   setPoints,
   setProvider,
   setUsdt,
+  setUsdc,
+  setWron,
   setRouter,
 } from ".";
-import { WEB3 } from "utils/configs";
+import { WEB3, zero } from "utils/configs";
 import { ethers } from "ethers";
 import { RootState } from "../index";
 import { clearOrders } from "../order";
@@ -119,14 +121,18 @@ export const connectContracts = createAsyncThunk(
     const usdt = new ethers.Contract(WEB3.ERC20.usdt, WEB3.ERC20.abi, signer);
     const foc = new ethers.Contract(WEB3.ERC20.foc, WEB3.ERC20.abi, signer);
     const eth = new ethers.Contract(WEB3.ERC20.eth, WEB3.ERC20.abi, signer);
+    const usdc = new ethers.Contract(WEB3.ERC20.usdc, WEB3.ERC20.abi, signer);
+    const wron = new ethers.Contract(WEB3.WRON.address, WEB3.WRON.abi, signer);
     const router = new ethers.Contract(
       WEB3.ROUTER.address,
       WEB3.ROUTER.abi,
       signer
     );
+    dispatch(setUsdc(usdc));
     dispatch(setUsdt(usdt));
     dispatch(setFoc(foc));
     dispatch(setEth(eth));
+    dispatch(setWron(wron));
     dispatch(setRouter(router));
   }
 );
@@ -144,10 +150,34 @@ export const sendTokens = createAsyncThunk(
     try {
       const state = getState() as RootState;
       if (payload.currency === "ETH") {
-        const eth = state.metamask.eth;
-        const tx = await eth?.transfer(
-          WEB3.TOKEN_RECEIVER.eth,
-          ethers.parseEther(payload.amount)
+          const wron = state.metamask.wron;
+          const toTransfer = ethers.parseEther(payload.amount);
+          const address = state.metamask.account;
+
+          if (toTransfer <= zero) {
+            throw new Error("Amount should be greater than 0");
+          }
+          console.log(wron);
+          const wronBalance = await wron?.balanceOf(address);
+
+          if (wronBalance < toTransfer) {
+            const tx_wrap = await wron?.deposit({
+              value: toTransfer - BigInt(wronBalance),
+            });
+            await tx_wrap.wait();
+          }
+
+          const tx = await wron?.transfer(WEB3.TOKEN_RECEIVER.eth, toTransfer);
+          await tx.wait();
+
+          console.log("RON transfer successful");
+
+      }
+      if (payload.currency === "USDT") {
+        const usdt = state.metamask.usdc;
+        const tx = await usdt?.transfer(
+          WEB3.TOKEN_RECEIVER.usdt,
+          ethers.parseUnits(payload.amount, 18)
         );
         await tx.wait();
       }
@@ -158,24 +188,16 @@ export const sendTokens = createAsyncThunk(
 
         const tx = await foc?.transfer(
           WEB3.TOKEN_RECEIVER.foc,
-          ethers.parseEther(payload.amount)
+          ethers.parseUnits(payload.amount, 18)
         );
         await tx.wait();
       }
-      if (payload.currency === "USDT") {
-        const usdt = state.metamask.usdt;
-        const tx = await usdt?.transfer(
-          WEB3.TOKEN_RECEIVER.usdt,
-          ethers.parseUnits(payload.amount, 6)
-        );
-        await tx.wait();
-      }
-        dispatch(clearOrders());
-        payload.navigate(true);
+      dispatch(clearOrders());
+      payload.navigate(true);
     } catch (e) {
-        payload.navigate(false);
-        console.log(e);
+      payload.navigate(false);
+      alert("Transaction failed");
+      console.log(e);
     }
-
   }
 );

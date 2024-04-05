@@ -1,5 +1,5 @@
 import Layout from "components/organisms/Layout";
-import { SaidBar, Navigator, Loader } from "components/molecules";
+import { EventSaidBar, Navigator, Loader } from "components/molecules";
 import "./index.scss";
 import { Button, Image } from "components/atoms";
 import { getEvent, getEventPoint, postEventPoint } from "./_api";
@@ -12,37 +12,38 @@ import { setPoints } from "share/redux/metamask";
 import useConnect from "customHooks/useConnect";
 
 const initialEventState: EventType = {
-  name: '',
-  title: '',
-  description: '',
+  name: "",
+  title: "",
+  description: "",
   point: 0,
-  img: '',
+  img: "",
   id: 0,
   active: false
+
 };
 const EventDetail: React.FC = () => {
   const { id } = useParams();
   const [event, setEvent] = useState<EventType>(initialEventState);
-  const [pending, setPending] = useState(false)
-  const account = useAppSelector(state => state.metamask.account)
+  const [pending, setPending] = useState(false);
+  const account = useAppSelector((state) => state.metamask.account);
   const dispatch = useAppDispatch();
-  const [claimed, setClaimed] = useState(false)
-  const { connectMetamask, handleLogoutAndConnect } = useConnect()
+  const [claimed, setClaimed] = useState(false);
+  const { connectMetamask, handleLogoutAndConnect } = useConnect();
 
   useEffect(() => {
     async function fetchData() {
       try {
         if (id) {
-          setPending(true)
+          setPending(true);
           const data = await getEvent(Number(id));
           if (data[0] && !data[0].error) {
             setEvent(data[0].item);
-          } else if ((data[1] && data[1].status_code === 401)) {
-            handleLogoutAndConnect()
+          } else if (data[1] && data[1].status_code === 401) {
+            handleLogoutAndConnect();
           } else if (data[0] && data[0].error) {
-            alert(data[0].msg)
+            alert(data[0].msg);
           }
-          setPending(false)
+          setPending(false);
         }
       } catch (error) {
         alert(error);
@@ -51,20 +52,20 @@ const EventDetail: React.FC = () => {
     fetchData();
     // eslint-disable-next-line
   }, [id]);
-  const [reload, setReload] = useState(false)
+  const [reload, setReload] = useState(false);
   const isPending = useAppSelector((state) => state.metamask.isPending);
   useEffect(() => {
     async function fetchData() {
       try {
         if (id && account && isPending) {
-          setPending(true)
-          const data = await getEventPoint(Number(id))
+          setPending(true);
+          const data = await getEventPoint(Number(id));
           if (data[0]) {
-            data[0].item && account ? setClaimed(true) : setClaimed(false)
-          } else if ((data[1] && data[1].status_code === 401)) {
-            handleLogoutAndConnect()
+            data[0].item && account ? setClaimed(true) : setClaimed(false);
+          } else if (data[1] && data[1].status_code === 401) {
+            handleLogoutAndConnect();
           }
-          setPending(false)
+          setPending(false);
         }
       } catch (error) {
         alert(error);
@@ -77,62 +78,89 @@ const EventDetail: React.FC = () => {
     try {
       if (event.active) {
         if (account && isPending) {
-          !claimed && postPoint()
+          !claimed && postPoint();
         } else {
-          connectMetamask()
-          isPending && postPoint()
+          connectMetamask();
+          isPending && postPoint();
         }
       }
     } catch (error) {
       alert(error);
     }
-
-  }
+  };
   const postPoint = async () => {
     try {
-      const data = await postEventPoint({ eventId: Number(id) })
+      const data = await postEventPoint({ eventId: Number(id) });
       if (data[0]) {
         if (data && data[0].item && data[0].item.author) {
           dispatch(setPoints(data[0].item.author.point));
         } else {
           console.log("Data or its properties are null or undefined");
         }
-      } else if ((data[1] && data[1].status_code === 401)) {
-        handleLogoutAndConnect()
+      } else if (data[1] && data[1].status_code === 401) {
+        handleLogoutAndConnect();
       }
-      setReload(!reload)
+      setReload(!reload);
     } catch (error) {
       alert(error);
     }
-  }
+  };
   return (
     <div>
       <Layout id="event_detail">
-        <Navigator navigation={`Reward / Event / ${event.name.slice(0, 1).toUpperCase() + event.name.slice(1)}`} />
+        <Navigator
+          navigation={`Event / ${
+            event.name.slice(0, 1).toUpperCase() + event.name.slice(1)
+          }`}
+        />
         <div className="event_detail">
-          <SaidBar>
-            {pending ? <Loader /> :
+          <EventSaidBar>
+            {pending ? (
+              <Loader />
+            ) : (
               <div className="event_box">
-                <div className="event" >
+                <div className="event">
                   <Image src={event.img} alt="" className="event_img" />
                   <div className="event_main">
                     <p className="name">{event.name.toUpperCase()}</p>
                     <p className="title">{event.title}</p>
-                    {(!account) && <Button className={`more ${!event.active && "claimed"} `} onClick={() => event.active && connectMetamask()}>Connect to claim</Button>}
+                    {!account && (
+                      <Button
+                        className={`more ${!event.active && "claimed"} `}
+                        onClick={() => event.active && connectMetamask()}
+                      >
+                        Connect to claim
+                      </Button>
+                    )}
                     <p className="description_title">Description </p>
-                    <span className="description"
-                      dangerouslySetInnerHTML={{ __html: event.description }} />
+                    <span
+                      className="description"
+                      dangerouslySetInnerHTML={{ __html: event.description }}
+                    />
                     <div className="copy_box">
                       <div className="btn_box">
-                        {claimed && <Image src={IconsFile.Success} alt="" className="icon" />}
-                        <Button className={`more ${(claimed || !event.active) && "claimed"} `} onClick={getPoint}>+{event.point} Points </Button>
+                        {claimed && (
+                          <Image
+                            src={IconsFile.Success}
+                            alt=""
+                            className="icon"
+                          />
+                        )}
+                        <Button
+                          className={`more ${
+                            (claimed || !event.active) && "claimed"
+                          } `}
+                          onClick={getPoint}
+                        >
+                          +{event.point} Points{" "}
+                        </Button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            }
-          </SaidBar>
+            )}
+          </EventSaidBar>
         </div>
       </Layout>
     </div>

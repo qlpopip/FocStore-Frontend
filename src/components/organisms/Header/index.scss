@@ -27,6 +27,53 @@
     }
   }
 
+  .dropdown-profile {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    width: 200px;
+    margin-top: 5em;
+    margin-right: 3em;
+
+    span {
+      display: flex;
+      align-items: center;
+      height: 48px;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 0 16px;
+    }
+  }
+
+  .connect_wallet {
+    -webkit-box-align: center;
+    align-items: center;
+    border: 0px;
+    border-radius: 16px;
+    box-shadow: rgba(14, 14, 44, 0.4) 0px -1px 0px 0px inset;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    -webkit-box-pack: center;
+    justify-content: center;
+    letter-spacing: 0.03em;
+    line-height: 1;
+    opacity: 1;
+    outline: 0px;
+    transition: background-color 0.2s ease 0s, opacity 0.2s ease 0s;
+    height: 32px;
+    padding: 0px 16px;
+    background-color: rgb(240, 170, 30);
+    color: white;
+  }
+
   .left_box {
     display: flex;
     align-items: center;
@@ -37,24 +84,69 @@
     }
 
     .navigation_line {
-      a {
-        color: var(--color-text-secondary);
-        transition: 0.3s;
-        width: 1em;
-        padding: 0 16px;
+      display: flex;
+      align-items: center;
+      @media (max-width: 768px) {
+        position: fixed;
+        justify-content: space-around;
+        bottom: 0px;
+        left: 0px;
+        width: 100%;
+        padding-top: 5px;
+        padding-right: 8px;
+        padding-left: 8px;
+        background: rgb(255, 255, 255);
+        border-top: 1px solid rgb(231, 227, 235);
+        z-index: 20;
+      }
 
-        @media (max-width: 900px) {
-          padding: 0 8px;
+      .dropdown-menu {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        width: 280px;
+
+        a {
+          font-size: 16px;
+          padding: 0 16px;
+        }
+
+        a:hover {
+          background-color: #eff4f5;
+        }
+
+        .divider {
+          border-bottom: 1px solid #ccc;
+          margin: 5px 0;
+        }
+      }
+      a {
+        display: flex;
+        align-items: center;
+        color: var(--color-text-secondary);
+        padding: 0 16px;
+        white-space: nowrap;
+        height: 48px;
+
+        @media (max-width: 768px) {
+          height: 44px;
         }
 
         &:hover {
-          transform: scale(1.1);
-          transition: 0.3s;
+          color: var(--color-text-primary);
+          img {
+            filter: brightness(0) saturate(100%) invert(57%) sepia(95%)
+              saturate(694%) hue-rotate(135deg) brightness(94%) contrast(94%);
+          }
         }
       }
 
       .activeLink {
-        transition: 0.3s;
+        transition: 0.1s;
         color: var(--color-text-primary);
         font-weight: 600;
       }
