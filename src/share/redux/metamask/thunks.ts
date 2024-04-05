@@ -182,7 +182,10 @@ export const sendTokens = createAsyncThunk(
         await tx.wait();
       }
       if (payload.currency === "FOC") {
+          console.log('TRYING TO SEND FOC');
         const foc = state.metamask.foc;
+          console.log('FOC', foc);
+
         const tx = await foc?.transfer(
           WEB3.TOKEN_RECEIVER.foc,
           ethers.parseUnits(payload.amount, 18)

@@ -9,6 +9,8 @@ import useConnect from "customHooks/useConnect";
 import { setPoints } from "share/redux/metamask";
 import { swapPoint } from "./_api";
 
+const MIN_POINT = 1000;
+const MAX_POINT = 3000;
 const Swap: React.FC = () => {
   const [pending, setPending] = useState(false);
   const dispatch = useAppDispatch();
@@ -37,11 +39,11 @@ const Swap: React.FC = () => {
       alert(error);
       setPending(false);
     }
-  };
-  const price = 1;
-  const point = useAppSelector((state) => state.metamask.points);
-  const minPoint = 1000;
-  let maxPoint = 3000;
+  }
+  const price = 1
+  const point = useAppSelector(state => state.metamask.points)
+  const minPoint = MIN_POINT;
+  let maxPoint = MAX_POINT;
   const [swap, setSwap] = useState<{
     point: number | string;
     coin: number;
@@ -116,28 +118,9 @@ const Swap: React.FC = () => {
                   </div>
                 </div>
                 <div className="btn_box">
-                  {(Number(swap.point) < minPoint || point < minPoint) && (
-                    <p className="message">
-                      Less than {`${minPoint}`} points cannot be exchanged
-                    </p>
-                  )}
-                  {(Number(swap.point) > maxPoint ||
-                    Number(swap.point) > maxPoint) && (
-                    <p className="message">
-                      More than {`${maxPoint}`} points cannot be exchanged
-                    </p>
-                  )}
-                  <Button
-                    className={`primary ${
-                      (Number(swap.point) < minPoint ||
-                        Number(swap.point) > maxPoint) &&
-                      "disabled"
-                    }`}
-                    onClick={exchangePoint}
-                  >
-                    {" "}
-                    Exchange Points{" "}
-                  </Button>
+                  {(Number(swap.point) < minPoint || point < minPoint) && <p className="message">Less than {`${minPoint}`} points cannot be exchanged</p>}
+                  {(Number(swap.point) >= maxPoint) && <p className="message">More than {`${maxPoint}`} points cannot be exchanged</p>}
+                  <Button className={`primary ${(Number(swap.point) < minPoint || Number(swap.point) > maxPoint) && "disabled"}`} onClick={exchangePoint}> Exchange Points </Button>
                 </div>
               </div>
             )}

@@ -18,7 +18,8 @@ const initialEventState: EventType = {
   point: 0,
   img: "",
   id: 0,
-  active: false,
+  active: false
+
 };
 const EventDetail: React.FC = () => {
   const { id } = useParams();

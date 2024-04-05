@@ -52,7 +52,6 @@ const Checkout: React.FC = () => {
             if (!success) {
               setPending(false);
               if (data[0].item?.id) await removeOrder(data[0].item?.id);
-
               alert("Payment failed");
               return;
             }
