@@ -8,7 +8,15 @@
   font-size: 1.2em;
   user-select: none;
 
+  @media screen and (max-width: 900px) {
+    padding: 0.5em;
+  }
+
   .navigate__box {
     display: flex;
+
+    @media screen and (max-width: 900px) {
+      justify-content: center;
+    }
   }
 }

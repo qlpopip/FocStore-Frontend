@@ -1,4 +1,4 @@
-import { Loader, Navigator, SaidBar } from "components/molecules";
+import { Loader, Navigator } from "components/molecules";
 import Layout from "components/organisms/Layout";
 import { Button, Image } from "components/atoms";
 import IconsFile from "assets/icons";
@@ -73,132 +73,124 @@ const Orders: React.FC = () => {
       {pending ? (
         <Loader />
       ) : orders.length > 0 ? (
-        <SaidBar>
-          <div className="order_container ">
-            {orders.map((order) => (
+        <div className="order_container ">
+          {orders.map((order) => (
+            <div
+              className={`checkout_box ${
+                showOrder.index === order.id && showOrder.status && "open"
+              }`}
+              style={{ border: `2px solid ${colorsBorder(order.status)}` }}
+              key={order.id}
+            >
               <div
-                className={`checkout_box ${
-                  showOrder.index === order.id && showOrder.status && "open"
-                }`}
-                style={{ border: `2px solid ${colorsBorder(order.status)}` }}
-                key={order.id}
+                className="title_box"
+                onClick={() => onClickOpenOrder(order.id)}
               >
-                <div
-                  className="title_box"
-                  onClick={() => onClickOpenOrder(order.id)}
-                >
-                  <p className="title">
-                    {" "}
-                    Order Information status - {order.status}{" "}
-                  </p>
-                  <Image
-                    src={IconsFile.ArrowSub}
-                    alt=""
-                    className="title_icon"
-                  />
-                </div>
-                <div className="orders_box">
-                  <div className="left_side">
-                    <div className="main_box">
-                      <p className="title">First Name</p>
-                      <p className="text">{order.first_name} </p>
-                    </div>
-                    <div className="main_box">
-                      <p className="title">Last Name</p>
-                      <p className="text">{order.last_name} </p>
-                    </div>
-                    <div className="main_box">
-                      <p className="title">Personal Custom Code</p>
-                      <p className="text">{order.custom_code} </p>
-                    </div>
-                    <div className="main_box">
-                      <p className="title">Address</p>
-                      <p className="text">{order.address} </p>
-                    </div>
-                    <div className="main_box">
-                      <p className="title">road_address</p>
-                      <p className="text">{order.road_address} </p>
-                    </div>
-                    {order.others && (
-                      <div className="main_box">
-                        <p className="title">others</p>
-                        <p className="text">{order.others} </p>
-                      </div>
-                    )}
-                    <div className="main_box">
-                      <p className="title">Zip Code</p>
-                      <p className="text">{order.zip_code} </p>
-                    </div>
-                    <div className="main_box">
-                      <p className="title">Email</p>
-                      <p className="text">{order.email} </p>
-                    </div>
-                    <div className="main_box">
-                      <p className="title">Phone Number</p>
-                      <p className="text">{order.phone} </p>
-                    </div>
-                    <div className="main_box">
-                      <p className="title">Order status</p>
-                      <p className="text">{order.status.toLowerCase()} </p>
-                    </div>
+                <p className="title">
+                  {" "}
+                  Order Information status - {order.status}{" "}
+                </p>
+                <Image src={IconsFile.ArrowSub} alt="" className="title_icon" />
+              </div>
+              <div className="orders_box">
+                <div className="left_side">
+                  <div className="main_box">
+                    <p className="title">First Name</p>
+                    <p className="text">{order.first_name} </p>
                   </div>
-                  <div className="order_box">
-                    <p className="title">Order Summery</p>
-                    <div className="orders">
-                      {order.orderProducts.map((item) => (
-                        <div
-                          className="order"
-                          key={item.id}
-                          onClick={() =>
-                            navigate(`/product/${item.product.id}`)
-                          }
-                        >
-                          <Image
-                            src={item.product.img[0]}
-                            alt=""
-                            className="order_img"
+                  <div className="main_box">
+                    <p className="title">Last Name</p>
+                    <p className="text">{order.last_name} </p>
+                  </div>
+                  <div className="main_box">
+                    <p className="title">Personal Custom Code</p>
+                    <p className="text">{order.custom_code} </p>
+                  </div>
+                  <div className="main_box">
+                    <p className="title">Address</p>
+                    <p className="text">{order.address} </p>
+                  </div>
+                  <div className="main_box">
+                    <p className="title">road_address</p>
+                    <p className="text">{order.road_address} </p>
+                  </div>
+                  {order.others && (
+                    <div className="main_box">
+                      <p className="title">others</p>
+                      <p className="text">{order.others} </p>
+                    </div>
+                  )}
+                  <div className="main_box">
+                    <p className="title">Zip Code</p>
+                    <p className="text">{order.zip_code} </p>
+                  </div>
+                  <div className="main_box">
+                    <p className="title">Email</p>
+                    <p className="text">{order.email} </p>
+                  </div>
+                  <div className="main_box">
+                    <p className="title">Phone Number</p>
+                    <p className="text">{order.phone} </p>
+                  </div>
+                  <div className="main_box">
+                    <p className="title">Order status</p>
+                    <p className="text">{order.status.toLowerCase()} </p>
+                  </div>
+                </div>
+                <div className="order_box">
+                  <p className="title">Order Summery</p>
+                  <div className="orders">
+                    {order.orderProducts.map((item) => (
+                      <div
+                        className="order"
+                        key={item.id}
+                        onClick={() => navigate(`/product/${item.product.id}`)}
+                      >
+                        <Image
+                          src={item.product.img[0]}
+                          alt=""
+                          className="order_img"
+                        />
+                        <div className="order_main">
+                          <span
+                            className="description"
+                            dangerouslySetInnerHTML={{
+                              __html: item.product.description,
+                            }}
                           />
-                          <div className="order_main">
-                            <span
-                              className="description"
-                              dangerouslySetInnerHTML={{
-                                __html: item.product.description,
-                              }}
-                            />
-                            <div className="product_count">
-                              <p>{item.quantity} x &nbsp; </p>
-                              <p className="price">
-                                {" "}
-                                $
-                                {item.product.productPrice.toLocaleString(
-                                  "en-US",
-                                  {
-                                    style: "decimal",
-                                  }
-                                )}
-                              </p>
-                            </div>
+                          <div className="product_count">
+                            <p>{item.quantity} x &nbsp; </p>
+                            <p className="price">
+                              {" "}
+                              $
+                              {item.product.productPrice.toLocaleString(
+                                "en-US",
+                                {
+                                  style: "decimal",
+                                }
+                              )}
+                            </p>
                           </div>
                         </div>
-                      ))}
-                    </div>
-                    <div className="line"></div>
-                    <div className="total_order">
-                      <p>Total</p>
-                      <p>
-                        {" "}
-                        {Number(order.totalPrice).toLocaleString("en-US", {
-                          style: "decimal",
-                        })}{" "}
-                        {order.priceType}{" "}
-                      </p>
-                    </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="line"></div>
+                  <div className="total_order">
+                    <p>Total</p>
+                    <p>
+                      {" "}
+                      {Number(order.totalPrice).toLocaleString("en-US", {
+                        style: "decimal",
+                      })}{" "}
+                      {order.priceType}{" "}
+                    </p>
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-        </SaidBar>
+            </div>
+          ))}
+        </div>
       ) : (
         <div className="no_product">
           <h1>Your Orders Is Empty</h1>

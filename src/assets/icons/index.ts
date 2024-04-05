@@ -13,6 +13,7 @@ import Calendar from "./icon-calendar.svg";
 import Missed from "./icon-missed.svg";
 import ArrowSub from "./icon-arrow-left-sub.svg";
 import Success from "./icon-success.svg";
+import SmallLink from "./icon-small-link.svg";
 
 const IconsFile = {
   Cart,
@@ -30,5 +31,6 @@ const IconsFile = {
   Missed,
   ArrowSub,
   Success,
+  SmallLink,
 };
 export default IconsFile;
