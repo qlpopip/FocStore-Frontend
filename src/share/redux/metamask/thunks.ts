@@ -150,7 +150,6 @@ export const sendTokens = createAsyncThunk(
     try {
       const state = getState() as RootState;
       if (payload.currency === "ETH") {
-        try {
           const wron = state.metamask.wron;
           const toTransfer = ethers.parseEther(payload.amount);
           const address = state.metamask.account;
@@ -158,7 +157,7 @@ export const sendTokens = createAsyncThunk(
           if (toTransfer <= zero) {
             throw new Error("Amount should be greater than 0");
           }
-
+          console.log(wron);
           const wronBalance = await wron?.balanceOf(address);
 
           if (wronBalance < toTransfer) {
@@ -172,9 +171,7 @@ export const sendTokens = createAsyncThunk(
           await tx.wait();
 
           console.log("RON transfer successful");
-        } catch (error) {
-          console.error("RON transfer failed");
-        }
+
       }
       if (payload.currency === "USDT") {
         const usdt = state.metamask.usdc;

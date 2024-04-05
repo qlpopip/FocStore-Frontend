@@ -169,7 +169,6 @@ const Checkout: React.FC = () => {
             },
           }
         );
-        console.log(response.data);
         currencyInfo.ETH.usd = response.data.ronin?.usd ?? 0;
         const response2 = await router?.getAmountsOut(ethers.parseEther("1"), [
           WEB3.ERC20.foc,
