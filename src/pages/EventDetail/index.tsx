@@ -95,6 +95,9 @@ const EventDetail: React.FC = () => {
         if (data && data[0].item && data[0].item.author) {
           dispatch(setPoints(data[0].item.author.point));
         } else {
+          if(data[0].error){
+            alert(data[0].msg);
+          }
           console.log("Data or its properties are null or undefined");
         }
       } else if (data[1] && data[1].status_code === 401) {
