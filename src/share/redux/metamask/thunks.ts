@@ -3,6 +3,7 @@ import axios from "axios";
 import {
   setAccount,
   setError,
+  setCurrentChainId,
   setEth,
   setFoc,
   setIsPending,
@@ -17,46 +18,115 @@ import { WEB3, zero } from "utils/configs";
 import { ethers } from "ethers";
 import { RootState } from "../index";
 import { clearOrders } from "../order";
-import { WalletSDK } from "@roninnetwork/wallet-sdk";
 
 export const connectWallet = createAsyncThunk(
   "metaMask/connectWallet",
   async (_, { dispatch }) => {
-    const sdk = new WalletSDK({
-      mobileOptions: {
-        walletConnectProjectId: "22d5c6fcb2166b600bd72c3b1f0e67b2",
-      },
-    });
+    if (window.ethereum) {
+      try {
+        dispatch(setProvider(new ethers.BrowserProvider(window.ethereum)));
 
-    const isInstalled = checkRoninInstalled();
-    if (!isInstalled) {
-      console.log("Ronin Wallet is not installed");
-      return;
-    }
+        const accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
 
-    try {
-      await sdk.connect();
-      const accounts = await sdk.requestAccounts();
-      if (accounts) {
+        // dispatch(setAccount(accounts[0]));
+
+        const chainId = await window.ethereum.request({
+          method: "eth_chainId",
+        });
+        dispatch(setCurrentChainId(chainId.toString()));
+
+        if (chainId.toString() !== "0x" + WEB3.CHAIN_ID.toString(16)) {
+          dispatch(switchChain(WEB3.CHAIN_ID));
+        }
+
         dispatch(login(accounts[0]));
+        dispatch(connectContracts());
+
+        window.ethereum.on("accountsChanged", (accounts: string[]) => {
+          if (accounts.length > 0) {
+            dispatch(setAccount(accounts[0]));
+            dispatch(login(accounts[0]));
+          } else {
+            dispatch(setAccount(undefined));
+          }
+        });
+
+        window.ethereum.on("chainChanged", (chainId: string) => {
+          const chainIdInt = parseInt(chainId, 16);
+          dispatch(setCurrentChainId(chainIdInt.toString()));
+          //@ts-ignore
+          dispatch(setProvider(new ethers.BrowserProvider(window.ethereum)));
+          dispatch(connectContracts());
+        });
+
+        if (accounts.length > 0) dispatch(setAccount(accounts[0]));
+      } catch (error) {
+        dispatch(setError(error as Error));
       }
-      // dispatch(setIsPending(true))
-      //@ts-ignore
-      dispatch(setProvider(new ethers.BrowserProvider(window.ronin.provider)));
-      dispatch(connectContracts());
-    } catch (error) {
-      dispatch(setError(error as Error));
+    } else {
+      console.log("MetaMask is not installed");
     }
   }
 );
-
-function checkRoninInstalled() {
-  if ("ronin" in window) {
-    return true;
+export const switchChain = createAsyncThunk(
+  "metaMask/switchChain",
+  async (chainId: number, { dispatch }) => {
+    // Switch between chains in MetaMask
+    const chainIdHex = "0x" + chainId.toString(16);
+    try {
+      await window.ethereum?.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: chainIdHex }],
+      });
+      dispatch(setCurrentChainId(chainId.toString()));
+    } catch (error) {
+      await addChain(
+        chainIdHex,
+        WEB3.CHAIN_NAME,
+        WEB3.JSON_RPC_URL,
+        WEB3.SYMBOL,
+        WEB3.SYMBOL,
+        WEB3.SCAN_URL
+      );
+    }
+    const latestData = await window.ethereum?.request({
+      method: "eth_chainId",
+    });
+    dispatch(setCurrentChainId(latestData?.toString()));
   }
-  window.open("https://wallet.roninchain.com", "_blank");
-  return false;
-}
+);
+const addChain = async (
+  chainId: string,
+  chainName: string,
+  rpcUrl: string,
+  symbol: string,
+  name: string,
+  scanUrl: string
+) => {
+  try {
+    await window.ethereum?.request({
+      method: "wallet_addEthereumChain",
+      params: [
+        {
+          blockExplorerUrls: [scanUrl],
+          iconUrls: [],
+          nativeCurrency: {
+            name,
+            symbol,
+            decimals: 18,
+          },
+          rpcUrls: [rpcUrl],
+          chainId,
+          chainName,
+        },
+      ],
+    });
+  } catch (error) {
+    setError(error as Error);
+  }
+};
 
 export const login = createAsyncThunk(
   "metaMask/login",
@@ -98,7 +168,7 @@ const getNonce = async (address: string) => {
 
 const signMessage = (nonce: string, address: string) => {
   // @ts-ignore
-  return window.ronin.provider.request({
+  return window.ethereum.provider.request({
     method: "personal_sign",
     params: [nonce, address],
   });
@@ -122,7 +192,7 @@ export const connectContracts = createAsyncThunk(
     const foc = new ethers.Contract(WEB3.ERC20.foc, WEB3.ERC20.abi, signer);
     const eth = new ethers.Contract(WEB3.ERC20.eth, WEB3.ERC20.abi, signer);
     const usdc = new ethers.Contract(WEB3.ERC20.usdc, WEB3.ERC20.abi, signer);
-    const wron = new ethers.Contract(WEB3.WRON.address, WEB3.WRON.abi, signer);
+    const weth = new ethers.Contract(WEB3.WETH.address, WEB3.WETH.abi, signer);
     const router = new ethers.Contract(
       WEB3.ROUTER.address,
       WEB3.ROUTER.abi,
@@ -132,7 +202,7 @@ export const connectContracts = createAsyncThunk(
     dispatch(setUsdt(usdt));
     dispatch(setFoc(foc));
     dispatch(setEth(eth));
-    dispatch(setWron(wron));
+    dispatch(setWron(weth));
     dispatch(setRouter(router));
   }
 );
@@ -150,41 +220,37 @@ export const sendTokens = createAsyncThunk(
     try {
       const state = getState() as RootState;
       if (payload.currency === "ETH") {
-          const wron = state.metamask.wron;
-          const toTransfer = ethers.parseEther(payload.amount);
-          const address = state.metamask.account;
+        const weth = state.metamask.weth;
+        const toTransfer = ethers.parseEther(payload.amount);
+        const address = state.metamask.account;
 
-          if (toTransfer <= zero) {
-            throw new Error("Amount should be greater than 0");
-          }
-          console.log(wron);
-          const wronBalance = await wron?.balanceOf(address);
+        if (toTransfer <= zero) {
+          throw new Error("Amount should be greater than 0");
+        }
+        const wethBalance = await weth?.balanceOf(address);
 
-          if (wronBalance < toTransfer) {
-            const tx_wrap = await wron?.deposit({
-              value: toTransfer - BigInt(wronBalance),
-            });
-            await tx_wrap.wait();
-          }
+        if (wethBalance < toTransfer) {
+          const tx_wrap = await weth?.deposit({
+            value: toTransfer - BigInt(wethBalance),
+          });
+          await tx_wrap.wait();
+        }
 
-          const tx = await wron?.transfer(WEB3.TOKEN_RECEIVER.eth, toTransfer);
-          await tx.wait();
-
-          console.log("RON transfer successful");
-
+        const tx = await weth?.transfer(WEB3.TOKEN_RECEIVER.eth, toTransfer);
+        await tx.wait();
       }
       if (payload.currency === "USDT") {
-        const usdt = state.metamask.usdc;
-        const tx = await usdt?.transfer(
-          WEB3.TOKEN_RECEIVER.usdt,
+        const usdc = state.metamask.usdc;
+        const tx = await usdc?.transfer(
+          WEB3.TOKEN_RECEIVER.usdc,
           ethers.parseUnits(payload.amount, 18)
         );
         await tx.wait();
       }
       if (payload.currency === "FOC") {
-          console.log('TRYING TO SEND FOC');
+        console.log("TRYING TO SEND FOC");
         const foc = state.metamask.foc;
-          console.log('FOC', foc);
+        console.log("FOC", foc);
 
         const tx = await foc?.transfer(
           WEB3.TOKEN_RECEIVER.foc,

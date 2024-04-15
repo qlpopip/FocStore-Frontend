@@ -2,6 +2,12 @@ import { useAppDispatch, useAppSelector } from "share/redux/hook";
 import { logout } from "share/redux/metamask";
 import { connectWallet } from "share/redux/metamask/thunks";
 
+declare global {
+  interface Window {
+    ethereum: any;
+  }
+}
+
 const useConnect = () => {
   const dispatch = useAppDispatch();
   const account = useAppSelector((state) => state.metamask.account);
@@ -9,8 +15,8 @@ const useConnect = () => {
   const connectMetamask = async () => {
     try {
       if (!account) {
-        if (window.ronin === undefined) {
-          window.open("https://wallet.roninchain.com", "_blank");
+        if (window.ethereum === undefined) {
+          window.open("https://metamask.io/download/", "_blank");
           return;
         }
         dispatch(connectWallet());

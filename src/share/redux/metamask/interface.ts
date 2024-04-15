@@ -14,7 +14,7 @@ export interface MetaMaskState {
   usdc: Contract | null;
   foc: Contract | null;
   eth: Contract | null;
-  wron: Contract | null;
+  weth: Contract | null;
   uri: string;
   isMobile: boolean;
   router: Contract | null;

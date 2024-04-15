@@ -1,13 +1,13 @@
 export const WEB3 = {
-  JSON_RPC_URL: "https://saigon-testnet.roninchain.com/rpc",
-  CHAIN_ID: 2021,
-  CHAIN_NAME: "Ronin",
-  SCAN_TX: "https://saigon-app.roninchain.com/tx/",
-  SCAN_ADDRESS: "https://saigon-app.roninchain.com/address/",
-  SCAN_URL: "https://saigon-app.roninchain.com/",
-  SYMBOL: "RONIN",
+  JSON_RPC_URL: "https://sepolia.base.org/",
+  CHAIN_ID: 84532,
+  CHAIN_NAME: "Base Sepolia",
+  SCAN_TX: "https://sepolia-explorer.base.org/tx/",
+  SCAN_ADDRESS: "https://sepolia-explorer.base.org/address/",
+  SCAN_URL: "https://sepolia-explorer.base.org/",
+  SYMBOL: "ETH",
   ROUTER: {
-    address: "0x45d29Fa8F9Db474BE7653Fb3e88eB45aA60a2e46",
+    address: "0x76C22725a5F1cD88577929d58bBBbC8D007B17b4",
     abi: [
       {
         inputs: [
@@ -835,10 +835,10 @@ export const WEB3 = {
   },
 
   ERC20: {
-    usdt: "0x067fbff8990c58ab90bae3c97241c5d736053f77",
-    foc: "0xcBff9d27af2e13Df19C9082276764426DC50eFF7",
-    eth: "0xa959726154953bae111746e265e6d754f48570e6",
-    usdc: "0x22Ca52E4A56f7CF58AB0F87B9Fa10663844a00CC",
+    usdt: "0x1F6b02688350a1aedEd79358FBe7D22036c5b73C",
+    foc: "0x198028E8c21324De512F369dDF2D404c608034Db",
+    eth: "0x4200000000000000000000000000000000000006",
+    usdc: "0x79a91CdCBD808A4B01A2D29773a29d74B6e2DeD6",
     abi: [
       {
         inputs: [
@@ -866,8 +866,8 @@ export const WEB3 = {
       },
     ],
   },
-  WRON: {
-    address: "0xa959726154953bae111746e265e6d754f48570e6",
+  WETH: {
+    address: "0x4200000000000000000000000000000000000006",
     abi: [
       {
         inputs: [],
@@ -1196,7 +1196,7 @@ export const WEB3 = {
     ],
   },
   TOKEN_RECEIVER: {
-    usdt: "0x3ad9e46304B7E7A0C66d874B9d478429003E70C8",
+    usdc: "0x3ad9e46304B7E7A0C66d874B9d478429003E70C8",
     foc: "0x3ad9e46304B7E7A0C66d874B9d478429003E70C8",
     eth: "0x3ad9e46304B7E7A0C66d874B9d478429003E70C8",
   },
