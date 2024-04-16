@@ -7,7 +7,7 @@ export const WEB3 = {
   SCAN_URL: "https://basescan.org/",
   SYMBOL: "ETH",
   ROUTER: {
-    address: "0x76C22725a5F1cD88577929d58bBBbC8D007B17b4",
+    address: "0x1F6b02688350a1aedEd79358FBe7D22036c5b73C",
     abi: [
       {
         inputs: [
