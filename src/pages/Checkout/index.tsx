@@ -163,12 +163,13 @@ const Checkout: React.FC = () => {
           "https://api.coingecko.com/api/v3/simple/price",
           {
             params: {
-              ids: "ronin",
+              ids: "ethereum",
               vs_currencies: "usd",
             },
           }
         );
-        currencyInfo.ETH.usd = response.data.ronin?.usd ?? 0;
+        currencyInfo.ETH.usd = response.data.ethereum?.usd ?? 0;
+        console.log("router:", router);
         const response2 = await router?.getAmountsOut(ethers.parseEther("1"), [
           WEB3.ERC20.foc,
           WEB3.ERC20.usdc,
@@ -418,9 +419,13 @@ const Checkout: React.FC = () => {
                       </div>
                       <p className="title"> Price</p>
                       <div className="price_box">
+                        &#8776;{" "}
                         {exchangedTotalPrice.toLocaleString("en-US", {
                           style: "decimal",
                         })}
+                        {sort === "FOC" && " FOC"}
+                        {sort === "USDT" && " USDC"}
+                        {sort === "ETH" && " ETH"}
                       </div>
                     </div>
                   </div>
@@ -467,7 +472,6 @@ const Checkout: React.FC = () => {
                         {totalPrice.toLocaleString("en-US", {
                           style: "decimal",
                         })}{" "}
-                        USDC{" "}
                       </p>
                     </div>
                     <button className="primary">

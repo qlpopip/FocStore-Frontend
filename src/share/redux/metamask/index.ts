@@ -14,7 +14,7 @@ const initialState: MetaMaskState = {
   usdc: null,
   foc: null,
   eth: null,
-  wron: null,
+  weth: null,
   uri: "",
   isMobile: "ontouchstart" in window || "onmsgesturechange" in window,
   router: null,
@@ -61,7 +61,7 @@ const metaMaskSlice = createSlice({
       state.eth = action.payload;
     },
     setWron: (state, action) => {
-      state.wron = action.payload;
+      state.weth = action.payload;
     },
     logout: (state) => {
       state.provider = null;
