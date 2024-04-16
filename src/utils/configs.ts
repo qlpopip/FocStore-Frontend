@@ -1,10 +1,10 @@
 export const WEB3 = {
-  JSON_RPC_URL: "https://sepolia.base.org/",
-  CHAIN_ID: 84532,
-  CHAIN_NAME: "Base Sepolia",
-  SCAN_TX: "https://sepolia-explorer.base.org/tx/",
-  SCAN_ADDRESS: "https://sepolia-explorer.base.org/address/",
-  SCAN_URL: "https://sepolia-explorer.base.org/",
+  JSON_RPC_URL: "https://mainnet.base.org/",
+  CHAIN_ID: 8453,
+  CHAIN_NAME: "Base",
+  SCAN_TX: "https://basescan.org/tx/",
+  SCAN_ADDRESS: "https://basescan.org/address/",
+  SCAN_URL: "https://basescan.org/",
   SYMBOL: "ETH",
   ROUTER: {
     address: "0x76C22725a5F1cD88577929d58bBBbC8D007B17b4",
@@ -836,9 +836,9 @@ export const WEB3 = {
 
   ERC20: {
     usdt: "0x1F6b02688350a1aedEd79358FBe7D22036c5b73C",
-    foc: "0x198028E8c21324De512F369dDF2D404c608034Db",
+    foc: "0xDA11e185fF18674A633441Ca954D0f55289Cf7E7",
     eth: "0x4200000000000000000000000000000000000006",
-    usdc: "0x79a91CdCBD808A4B01A2D29773a29d74B6e2DeD6",
+    usdc: "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA",
     abi: [
       {
         inputs: [
@@ -1196,9 +1196,9 @@ export const WEB3 = {
     ],
   },
   TOKEN_RECEIVER: {
-    usdc: "0x3ad9e46304B7E7A0C66d874B9d478429003E70C8",
-    foc: "0x3ad9e46304B7E7A0C66d874B9d478429003E70C8",
-    eth: "0x3ad9e46304B7E7A0C66d874B9d478429003E70C8",
+    usdc: "0x38A12bf7EA926EAaaE2E1D0e2c0AAEEaC4aD13f9",
+    foc: "0x38A12bf7EA926EAaaE2E1D0e2c0AAEEaC4aD13f9",
+    eth: "0x38A12bf7EA926EAaaE2E1D0e2c0AAEEaC4aD13f9",
   },
 };
 
